@@ -205,7 +205,7 @@ source("R/remove_rejected_interviews.R")
 
 
 # Apply correction log ---------------------------------------------------- DONE
-if(nrow(correction_log) > 0) source("R/apply_correction_log.R")
+if(nrow(correction_log_ps) > 0 | nrow(correction_log_cbe)) source("R/apply_correction_log.R")
 
 
 # merge meta data from main sheet to repeating groups --------------------- DONE
@@ -224,11 +224,11 @@ source("R/create_translation_log.R")
 source("R/missing_qa.R")
 
 
-# Check select multiple variables ----------------------------------------- DONE
+# Check select multiple variables ----------------------------------------- DONE -- Update on Script Level
 source("R/check_select_multiple_questions.R")
 
 
-# re-calculate the calculated variables and compare any changes not applied - DONE
+# re-calculate the calculated variables and compare any changes not applied - DONE -- ERROR- Double CHECK
 source("R/calculate_cols_check.R")
 
 

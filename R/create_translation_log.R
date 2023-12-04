@@ -123,7 +123,7 @@ need_translation <- c(
   
   # Tool 3:
   "Interviewee_Respondent_Type_Other", "B2_Other", "B7_Other", "B10A3_Other", "C2_Other", "C5_Other", "C6_Other", "C7_Other", "Survey_Language_Other", 
-  "C10", 
+  # "C10", 
 
   # Tool 4:
   "D1_Other", "D3_Other", "D5_Other", "D6_Other", "D9_Other", "E4_Primary_Other", "E4_Secondary_Other", "E7_Primary_Other", "E7_Secondary_Other", "E8_Primary_Other", "E8_Secondary_Other", "E11_Primary_Other",

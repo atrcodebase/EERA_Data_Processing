@@ -34,7 +34,7 @@ tool1_image_vars = c(
   "FDE_Holy_Quran_Hours" = "FDE_Holy_Quran_Hours",
   "FDE_Tajweed_Hours" = "FDE_Tajweed_Hours",
   "FDE_Patriotism_Hours" = "FDE_Patriotism_Hours",
-  "FDE_Other_Hours" = "FDE_Other_Hours",
+  "FDE_Other_Hours" = "FDE_Other_Hours"
 )
 
 tool2_image_vars = c(
