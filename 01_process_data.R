@@ -236,11 +236,11 @@ source("R/calculate_cols_check.R")
 source("R/check_outliers.R")
 
 
-# Compare Number of Interviews with Sample -------------------------------- DONE - DOuble check required
+# Compare Number of Interviews with Sample -------------------------------- DONE
 source("R/compare_sample_vs_df.R")
 
 
-# Relevancy Check --------------------------------------------------------- PENDING - End of DC
+# Relevancy Check --------------------------------------------------------- PENDING - Output under Checking
 source("R/check_relevancies.R")
 
 
@@ -248,7 +248,7 @@ source("R/check_relevancies.R")
 source("R/compare_df_values_with_tool.R")
 
 
-# Relevancy Check ---------------------------------------------------------
+# Relevancy Check --------------------------------------------------------- Omitted
 # source("R/check_gps_points.R")
 
 
@@ -256,11 +256,11 @@ source("R/compare_df_values_with_tool.R")
 source("R/attach_labels.R")
 
 
-# re-code variables ------------------------------------------------------- PENDING - End of DC
+# re-code variables ------------------------------------------------------- PENDING - On-going
 source("R/recoded_vars.R")
 
 
-# Logical inconsistencies ------------------------------------------------- PENDING - End of DC
+# Logical inconsistencies ------------------------------------------------- PENDING - On-going
 source("R/logical_checks.R")
 
 
