@@ -34,7 +34,7 @@ write.xlsx(clean_data.tool9_for_client, paste0(output_data_path, "cleaned_dfs/fo
 
 if (nrow(correction_log_discrep) > 0){
   
-  write.xlsx(correction_log_discrep, paste0(output_data_path, "issues/correction_log_issues/correction_log_issues2_", Sys.Date(),".xlsx"))
+  write.xlsx(correction_log_discrep, paste0(output_data_path, "issues/correction_log_issues/correction_log_issues_", Sys.Date(),".xlsx"))
 }
 
 if (nrow(repeat_sheet_issues) > 0){

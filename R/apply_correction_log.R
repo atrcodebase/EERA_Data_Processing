@@ -542,10 +542,22 @@ correction_log_discrep <- rbind( ## DOUBLE CHECK HERE
 
   correction_log_discrep |>
     select(all_of(required_cols)) |>
-    anti_join(bind_rows(correction_log_ready_ps, correction_log_ready_cbe), by = c("KEY", "question", "new_value", "Tab_Name")) |>
+    anti_join(bind_rows(correction_log_ready_ps, correction_log_ready_cbe) |> 
+                mutate(
+                  new_value = case_when(
+                    new_value == "NULL" | is.null(new_value) ~ NA_character_,
+                    TRUE ~ new_value
+                  )
+                ), by = c("KEY", "question", "new_value", "Tab_Name")) |>
     mutate(issue = "The changes is not logged in correction log sheet.")
   ,
   bind_rows(correction_log_ready_ps, correction_log_ready_cbe) |>
+    mutate(
+      new_value = case_when(
+        new_value == "NULL" | is.null(new_value) ~ NA_character_,
+        TRUE ~ new_value
+      )
+    ) |>
     select(any_of(required_cols)) |>
     anti_join(correction_log_discrep, by = c("KEY", "question", "new_value", "Tab_Name")) |>
     mutate(issue = "The log is not applied in the dataset.")

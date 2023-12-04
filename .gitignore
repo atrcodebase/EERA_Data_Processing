@@ -5,8 +5,8 @@
 *.xls
 *.csv
 *.html
-*.png
 *.docx
+*.png
 *.DS_Store
 *.zip
 *.rar
@@ -56,3 +56,12 @@ vignettes/*.pdf
 
 # Test files
 test.R
+
+# Shape files
+*.shx
+*.shp
+*.sbx
+*.sbn
+*.prj
+*.dbf
+*.cpg
