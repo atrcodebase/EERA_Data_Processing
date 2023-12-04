@@ -1,0 +1,1230 @@
+library(glue)
+# LOGIC CHECK
+
+# Logging issues in Tool 1 ------------------------------------------------
+other_shifts <- clean_data.tool1$Other_Shifts_Detail |> 
+  left_join(
+    kobo_tool.tool1$choices |> 
+      filter(list_name == "shifts") |> 
+      mutate(Shift_Value = as.numeric(value)) |> 
+      select(Shift_Value, shift_name_other = 'label:English'),
+    by = "Shift_Value"
+  ) |> 
+  mutate(other_sifts = paste0(shift_name_other, "_", PARENT_KEY)) |> 
+  pull(other_sifts) |> 
+  unique()
+  
+lc_tool1 <- rbind(
+  # Flagging duplicated site visit ID
+  clean_data.tool1$data |>
+    filter(duplicated(Site_Visit_ID, fromLast = T) | duplicated(Site_Visit_ID, fromLast = F)) |> 
+    mutate(
+      Issue = "The site visit ID is duplicated!",
+      Question = "Site_Visit_ID",
+      Old_value = Site_Visit_ID,
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  # flagging if the gender of interviewee and her position is inconsistent
+  clean_data.tool1$data |>
+    filter(Gender_Of_Interviewee == "Female" & Interviewee_Respondent_Type == "Mullah Imam") |> 
+    mutate(
+      Issue = "The repondent's position doesn't match her gender!",
+      Question = "Gender_Of_Interviewee",
+      Old_value = Gender_Of_Interviewee,
+      Related_question = "Interviewee_Respondent_Type",
+      Related_value = Interviewee_Respondent_Type
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  # flagging inconsistent answers in A30 and C8
+  clean_data.tool1$data |>
+    filter(
+      (A30 == "Yes, fully converted to Islamic studies" & C8 != "Yes, fully converted to Islamic studies") |
+      (A30 == "Yes, partially converted to Islamic studies" & C8 != "Yes, partially converted to Islamic studies") |
+      (A30 != "Yes, fully converted to Islamic studies" & C8 == "Yes, fully converted to Islamic studies") |
+      (A30 != "Yes, partially converted to Islamic studies" & C8 == "Yes, partially converted to Islamic studies")
+  ) |> 
+    mutate(
+      Issue = "The answer to A30 and C8 is inconsistent!",
+      Question = "A30",
+      Old_value = A30,
+      Related_question = "C8",
+      Related_value = C8
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+ 
+  # Flagging if the school is closed due to WASH issues or lack of building but at the same time it is used as clinic, hospital or for MoE programs
+  clean_data.tool1$data |>
+    filter(
+      B6 == "The school does not have a building or has infrastructural and WASH issues" &
+        B7 %in% c("School building being used as a clinic/hospital", "School building being used for other MoE programs")
+    ) |> 
+    mutate(
+      Issue = "The school has no building or it has WASH issues but at the same time it is used for MoE programs or as clinic/hospital!",
+      Question = "B6",
+      Old_value = B6,
+      Related_question = "B7",
+      Related_value = B7
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ), 
+  
+  # Flagging if both supportive respondents have the same position (especially when they are from position that there is only one in each school)
+  clean_data.tool1$Support_Respondents |>
+    filter(C12A3 %in% c("Deputy Teaching Affairs", "Executive Manager")) |> 
+    group_by(PARENT_KEY) |> 
+    filter(n() > 1) |> 
+    mutate(
+      Issue = glue("Both supportive respondents has the same position {C12A3}!"),
+      Question = "C12A3",
+      Old_value = C12A3,
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  # Flagging if the same shift is reported in both shift details sheet and other shift details sheet
+  clean_data.tool1$Shifts_Detail |>
+    mutate(shifts_key = paste0(Shift_Name_Eng, "_", PARENT_KEY)) |> 
+    filter(shifts_key %in% other_shifts) |> 
+    mutate(
+      Issue = "The same shift is reported in both shift details and other shift details sheets",
+      Question = "Shift_Name_Eng",
+      Old_value = Shift_Name_Eng,
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  # Flagging if respondent reported "No" to confirm the n of male teachers but later reported the same number of male teachers as it's in the sample
+  clean_data.tool1$data |>
+    filter(D2 == N_Male_Teachers) |>
+    mutate(
+      Issue = "The respondent reported 'No' to confirm the n of male teachers in (D1), but later reported the same number of male teachers as it's in the sample",
+      Question = "D2",
+      Old_value = D2,
+      Related_question = "N_Male_Teachers",
+      Related_value = N_Male_Teachers
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  # Flagging if respondent reported "No" to confirm the n of female teachers but later reported the same number of female teachers as it's in the sample
+  clean_data.tool1$data |>
+    filter(D6 == N_Female_Teachers) |>
+    mutate(
+      Issue = "The respondent reported 'No' to confirm the n of female teachers in (D5), but later reported the same number of female teachers as it's in the sample",
+      Question = "D6",
+      Old_value = D6,
+      Related_question = "N_Female_Teachers",
+      Related_value = N_Female_Teachers
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  # Flagging if the school is type female but male students are there
+  clean_data.tool1$data |>
+    filter(
+      School_CBE_Gender_Based_On_The_Sample == "Girls" &
+        A34 %in% c("Yes, school is open, and teachers and students (both male and female) are inside", "Yes, it is open and there are students (only male) and teachers inside")
+      ) |>
+    mutate(
+      Issue = "The school is type female but male students are there!",
+      Question = "School_CBE_Gender_Based_On_The_Sample",
+      Old_value = School_CBE_Gender_Based_On_The_Sample,
+      Related_question = "A34",
+      Related_value = A34
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  # Flagging if the school is type male but female students are there
+  clean_data.tool1$data |>
+    filter(
+      School_CBE_Gender_Based_On_The_Sample == "Boys" &
+        A34 %in% c("Yes, school is open, and teachers and students (both male and female) are inside", "Yes, it is open and there are students (only female) and teachers inside")
+      ) |>
+    mutate(
+      Issue = "The school is type male but female students are there!",
+      Question = "School_CBE_Gender_Based_On_The_Sample",
+      Old_value = School_CBE_Gender_Based_On_The_Sample,
+      Related_question = "A34",
+      Related_value = A34
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  # Flagging if the school is reported open without student and teacher, but reported a reason that it is closed - Light Issue
+  # clean_data.tool1$data |>
+  #   filter(A34 == "Yes, school is open, and there are only staff members but there are no teachers and students inside" & !is.na(B6) & B6 != "8888") |>
+  #   mutate(
+  #     Issue = "The school is reported open without student and teacher, but reported a reason that it is closed!",
+  #     Question = "A34",
+  #     Old_value = A34,
+  #     Related_question = "B6",
+  #     Related_value = B6
+  #   ) |> 
+  #   select(
+  #     all_of(meta_cols),
+  #     Question,
+  #     Old_value,
+  #     Related_question,
+  #     Related_value,
+  #     KEY,
+  #     Issue
+  #   ),
+  
+  # Flagging if the school is type male but reported there are no female teachers as a result of recent bans as a reason for the closure of school
+  clean_data.tool1$data |>
+    filter(School_CBE_Gender_Based_On_The_Sample == "Boys" & B6_3 == 1) |>
+    mutate(
+      Issue = "The school is type male but reported 'there are no female teachers as a result of recent bans' as a reason for the closure of school!",
+      Question = "School_CBE_Gender_Based_On_The_Sample",
+      Old_value = School_CBE_Gender_Based_On_The_Sample,
+      Related_question = "B6",
+      Related_value = B6
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  # Flagging if The School with type of 'Madrassa (public) is reported closed, but also reported male children and adults are going to madrassa in Q B9!
+  clean_data.tool1$data |>
+    filter(A31 == "Madrassa (public)" & B9_3 == 1) |>
+    mutate(
+      Issue = "The School with type of 'Madrassa (public) is reported closed, but also reported male children and adults are going to madrassa in Q B9!",
+      Question = "A31",
+      Old_value = A31,
+      Related_question = "B9",
+      Related_value = B9
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  # Flagging if The School with type of 'Madrassa (public) is reported closed, but also reported male children and adults are going to madrassa in Q B9!
+  clean_data.tool1$data |>
+    filter(A31 == "Madrassa (public)" & B10_3 == 1) |>
+    mutate(
+      Issue = "The School with type of 'Madrassa (public) is reported closed, but also reported male children and adults are going to madrassa in Q B10!",
+      Question = "A31",
+      Old_value = A31,
+      Related_question = "B10",
+      Related_value = B10
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  # Flagging if the Consent is No
+  clean_data.tool1$data |>
+    filter(C3 == "No") |>
+    mutate(
+      Issue = "Consent is reported 'No'!",
+      Question = "C3",
+      Old_value = C3,
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  # Flagging if The School has only headmaster(s) but the designation of respondent is reported either Official or Acting Principal
+  clean_data.tool1$data |>
+    filter(C2 == "The school has only headmaster(s)" & C4 %in% c("Official Principal", "Acting Principal")) |>
+    mutate(
+      Issue = "The School has only headmaster(s) but the designation of respondent is reported either Official or Acting Principal",
+      Question = "C2",
+      Old_value = C2,
+      Related_question = "C4",
+      Related_value = C4
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  # Flagging if The School has only a deputy teaching manager and headmaster(s) but the designation of respondent is reported either Official or Acting Principal
+  clean_data.tool1$data |>
+    filter(C2 == "The school has a deputy teaching manager and headmaster(s) but not a principal" & C4 %in% c("Official Principal", "Acting Principal")) |>
+    mutate(
+      Issue = "The School has only a deputy teaching manager and headmaster(s) but the designation of respondent is reported either Official or Acting Principal",
+      Question = "C2",
+      Old_value = C2,
+      Related_question = "C4",
+      Related_value = C4
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  # Flagging if The School has a principal but in question C4_1 it is reported that school does not have a principal
+  clean_data.tool1$data |>
+    filter(C2 %in% c("The school has a principal, deputy teaching manager, and headmaster(s)", "The school has a principal and headmaster(s) but not a deputy teaching manager") &
+             C4_1 == "The school does not have a principal and I fulfil the duties and responsibilities of the principal for this school") |>
+    mutate(
+      Issue = "The School has a principal but in question C4_1 it is reported that school does not have a principal",
+      Question = "C2",
+      Old_value = C2,
+      Related_question = "C4_1",
+      Related_value = C4_1
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  # Flagging if The School does not have a principal, but in question C4_1 it is reported either Principal is not present today or does not want to participate in the interview.
+  clean_data.tool1$data |>
+    filter(C2 %in% c("The school has a deputy teaching manager and headmaster(s) but not a principal", "The school has only headmaster(s)") &
+             C4_1 %in% c("The school principal is not present today and I am officially acting principal in his/her absence",
+                         "The school principal does not want to participate in interview, and I am officially delegated to participate in the interviews in his/her absence")) |>
+    mutate(
+      Issue = "The School does not have a principal, but in question C4_1 it is reported either Principal is not present today or does not want to participate in the interview.",
+      Question = "C2",
+      Old_value = C2,
+      Related_question = "C4_1",
+      Related_value = C4_1
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  # Flagging if The School does not have a principal, but in question C4_1 it is reported either Principal is not present today or does not want to participate in the interview.
+  clean_data.tool1$data |>
+    filter(C2 %in% c("The school has a deputy teaching manager and headmaster(s) but not a principal", "The school has only headmaster(s)") &
+             C4_1 %in% c("The school principal is not present today and I am officially acting principal in his/her absence",
+                         "The school principal does not want to participate in interview, and I am officially delegated to participate in the interviews in his/her absence")) |>
+    mutate(
+      Issue = "The School does not have a principal, but in question C4_1 it is reported either Principal is not present today or does not want to participate in the interview.",
+      Question = "C2",
+      Old_value = C2,
+      Related_question = "C4_1",
+      Related_value = C4_1
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  # Flagging if The question C8 and A30 has different responses.
+  clean_data.tool1$data |>
+    filter(C8 == "Yes, fully converted to Islamic studies" & A30 != "Yes, fully converted to Islamic studies") |>
+    mutate(
+      Issue = "The question C8 and A30 has different responses",
+      Question = "C8",
+      Old_value = C8,
+      Related_question = "A30",
+      Related_value = A30
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  # Flagging if The question C8 and A30 has different responses.
+  clean_data.tool1$data |>
+    filter(C8 == "Yes, partially converted to Islamic studies" & A30 != "Yes, partially converted to Islamic studies") |>
+    mutate(
+      Issue = "The question C8 and A30 has different responses",
+      Question = "C8",
+      Old_value = C8,
+      Related_question = "A30",
+      Related_value = A30
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  # Flagging if The question C8 and A30 has different responses.
+  clean_data.tool1$data |>
+    filter(C8 == "No, the school is a general studies school" & A30 != "No") |>
+    mutate(
+      Issue = "The question C8 and A30 has different responses",
+      Question = "C8",
+      Old_value = C8,
+      Related_question = "A30",
+      Related_value = A30
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  # Flagging if The question C9 and A31 has different responses.
+  clean_data.tool1$data |>
+    filter(C9 != A31) |>
+    mutate(
+      Issue = "The question C9 and A31 has different responses",
+      Question = "C9",
+      Old_value = C9,
+      Related_question = "A31",
+      Related_value = A31
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+) |> mutate(tool = "Tool 1", sheet = "data")
+
+
+lc_tool1.school_operationality_other <- rbind(
+  # Flagging if It is reported that Grade's classes are running for both Girls and Boys which is differed with Sampling information.
+  clean_data.tool1$School_Operationality_Other_... |>
+    filter(C13A7 == "Both" & School_CBE_Gender_Based_On_The_Sample != "Mixed") |>
+    mutate(
+      Issue = paste0("It is reported that ", Grade_name, "'s classes are running for both Girls and Boys which is differed with Sampling information."),
+      Question = "C13A7",
+      Old_value = C13A7,
+      Related_question = "School_CBE_Gender_Based_On_The_Sample",
+      Related_value = School_CBE_Gender_Based_On_The_Sample
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  # Flagging if It is reported that Grade's classes are running only for Boys which is differed with Sampling information.
+  clean_data.tool1$School_Operationality_Other_... |>
+    filter(C13A7 == "Boys" & School_CBE_Gender_Based_On_The_Sample %in% c("Mixed", "Girls")) |>
+    mutate(
+      Issue = paste0("It is reported that ", Grade_name, "'s classes are running only for Boys which is differed with Sampling information."),
+      Question = "C13A7",
+      Old_value = C13A7,
+      Related_question = "School_CBE_Gender_Based_On_The_Sample",
+      Related_value = School_CBE_Gender_Based_On_The_Sample
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+    
+      # Flagging if It is reported that Grade's classes are running only for Girls which is differed with Sampling information.
+  clean_data.tool1$School_Operationality_Other_... |>
+    filter(C13A7 == "Girls" & School_CBE_Gender_Based_On_The_Sample %in% c("Mixed", "Boys")) |>
+    mutate(
+      Issue = paste0("It is reported that ", Grade_name, "'s classes are running only for Girls which is differed with Sampling information."),
+      Question = "C13A7",
+      Old_value = C13A7,
+      Related_question = "School_CBE_Gender_Based_On_The_Sample",
+      Related_value = School_CBE_Gender_Based_On_The_Sample
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+) |> mutate(tool = "Tool 1", sheet = "School_Operationality_Other_...")
+
+
+# Logging issues in Tool 2 ------------------------------------------------
+lc_tool2 <- rbind(
+  # Flagging duplicated site visit ID
+  clean_data.tool2$data |>
+    filter(duplicated(Site_Visit_ID, fromLast = T) | duplicated(Site_Visit_ID, fromLast = F)) |> 
+    mutate(
+      Issue = "The site visit ID is duplicated!",
+      Question = "Site_Visit_ID",
+      Old_value = Site_Visit_ID,
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  # flagging if the school name is confirmed in tool1 but not confirmed here or vice versa
+  clean_data.tool2$data |>
+    distinct(Site_Visit_ID, .keep_all = T) |> 
+    left_join(
+      clean_data.tool1$data |>
+        select(A27.tool1 = A27, Site_Visit_ID),
+      by = "Site_Visit_ID"
+    ) |> 
+    filter(B1 != A27.tool1) |> 
+    mutate(
+      Issue = "The school name is confirmed in tool1 but not confirmed tool 2 or vice versa!",
+      Question = "B1",
+      Old_value = B1,
+      Related_question = "A27.tool1",
+      Related_value = A27.tool1
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  # flagging if the answer to conversion of school to a Islamic school is inconsistent across tool 1 and tool 2
+  clean_data.tool2$data |>
+    distinct(Site_Visit_ID, .keep_all = T) |> 
+    left_join(
+      clean_data.tool1$data |>
+        select(A30.tool1 = A30, Site_Visit_ID),
+      by = "Site_Visit_ID"
+    ) |> 
+    filter(B3 != A30.tool1) |> 
+    mutate(
+      Issue = "The answer to conversion of school to an Islamic school is inconsistent across tool 1 and tool 2!",
+      Question = "B3",
+      Old_value = B3,
+      Related_question = "A30.tool1",
+      Related_value = A30.tool1
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  # flagging if the answer to question related to open/closed status of school is inconsistent across tool 1 and tool 2
+  clean_data.tool2$data |>
+    distinct(Site_Visit_ID, .keep_all = T) |> 
+    left_join(
+      clean_data.tool1$data |>
+        select(A34.tool1 = A34, Site_Visit_ID),
+      by = "Site_Visit_ID"
+    ) |> 
+    filter(
+      (B7 == "Yes, school is open, teachers and students (both male and female) are inside" & A34.tool1 != "Yes, school is open, and teachers and students (both male and female) are inside ") |
+        (B7 == "Yes, it is open and there are students (only male) and teachers inside" & A34.tool1 != "Yes, it is open and there are students (only male) and teachers inside ") |
+        (B7 == "Yes, it is open and there are students (only female) and teachers inside" & A34.tool1 != "Yes, it is open and there are students (only female) and teachers inside ")|
+        (B7 == "Yes, school is open and there are only teachers and no students inside" & A34.tool1 != "Yes, school is open and there are only teachers and no students inside")|
+        (B7 == "Yes, school is open, and there are only staff members but there are no teachers and students inside" & A34.tool1 != "Yes, school is open, and there are only staff members but there are no teachers and students inside")|
+        (B7 == "No, school is closed and there is no one inside" & A34.tool1 != "No, school is closed and there is no one inside")
+    ) |> 
+    mutate(
+      Issue = "The answer to question related to open/closed status of school is inconsistent across tool 1 and tool 2!",
+      Question = "B7",
+      Old_value = B7,
+      Related_question = "A34.tool1",
+      Related_value = A34.tool1
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  # flagging if any of the choices of C7 is selected in tool 1 but not in tool 2 or vice versa
+  clean_data.tool2$data |>
+    distinct(Site_Visit_ID, .keep_all = T) |> 
+    left_join(
+      clean_data.tool1$data |>
+        select(starts_with("B6"), Site_Visit_ID),
+      by = "Site_Visit_ID"
+    ) |> 
+    filter(
+      C7_1 != B6_1 | C7_2 != B6_2 | C7_3 != B6_3 | C7_4 != B6_4 | C7_5 != B6_5 | C7_6 != B6_6 | C7_7 != B6_7 | C7_8 != B6_8 | C7_9!= B6_9 |
+        C7_10 != B6_10 | C7_11 != B6_11 | C7_12 != B6_12 | C7_12 != B6_12 | C7_13 != B6_13 | C7_14 != B6_14 | C7_15 != B6_15
+    ) |> 
+    mutate(
+      Issue = "Same response to 'Can you tell me why this school is closed?' across tool 1 and tool 2 is inconsistent!",
+      Question = "C7",
+      Old_value = C7,
+      Related_question = "B6",
+      Related_value = B6
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  # flagging if the answer to 'What is the school building being used for?' is inconsistent across tool 1 and tool 2
+  clean_data.tool2$data |>
+    distinct(Site_Visit_ID, .keep_all = T) |> 
+    left_join(
+      clean_data.tool1$data |>
+        select(B7.tool1 = B7, Site_Visit_ID),
+      by = "Site_Visit_ID"
+    ) |> 
+    filter(C8 != B7.tool1) |> 
+    mutate(
+      Issue = "The answer to 'What is the school building being used for?' is inconsistent across tool 1 and tool 2!",
+      Question = "C8",
+      Old_value = C8,
+      Related_question = "B7.tool1",
+      Related_value = B7.tool1
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  # flagging if the answer to 'When did the school close?' is inconsistent across tool 1 and tool 2
+  clean_data.tool2$data |>
+    distinct(Site_Visit_ID, .keep_all = T) |> 
+    left_join(
+      clean_data.tool1$data |>
+        select(B8.tool1 = B8, Site_Visit_ID),
+      by = "Site_Visit_ID"
+    ) |> 
+    filter(C10 != B8.tool1) |> 
+    mutate(
+      Issue = "The answer to 'When did the school close?' is inconsistent across tool 1 and tool 2!",
+      Question = "C10",
+      Old_value = C10,
+      Related_question = "B8.tool1",
+      Related_value = B8.tool1
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  # flagging if the answer to 'Where are male children and adults going for schooling since the school was closed?' is inconsistent across tool 1 and tool 2
+  clean_data.tool2$data |>
+    distinct(Site_Visit_ID, .keep_all = T) |> 
+    left_join(
+      clean_data.tool1$data |>
+        select(starts_with("B9"), Site_Visit_ID),
+      by = "Site_Visit_ID"
+    ) |> 
+    filter(
+      C11_1 != B9_1 |
+        C11_2 != B9_2 |
+        C11_3 != B9_3 |
+        C11_4 != B9_4 |
+        C11_5 != B9_5 |
+        C11_6 != B9_6
+    ) |> 
+    mutate(
+      Issue = "The answer to this question is inconsistent across tool 1 and tool 2!",
+      Question = "C11",
+      Old_value = C11,
+      Related_question = "B9",
+      Related_value = B9
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  # flagging if the answer to 'Where are female children and adults going for schooling since the school was closed?' is inconsistent across tool 1 and tool 2
+  clean_data.tool2$data |>
+    distinct(Site_Visit_ID, .keep_all = T) |> 
+    left_join(
+      clean_data.tool1$data |>
+        select(starts_with("B10"), Site_Visit_ID),
+      by = "Site_Visit_ID"
+    ) |> 
+    filter(
+      C12_1 != B10_1 |
+      C12_2 != B10_2 |
+      C12_3 != B10_3 |
+      C12_4 != B10_4 |
+      C12_5 != B10_5 |
+      C12_6 != B10_6
+      ) |> 
+    mutate(
+      Issue = "The answer to this question is inconsistent across tool 1 and tool 2!",
+      Question = "C12",
+      Old_value = C12,
+      Related_question = "B10",
+      Related_value = B10
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    )
+  
+)|> mutate(tool = "Tool 2")
+
+# Logging issues in Tool 3 ------------------------------------------------
+lc_tool3 <- rbind(
+  # Flagging duplicated site visit ID
+  clean_data.tool3$data |>
+    filter(duplicated(Site_Visit_ID, fromLast = T) | duplicated(Site_Visit_ID, fromLast = F)) |> 
+    mutate(
+      Issue = "The site visit ID is duplicated!",
+      Question = "Site_Visit_ID",
+      Old_value = Site_Visit_ID,
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  # flagging if the answer to 'Is the school Islamic education school?' is inconsistent across tool 1 and tool 3
+  clean_data.tool3$data |>
+    distinct(Site_Visit_ID, .keep_all = T) |> 
+    left_join(
+      clean_data.tool1$data |>
+        select(A30.tool1 = A30, Site_Visit_ID),
+      by = "Site_Visit_ID"
+    ) |> 
+    filter(
+      B6 != A30.tool1 &
+        !(B6 == "No, the school is a general studies school" & A30.tool1 == "No") &
+        !(B6 == "Yes , fully converted to Islamic studies" & A30.tool1 == "Yes, fully converted to Islamic studies")
+    ) |> 
+    mutate(
+      Issue = "The answer to 'Is the school Islamic education school?' is inconsistent across tool 1 and tool 3!",
+      Question = "B6",
+      Old_value = B6,
+      Related_question = "A30.tool1",
+      Related_value = A30.tool1
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  # flagging if the answer to 'If yes, what type of Islamic school is it?' is inconsistent across tool 1 and tool 3
+  clean_data.tool3$data |>
+    distinct(Site_Visit_ID, .keep_all = T) |> 
+    left_join(
+      clean_data.tool1$data |>
+        select(A31.tool1 = A31, Site_Visit_ID),
+      by = "Site_Visit_ID"
+    ) |> 
+    filter(B7 != A31.tool1) |> 
+    mutate(
+      Issue = "The answer to 'If yes, what type of Islamic school is it?' is inconsistent across tool 1 and tool 3!",
+      Question = "B7",
+      Old_value = B7,
+      Related_question = "A31.tool1",
+      Related_value = A31.tool1
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  # flagging if the answer to 'School type' is inconsistent across tool 1 and tool 3
+  clean_data.tool3$data |>
+    distinct(Site_Visit_ID, .keep_all = T) |> 
+    left_join(
+      clean_data.tool1$data |>
+        select(starts_with("School_Type_SV"), Site_Visit_ID),
+      by = "Site_Visit_ID",
+      suffix = c("", ".tool1")
+    ) |> 
+    filter(
+      School_Type_SV_1 != School_Type_SV_1.tool1 |
+      School_Type_SV_2 != School_Type_SV_2.tool1 |
+      School_Type_SV_3 != School_Type_SV_3.tool1
+      ) |> 
+    mutate(
+      Issue = "The answer to 'School type' is inconsistent across tool 1 and tool 3!",
+      Question = "School_Type_SV",
+      Old_value = School_Type_SV,
+      Related_question = "School_Type_SV.tool1",
+      Related_value = School_Type_SV.tool1
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  # flagging if the selected date in D2 is equal to survey date but no is selected in D3
+  clean_data.tool3$Todays_Attendance_Detail |>
+    filter(D2 == format.Date(starttime, "%Y-%m-%d") & D3 == "No") |>  # FIXME: make sure to convert the D2 var to date in convert_numbers_to_date_module
+    mutate(
+      Issue = "The date in D2 is equal to survey date, but in D3 'No' is selected!",
+      Question = "D2",
+      Old_value = D2,
+      Related_question = "D3",
+      Related_value = D3
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  # flagging if the selected date in D2 is not equal to survey date but yes is selected in D3
+  clean_data.tool3$Todays_Attendance_Detail |>
+    filter(D2 != format.Date(starttime, "%Y-%m-%d") & D3 == "Yes") |> 
+    mutate(
+      Issue = "The date in D2 is not equal to survey date, but in D3 'Yes' is selected!",
+      Question = "D2",
+      Old_value = D2,
+      Related_question = "D3",
+      Related_value = D3
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  # flagging if the selected date in D2 is in future
+  clean_data.tool3$Todays_Attendance_Detail |>
+    filter(D2 > format.Date(starttime, "%Y-%m-%d")) |>
+    mutate(
+      Issue = "The date in D2 is in future!",
+      Question = "D2",
+      Old_value = D2,
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  # flagging if the recorded date in D5 is greater than today
+  clean_data.tool3$LastWeek_Attendance_Detail |>
+    filter(D5 >= format.Date(starttime, "%Y-%m-%d")) |> #FIXME: make sure to include D5 in convert_numbers_to_date_time.R
+    mutate(
+      Issue = "The date in D5 is in future!",
+      Question = "D5",
+      Old_value = D5,
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  # flagging if school is type male but females are among the students
+  clean_data.tool3$Student_Headcount |>
+    left_join(
+      clean_data.tool3$data |> 
+        select(School_CBE_Gender_Based_On_The_Sample, KEY),
+      by = join_by(PARENT_KEY == KEY)
+    ) |> 
+    filter(E3A2 > 0 & School_CBE_Gender_Based_On_The_Sample == "Boys") |>
+    mutate(
+      Issue = "The school is type male, but in the count female students are reported!",
+      Question = "E3A2",
+      Old_value = E3A2,
+      Related_question = "School_CBE_Gender_Based_On_The_Sample",
+      Related_value = School_CBE_Gender_Based_On_The_Sample
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  # flagging if school is type male but females are among the students
+  clean_data.tool3$Student_Headcount |>
+    left_join(
+      clean_data.tool3$data |> 
+        select(School_CBE_Gender_Based_On_The_Sample, KEY),
+      by = join_by(PARENT_KEY == KEY)
+    ) |> 
+    filter(E5_Female > 0 & School_CBE_Gender_Based_On_The_Sample == "Boys") |>
+    mutate(
+      Issue = "The school is type male, but in the count female students are reported!",
+      Question = "E5_Female",
+      Old_value = E5_Female,
+      Related_question = "School_CBE_Gender_Based_On_The_Sample",
+      Related_value = School_CBE_Gender_Based_On_The_Sample
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  # flagging if school is type female but males are among the students
+  clean_data.tool3$Student_Headcount |>
+    left_join(
+      clean_data.tool3$data |> 
+        select(School_CBE_Gender_Based_On_The_Sample, KEY),
+      by = join_by(PARENT_KEY == KEY)
+    ) |> 
+    filter(E3A1 > 0 & School_CBE_Gender_Based_On_The_Sample == "Girls") |>
+    mutate(
+      Issue = "The school is type female, but in the count male students are reported!",
+      Question = "E3A1",
+      Old_value = E3A1,
+      Related_question = "School_CBE_Gender_Based_On_The_Sample",
+      Related_value = School_CBE_Gender_Based_On_The_Sample
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  # flagging if school is type female but males are among the students
+  clean_data.tool3$Student_Headcount |>
+    left_join(
+      clean_data.tool3$data |> 
+        select(School_CBE_Gender_Based_On_The_Sample, KEY),
+      by = join_by(PARENT_KEY == KEY)
+    ) |> 
+    filter(E5_Male > 0 & School_CBE_Gender_Based_On_The_Sample == "Girls") |>
+    mutate(
+      Issue = "The school is type female, but in the count male students are reported!",
+      Question = "E5_Male",
+      Old_value = E5_Male,
+      Related_question = "School_CBE_Gender_Based_On_The_Sample",
+      Related_value = School_CBE_Gender_Based_On_The_Sample
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    )
+  
+)|> mutate(tool = "Tool 3")
+
+
+# Logging issues in Tool 4 ------------------------------------------------
+lc_tool4 <- rbind(
+  # Flagging duplicated site visit ID
+  clean_data.tool4$data |>
+    filter(duplicated(Site_Visit_ID, fromLast = T) | duplicated(Site_Visit_ID, fromLast = F)) |> 
+    mutate(
+      Issue = "The site visit ID is duplicated!",
+      Question = "Site_Visit_ID",
+      Old_value = Site_Visit_ID,
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  # Flagging if the grades selected in D8 but reported nonoperational in C13A1 of tool 1
+  clean_data.tool4$data |> 
+    select(all_of(meta_cols), starts_with("D8"), -D8, KEY) |> 
+    pivot_longer(cols = D8_1:D8_12, names_to = "grade") |> 
+    filter(value == 1) |> 
+    mutate(
+      grade = str_extract(grade, "(?<=_)\\d+"),
+      Grade_ID = paste0(Site_Visit_ID, "-", grade)
+    ) |> 
+    select(-value) |> 
+    left_join(
+      clean_data.tool1$School_Operationality |> 
+        filter(Grade_ID != "" & !(duplicated(Grade_ID, fromLast = T) | duplicated(Grade_ID, fromLast = F))) |> 
+        select(Grade_ID, C13A1),
+      by = "Grade_ID"
+    ) |> 
+    filter(C13A1 == "No") |> 
+    mutate(
+      Issue = "The selected grade in D8 is non-operational in question C13A1 of tool 1!",
+      Question = "D8",
+      Old_value = grade,
+      Related_question = "C13A1.tool1",
+      Related_value = C13A1
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  # Flagging if the changes in girls enrollment is inconsistent in comparison to tool 1
+  clean_data.tool4$data |>
+    left_join(
+      clean_data.tool1$data |> 
+        distinct(Site_Visit_ID, .keep_all = T) |> 
+        select(E1.tool1 = E1, Site_Visit_ID),
+      by = "Site_Visit_ID"
+    ) |> 
+    filter(E1 != E1.tool1) |> 
+    mutate(
+      Issue = "The changes in girls enrollment is inconsistent in comparison to tool 1!",
+      Question = "E1",
+      Old_value = E1,
+      Related_question = "E1.tool1",
+      Related_value = E1.tool1
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    )
+)|> mutate(tool = "Tool 4")
+
+
+Logic_check_result <- bind_rows(
+  lc_tool1,
+  lc_tool2,
+  lc_tool3,
+  lc_tool4
+  # lc_tool5,
+  # lc_tool6,
+  # lc_tool7,
+  # lc_tool8,
+  # lc_tool9
+)
+
+rm(list = ls(pattern = "lc_tool.*"))
