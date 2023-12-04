@@ -249,8 +249,6 @@ calculate_issues <- rbind(
   
   # Tool 8
   
-  Headcount_Total_Students.re_calc,
-  
   clean_data.tool8$data |> 
     filter(Total_Teachers_Present.re_calc != Total_Teachers_Present) |> 
     mutate(

@@ -228,7 +228,7 @@ source("R/missing_qa.R")
 source("R/check_select_multiple_questions.R")
 
 
-# re-calculate the calculated variables and compare any changes not applied - DONE -- ERROR- Double CHECK
+# re-calculate the calculated variables and compare any changes not applied - DONE
 source("R/calculate_cols_check.R")
 
 
