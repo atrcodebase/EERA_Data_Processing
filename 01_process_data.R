@@ -32,7 +32,7 @@ raw_data_path = list.files("input/raw_data/", full.names = T) |> as.list() %>% s
 kobo_tools_path = list.files("input/tools/", full.names = T) |> as.list() %>% setNames(gsub(".*Tool (\\d).*", "tool\\1", .))
 relevancy_files_path = list.files("input/relevancy_files/", full.names = T) |> as.list() %>% setNames(gsub(".*tool(\\d).*", "tool\\1", .))
 meta_cols <- c("Site_Visit_ID", "starttime", "Region", "Province", "District", "Area_Type")
-# meta_cols.qa_sheet <- c(Visit_ID = "Preschool Visit ID", Survey_Date = "SubmissionDate", Region = "Region", "KEY")
+meta_cols.qa_sheet <- c(Visit_ID = "Preschool Visit ID", Survey_Date = "SubmissionDate", Region = "Region", "KEY")
 
 # Read inputs --------------------------------------------------------------
 # reading the datasets
