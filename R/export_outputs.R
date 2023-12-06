@@ -53,9 +53,9 @@ if (nrow(un_logged_values) > 0){
   write.xlsx(un_logged_values, paste0(output_data_path, "issues/other_responses/unlogged_other_responses_", Sys.Date(),".xlsx"))
 }
 
-if (nrow(Logic_check_result) > 0){
-  write.xlsx(Logic_check_result, paste0(output_data_path, "issues/logic_checks/logic_checks_", Sys.Date(),".xlsx"))
-}
+# if (nrow(Logic_check_result) > 0){
+#   write.xlsx(Logic_check_result, paste0(output_data_path, "issues/logic_checks/logic_checks_", Sys.Date(),".xlsx"))
+# }
 
 if (nrow(calculate_issues) > 0){
   write.xlsx(calculate_issues, paste0(output_data_path, "issues/calculate_issues/calculate_issues_", Sys.Date(),".xlsx"))
@@ -78,17 +78,17 @@ if (nrow(over_sampled_extra_ints) > 0){
   write.xlsx(over_sampled_extra_ints, paste0(output_data_path, "issues/over_sampled/over_sampled_extra_ints_", Sys.Date(),".xlsx"))
 }
 
-if (nrow(missing_not_interviewed_site_resp_benef) > 0){
-  write.xlsx(missing_not_interviewed_site_resp_benef, paste0(output_data_path, "issues/interview_missing/missing_not_interviewed_Sites_", Sys.Date(),".xlsx"))
-}
+# if (nrow(missing_not_interviewed_site_resp_benef) > 0){
+#   write.xlsx(missing_not_interviewed_site_resp_benef, paste0(output_data_path, "issues/interview_missing/missing_not_interviewed_Sites_", Sys.Date(),".xlsx"))
+# }
 
 if (nrow(wrong_choices_result) > 0){
   write.xlsx(wrong_choices_result, paste0(output_data_path, "issues/wrong_choices/wrong_choices_result_", Sys.Date(),".xlsx"))
 }
 
-if (nrow(relevancy_issues) > 0){
-  write.xlsx(relevancy_issues, paste0(output_data_path, "issues/relevancy_checks/relevancy_issues_", Sys.Date(),".xlsx"))
-}
+# if (nrow(relevancy_issues) > 0){
+#   write.xlsx(relevancy_issues, paste0(output_data_path, "issues/relevancy_checks/relevancy_issues_", Sys.Date(),".xlsx"))
+# }
 
 qa_issues_dfs = list(
   "not QAed interviews" = not_qaed_ints,
