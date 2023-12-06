@@ -67,9 +67,10 @@ correction_log_issues_ps <- correction_log_ps |>
       duplicated(paste0(KEY, question), fromLast = T) | duplicated(paste0(KEY, question), fromLast = F) ~ "Duplicate log records, please solve the duplication.",
       TRUE ~ NA_character_
     ),
-    new_value = str_squish(new_value)
+    new_value = str_squish(new_value),
+    Sample_Type = "Public School",
   ) |> 
-  select(KEY, question, old_value, new_value, issue, tool, Tab_Name)
+  select(KEY, question, old_value, new_value, issue, tool, Tab_Name, Sample_Type)
 
 correction_log_issues_ps <- correction_log_issues_ps |> check_logs_for_df(df = raw_data.tool1, tool_name = "Tool 1 - Headmaster", deleted_keys = deleted_keys_ps)
 correction_log_issues_ps <- correction_log_issues_ps |> check_logs_for_df(df = raw_data.tool2, tool_name = "Tool 2 - Light", deleted_keys = deleted_keys_ps)
@@ -109,9 +110,10 @@ correction_log_issues_cbe <- correction_log_cbe |>
       duplicated(paste0(KEY, question), fromLast = T) | duplicated(paste0(KEY, question), fromLast = F) ~ "Duplicate log records, please solve the duplication.",
       TRUE ~ NA_character_
     ),
-    new_value = str_squish(new_value)
+    new_value = str_squish(new_value),
+    Sample_Type = "CBE", 
   ) |> 
-  select(KEY, question, old_value, new_value, issue, tool, Tab_Name)
+  select(KEY, question, old_value, new_value, issue, tool, Tab_Name, Sample_Type)
 
 
 correction_log_issues_cbe <- correction_log_issues_cbe |> check_logs_for_df(df = raw_data.tool6, tool_name = "Tool 6 - Parent", deleted_keys = deleted_keys_cbe)
@@ -535,10 +537,10 @@ required_cols <- c("KEY", "question", "old_value", "new_value", "tool", "Tab_Nam
 
 correction_log_discrep <- rbind( ## DOUBLE CHECK HERE
   correction_log_issues_ps |>
-    select(all_of(required_cols), "issue"),
+    select(all_of(required_cols), Sample_Type, "issue"),
   
   correction_log_issues_cbe |>
-    select(all_of(required_cols), "issue"),
+    select(all_of(required_cols), Sample_Type, "issue"),
 
   correction_log_discrep |>
     select(all_of(required_cols)) |>
@@ -549,6 +551,8 @@ correction_log_discrep <- rbind( ## DOUBLE CHECK HERE
                     TRUE ~ new_value
                   )
                 ), by = c("KEY", "question", "new_value", "Tab_Name")) |>
+    left_join(bind_rows(correction_log_ready_ps, correction_log_ready_cbe) |>
+                select(KEY, question, Tab_Name, Sample_Type), by = c("KEY", "question", "Tab_Name")) |>
     mutate(issue = "The changes is not logged in correction log sheet.")
   ,
   bind_rows(correction_log_ready_ps, correction_log_ready_cbe) |>
@@ -558,7 +562,7 @@ correction_log_discrep <- rbind( ## DOUBLE CHECK HERE
         TRUE ~ new_value
       )
     ) |>
-    select(any_of(required_cols)) |>
+    select(any_of(required_cols), Sample_Type) |>
     anti_join(correction_log_discrep, by = c("KEY", "question", "new_value", "Tab_Name")) |>
     mutate(issue = "The log is not applied in the dataset.")
 )

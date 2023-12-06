@@ -129,7 +129,7 @@ repeat_sheet_issues <- rbind(
     #   child_sheet_name = "Relevant_photos"
     # )
   ) |> 
-    mutate(tool = "Tool 1 - Headmaster"),
+    mutate(tool = "Tool 1 - Headmaster", Sample_Type = "Public School"),
   
   # Tool 2
   rbind(
@@ -170,7 +170,7 @@ repeat_sheet_issues <- rbind(
     #   child_sheet_name = "Relevant_photos"
     # ) 
   ) |> 
-    mutate(tool = "Tool 2 - Light"),
+    mutate(tool = "Tool 2 - Light", Sample_Type = "Public School"),
   
   # Tool 3
   rbind(
@@ -218,7 +218,7 @@ repeat_sheet_issues <- rbind(
   #   child_sheet_name = "Relevant_photos"
   # )
   ) |> 
-    mutate(tool = "Tool 3 - Headcount"),
+    mutate(tool = "Tool 3 - Headcount", Sample_Type = "Public School"),
   
   # Tool 4
   rbind(
@@ -247,7 +247,7 @@ repeat_sheet_issues <- rbind(
     #   child_sheet_name = "Relevant_photos"
     # ) 
   ) |> 
-    mutate(tool = "Tool 4 - Teacher"),
+    mutate(tool = "Tool 4 - Teacher", Sample_Type = "Public School"),
   
   # Tool 5
   # 1 - Does not have repeat count in the tool
@@ -284,7 +284,8 @@ repeat_sheet_issues <- rbind(
       supposed_count_df = select(clean_data.tool6$data, KEY, supposed_row_count = Subjects_Added_count),
       child_df = clean_data.tool6$Subjects_Added,
       child_sheet_name = "Subjects_Added"
-    ) |> mutate(Row_count_from_tab = "data", Row_count_column_name = "Subjects_Added_count")
+    ) |> mutate(Row_count_from_tab = "data", Row_count_column_name = "Subjects_Added_count") |>
+      left_join(clean_data.tool6$data |> select(KEY, Sample_Type), by = c("PARENT_KEY" = "KEY"))
     # 2 - Does not have repeat count in the tool
     # compare_row_counts(
     #   supposed_count_df = select(clean_data.tool6$data, KEY, supposed_row_count = ),
@@ -314,7 +315,8 @@ repeat_sheet_issues <- rbind(
     #   child_df = clean_data.tool7$Relevant_photos,
     #   child_sheet_name = "Relevant_photos"
     # ) 
-  ) |> 
+  ) |>
+    left_join(clean_data.tool7$data |> select(KEY, Sample_Type), by = c("PARENT_KEY" = "KEY")) |> 
     mutate(tool = "Tool 7 - Shura"),
   
   # Tool 8
@@ -393,7 +395,7 @@ repeat_sheet_issues <- rbind(
     #   child_sheet_name = "Relevant_photos"
     # ) 
   ) |>
-    mutate(tool = "Tool 8 - Class")
+    mutate(tool = "Tool 8 - Class", Sample_Type = "CBE")
 
    
     

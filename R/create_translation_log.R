@@ -18,7 +18,7 @@ missing_translations <- bind_rows(
     missing_translation_func(clean_data.tool1$Education_Quality),
     missing_translation_func(clean_data.tool1$Relevant_photos),
   ) |>
-    mutate(tool = "Tool 1 - Headmaster", .before = question_name),
+    mutate(tool = "Tool 1 - Headmaster", Sample_Type = "Public School", .before = question_name),
   
   ## Tool 2
   bind_rows(
@@ -30,7 +30,7 @@ missing_translations <- bind_rows(
     missing_translation_func(clean_data.tool2$Students_Pack_Group),
     missing_translation_func(clean_data.tool2$Relevant_photos)
   ) |>
-    mutate(tool = "Tool 2 - Light", .before = question_name),
+    mutate(tool = "Tool 2 - Light", Sample_Type = "Public School", .before = question_name),
   
   ## Tool 3
   bind_rows(
@@ -43,7 +43,7 @@ missing_translations <- bind_rows(
     missing_translation_func(clean_data.tool3$Student_Headcount),
     missing_translation_func(clean_data.tool3$Relevant_photos)
   ) |>
-    mutate(tool = "Tool 3 - Headcount", .before = question_name),
+    mutate(tool = "Tool 3 - Headcount", Sample_Type = "Public School", .before = question_name),
   
   ## Tool 4
   bind_rows(
@@ -53,7 +53,7 @@ missing_translations <- bind_rows(
     missing_translation_func(clean_data.tool4$Subjects_Not_Being_Taught),
     missing_translation_func(clean_data.tool4$Relevant_photos)
   ) |>
-    mutate(tool = "Tool 4 - Teacher", .before = question_name),
+    mutate(tool = "Tool 4 - Teacher", Sample_Type = "Public School", .before = question_name),
 
   ## Tool 5
   bind_rows(
@@ -63,24 +63,41 @@ missing_translations <- bind_rows(
     missing_translation_func(clean_data.tool5$Non_Useable_Toilets),
     missing_translation_func(clean_data.tool5$Relevant_photos)
   ) |>
-    mutate(tool = "Tool 5 - WASH", .before = question_name),
+    mutate(tool = "Tool 5 - WASH", Sample_Type = "Public School", .before = question_name),
 
   ## Tool 6
   bind_rows(
-    missing_translation_func(clean_data.tool6$data),
-    missing_translation_func(clean_data.tool6$Subjects_Added),
-    missing_translation_func(clean_data.tool6$Relevant_photos)
+    missing_translation_func(clean_data.tool6$data) |> 
+      left_join(clean_data.tool6$data |> select(KEY, Sample_Type), by = "KEY"),
+    
+    missing_translation_func(clean_data.tool6$Subjects_Added) |>
+      mutate(
+        PARENT_KEY = str_sub(KEY, 1, 41)
+      ) |> left_join(clean_data.tool6$data |> select(KEY, Sample_Type), by = c("PARENT_KEY" = "KEY")) |>
+      select(-PARENT_KEY)
   ) |>
-    mutate(tool = "Tool 6 - Parent", .before = question_name),
+    mutate(tool = "Tool 6 - Parent") |>
+    select(tool, Sample_Type, everything()),
 
   ## Tool 7
   bind_rows(
-    missing_translation_func(clean_data.tool7$data),
-    missing_translation_func(clean_data.tool7$C6_list_members),
-    missing_translation_func(clean_data.tool7$Subjects_Added),
-    missing_translation_func(clean_data.tool7$Relevant_photos)
+    missing_translation_func(clean_data.tool7$data) |> 
+      left_join(clean_data.tool7$data |> select(KEY, Sample_Type), by = "KEY"),
+    
+    missing_translation_func(clean_data.tool7$C6_list_members) |>
+      mutate(
+        PARENT_KEY = str_sub(KEY, 1, 41)
+      ) |> left_join(clean_data.tool7$data |> select(KEY, Sample_Type), by = c("PARENT_KEY" = "KEY")) |>
+      select(-PARENT_KEY),
+    
+    missing_translation_func(clean_data.tool7$Subjects_Added) |>
+      mutate(
+        PARENT_KEY = str_sub(KEY, 1, 41)
+      ) |> left_join(clean_data.tool7$data |> select(KEY, Sample_Type), by = c("PARENT_KEY" = "KEY")) |>
+      select(-PARENT_KEY)
   ) |>
-    mutate(tool = "Tool 7 - Shura", .before = question_name),
+    mutate(tool = "Tool 7 - Shura") |>
+    select(tool, Sample_Type, everything()),
 
   ## Tool 8
   bind_rows(
@@ -98,14 +115,14 @@ missing_translations <- bind_rows(
     missing_translation_func(clean_data.tool8$Subjects_Added),
     missing_translation_func(clean_data.tool8$Relevant_photos)
   ) |>
-    mutate(tool = "Tool 8 - Class", .before = question_name),
+    mutate(tool = "Tool 8 - Class", Sample_Type = "CBE", .before = question_name),
   
   ## Tool 9
   bind_rows(
     missing_translation_func(clean_data.tool9$data),
     missing_translation_func(clean_data.tool9$Relevant_photos)
   ) |>
-    mutate(tool = "Tool 9 - IP", .before = question_name)
+    mutate(tool = "Tool 9 - IP", Sample_Type = "CBE", .before = question_name)
 )
 
 need_translation <- c(

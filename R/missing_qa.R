@@ -243,17 +243,18 @@ photo_qaed_values = c("Checked & Verified", "Checked &amp; Verified", "Checked &
                       "Checked - Date Not Specified In The Photo;Checked - Incomplete Information", "Checked &amp; VerifiedChecked &amp; Verified", "Check &amp; Verified", "-checked &amp; verified", "-checked and no relevant",
                       "-checked and not verified", "checked &amp; Verified", "-Checked & Verified", "checked &amp; relevant", "-aChecked &amp; Verified", "-checked $ not relevant", "-checked $ verified",
                       "-checked and verified", "Checked &amp; Verified]", "checked and relevant","Irrelevant Photo", "-checked and relevant", "-checked &amp; relevant", "-checked &amp; Relevant", "-checked &amp; Verified"
+                      ,as.character(seq(0, 150))
                     )
 
 # Checking QA's comments --------------------------------------------------
 missing_qa <- rbind(
   # Tool 1
   rbind(
-    # missing_qa_func(clean_data.tool1$data,tool1_image_vars), # Should be double-checked
+    missing_qa_func(clean_data.tool1$data,tool1_image_vars), # Should be double-checked
     missing_qa_func(clean_data.tool1$Weekly_Class_Schedule, tool1_image_vars),
     missing_qa_func(clean_data.tool1$Relevant_photos, tool1_image_vars)
   ) %>% 
-    mutate(tool = "Tool 1 - Headmaster"),
+    mutate(tool = "Tool 1 - Headmaster", Sample_Type = "Public School"),
   
   # Tool 2
   rbind(
@@ -264,7 +265,7 @@ missing_qa <- rbind(
     missing_qa_func(clean_data.tool2$Students_Pack_Group, tool2_image_vars),
     missing_qa_func(clean_data.tool2$Relevant_photos, tool2_image_vars)
   ) %>%
-    mutate(tool = "Tool 2 - Light"),
+    mutate(tool = "Tool 2 - Light", Sample_Type = "Public School"),
   
   # Tool 3
   rbind(
@@ -274,13 +275,13 @@ missing_qa <- rbind(
     missing_qa_func(clean_data.tool3$Student_Headcount, tool3_image_vars),
     missing_qa_func(clean_data.tool3$Relevant_photos, tool3_image_vars)
   ) %>% 
-    mutate(tool = "Tool 3 - Headcount"),
+    mutate(tool = "Tool 3 - Headcount", Sample_Type = "Public School"),
   
   # Tool 4
   rbind(
     missing_qa_func(clean_data.tool4$Relevant_photos, tool4_image_vars)
   ) %>% 
-    mutate(tool = "Tool 4 - Teacher"),
+    mutate(tool = "Tool 4 - Teacher", Sample_Type = "Public School"),
   
   # Tool 5
   rbind(
@@ -290,18 +291,30 @@ missing_qa <- rbind(
     missing_qa_func(clean_data.tool5$Non_Useable_Toilets, tool5_image_vars),
     missing_qa_func(clean_data.tool5$Relevant_photos, tool5_image_vars)
   ) %>% 
-    mutate(tool = "Tool 5 - WASH"),
+    mutate(tool = "Tool 5 - WASH", Sample_Type = "Public School"),
   
   # Tool 6
   missing_qa_func(clean_data.tool6$Relevant_photos, tool6_image_vars) %>% 
-    mutate(tool = "Tool 6 - Parent"),
+    mutate(
+      tool = "Tool 6 - Parent",
+      PARENT_KEY = str_sub(KEY, 1, 41)
+      ) %>% 
+    left_join(clean_data.tool6$data %>% select(KEY, Sample_Type) , by = c("PARENT_KEY" = "KEY")) %>% 
+    select(-PARENT_KEY),
   
   # Tool 7
   rbind(
-    missing_qa_func(clean_data.tool7$data, tool7_image_vars),
-    missing_qa_func(clean_data.tool7$Relevant_photos, tool7_image_vars)
+    missing_qa_func(clean_data.tool7$data, tool7_image_vars) %>% 
+      left_join(clean_data.tool7$data %>% select(KEY, Sample_Type) , by ="KEY"),
+    
+    missing_qa_func(clean_data.tool7$Relevant_photos, tool7_image_vars) %>% 
+      mutate(
+        PARENT_KEY = str_sub(KEY, 1, 41)
+      ) %>% 
+      left_join(clean_data.tool7$data %>% select(KEY, Sample_Type) , by = c("PARENT_KEY" = "KEY")) %>% 
+      select(-PARENT_KEY)
   ) %>% 
-    mutate(tool = "Tool 7 - Shura"),
+    mutate(tool = "Tool 7 - Shura", .before = "Sample_Type"),
   
   # Tool 8
   rbind(
@@ -313,16 +326,17 @@ missing_qa <- rbind(
     missing_qa_func(clean_data.tool8$Student_Kit, tool8_image_vars),
     missing_qa_func(clean_data.tool8$Relevant_photos, tool8_image_vars)
   ) %>%
-    mutate(tool = "Tool 8 - Class"),
+    mutate(tool = "Tool 8 - Class", Sample_Type = "CBE"),
   
   # Tool 9
   rbind(
     missing_qa_func(clean_data.tool9$data, tool9_image_vars),
     missing_qa_func(clean_data.tool9$Relevant_photos, tool9_image_vars)
   ) %>% 
-    mutate(tool = "Tool 9 - IP")
+    mutate(tool = "Tool 9 - IP", Sample_Type = "CBE")
   
-) |> filter(!old_value %in% photo_qaed_values)
+) |> 
+  mutate(Type = "Image") |> filter(!old_value %in% photo_qaed_values)
 
 unique(missing_qa$old_value)
 table(missing_qa$old_value)
@@ -417,40 +431,42 @@ missing_audio_description <- rbind(
   rbind(
     missing_qa_func(clean_data.tool1$data, obj_cols = tool1.audio_vars)
   ) |> 
-    mutate(tool = "Tool 1 - Headmaster"),
+    mutate(tool = "Tool 1 - Headmaster", Sample_Type = "Public School"),
   
   # Tool 2
   rbind(
     missing_qa_func(clean_data.tool2$data, obj_cols = tool2.audio_vars),
     missing_qa_func(clean_data.tool2$Public_Stationary_Kit_Group, obj_cols = tool2.audio_vars)
   ) |> 
-    mutate(tool = "Tool 2 - Light"),
+    mutate(tool = "Tool 2 - Light", Sample_Type = "Public School"),
   
   # Tool 3
   rbind(
     missing_qa_func(clean_data.tool3$data, obj_cols = tool3.audio_vars)
   ) |> 
-    mutate(tool = "Tool 3 - Headcount"),
+    mutate(tool = "Tool 3 - Headcount", Sample_Type = "Public School"),
   
   # Tool 4
   rbind(
     missing_qa_func(clean_data.tool4$data, obj_cols = tool4.audio_vars)
   ) |> 
-  mutate(tool = "Tool 4 - Teacher"),
+  mutate(tool = "Tool 4 - Teacher", Sample_Type = "Public School"),
   
   # Tool 5
   rbind(
     missing_qa_func(clean_data.tool5$data, obj_cols = tool5.audio_vars)
   ) |> 
-    mutate(tool = "Tool 5 - WASH"),
+    mutate(tool = "Tool 5 - WASH", Sample_Type = "Public School"),
   
   # Tool 6
   missing_qa_func(clean_data.tool6$data, obj_cols = tool6.audio_vars) |> 
-    mutate(tool = "Tool 6 - Parent"),
+    mutate(tool = "Tool 6 - Parent") |>
+    left_join(clean_data.tool6$data |> select(KEY, Sample_Type), by = "KEY"),
   
   # Tool 7
   missing_qa_func(clean_data.tool7$data, obj_cols = tool7.audio_vars) |> 
-    mutate(tool = "Tool 7 - Shura"),
+    mutate(tool = "Tool 7 - Shura") |>
+    left_join(clean_data.tool7$data |> select(KEY, Sample_Type), by = "KEY"),
   
   # Tool 8
   rbind(
@@ -460,11 +476,12 @@ missing_audio_description <- rbind(
     missing_qa_func(clean_data.tool8$Teacher_Kit, obj_cols = tool8.audio_vars),
     missing_qa_func(clean_data.tool8$Student_Kit, obj_cols = tool8.audio_vars)
   ) |> 
-    mutate(tool = "Tool 8 - Class"),
+    mutate(tool = "Tool 8 - Class", Sample_Type = "CBE"),
   
   missing_qa_func(clean_data.tool9$data, obj_cols = tool9.audio_vars) |> 
-    mutate(tool = "Tool 9 - IP")
+    mutate(tool = "Tool 9 - IP", Sample_Type = "CBE")
 ) |>
+  mutate(Type = "Audio") |>
   filter(old_value == "-")
 
 
