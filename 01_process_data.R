@@ -241,7 +241,7 @@ source("R/compare_sample_vs_df.R")
 
 
 # Relevancy Check --------------------------------------------------------- PENDING - Output under Checking
-source("R/check_relevancies.R")
+# source("R/check_relevancies.R")
 
 
 # Check the responses with the tool --------------------------------------- DONE
@@ -257,15 +257,15 @@ source("R/attach_labels.R")
 
 
 # re-code variables ------------------------------------------------------- PENDING - On-going
-source("R/recoded_vars.R")
+# source("R/recoded_vars.R")
 
 
 # Logical inconsistencies ------------------------------------------------- PENDING - On-going
-source("R/logical_checks.R")
+# source("R/logical_checks.R")
 
 
 # change 7777, 8888, 9999 to NA  ------------------------------------------ DONE - Confirm the numbers need to be NAed with QA team before running this part
-source("R/recode_to_na.R")
+# source("R/recode_to_na.R")
 
 
 # prepare data sets to export  --------------------------------------------
