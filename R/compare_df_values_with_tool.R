@@ -85,7 +85,7 @@ wrong_choices_result <- rbind(
       mutate(Tab_Name = "Relevant_photos")
     
   ) |> 
-    mutate(tool = "Tool 1 - Headmaster"),
+    mutate(tool = "Tool 1 - Headmaster", Sample_Type = "Public School"),
   
   # Tool 2
   rbind(
@@ -131,7 +131,7 @@ wrong_choices_result <- rbind(
       kobotool.choices = kobo_tool.tool2$choices) |> 
       mutate(Tab_Name = "Relevant_photos")
   ) |> 
-    mutate(tool = "Tool 2 - Light"),
+    mutate(tool = "Tool 2 - Light", Sample_Type = "Public School"),
   
   # Tool 3
   rbind(
@@ -183,7 +183,7 @@ wrong_choices_result <- rbind(
       kobotool.choices = kobo_tool.tool3$choices) |> 
       mutate(Tab_Name = "Relevant_photos")
   ) |> 
-    mutate(tool = "Tool 3 - Headcount"),
+    mutate(tool = "Tool 3 - Headcount", Sample_Type = "Public School"),
   
   # Tool 4
   rbind(
@@ -217,7 +217,7 @@ wrong_choices_result <- rbind(
       kobotool.choices = kobo_tool.tool4$choices) |> 
       mutate(Tab_Name = "Relevant_photos")
   ) |> 
-    mutate(tool = "Tool 4 - Teacher"),
+    mutate(tool = "Tool 4 - Teacher", Sample_Type = "Public School"),
   
   # Tool 5
   rbind(
@@ -252,7 +252,7 @@ wrong_choices_result <- rbind(
       mutate(Tab_Name = "Relevant_photos")
     
   ) |> 
-    mutate(tool = "Tool 5 - WASH"),
+    mutate(tool = "Tool 5 - WASH", Sample_Type = "Public School"),
   
   # Tool 6
   rbind(
@@ -260,19 +260,22 @@ wrong_choices_result <- rbind(
       df = select(clean_data.tool6$data, !any_of(to_be_excluded_questions)),
       kobotool.survey = kobo_tool.tool6$survey,
       kobotool.choices = kobo_tool.tool6$choices) |> 
-      mutate(Tab_Name = "data"),
+      mutate(Tab_Name = "data") |>
+      left_join(clean_data.tool6$data |> select(KEY, Sample_Type), by = c("uuid" = "KEY")),
     
     check_so_sm_questions(
       df = select(clean_data.tool6$Subjects_Added, !any_of(to_be_excluded_questions)),
       kobotool.survey = kobo_tool.tool6$survey,
       kobotool.choices = kobo_tool.tool6$choices) |> 
-      mutate(Tab_Name = "Subjects_Added"),
+      mutate(Tab_Name = "Subjects_Added") |>
+      left_join(clean_data.tool6$Subjects_Added |> select(KEY, Sample_Type) , by = c("uuid" = "KEY")),
     
     check_so_sm_questions(
       df = select(clean_data.tool6$Relevant_photos, !any_of(to_be_excluded_questions)),
       kobotool.survey = kobo_tool.tool6$survey,
       kobotool.choices = kobo_tool.tool6$choices) |> 
-      mutate(Tab_Name = "Relevant_photos")
+      mutate(Tab_Name = "Relevant_photos") |>
+      left_join(clean_data.tool6$Relevant_photos |> select(KEY, Sample_Type) , by = c("uuid" = "KEY"))
   ) |> 
     mutate(tool = "Tool 6 - Parent"),
   
@@ -282,25 +285,29 @@ wrong_choices_result <- rbind(
       df = select(clean_data.tool7$data, !any_of(to_be_excluded_questions)),
       kobotool.survey = kobo_tool.tool7$survey,
       kobotool.choices = kobo_tool.tool7$choices) |> 
-      mutate(Tab_Name = "data"),
+      mutate(Tab_Name = "data") |>
+      left_join(clean_data.tool7$data |> select(KEY, Sample_Type), by = c("uuid" = "KEY")),
     
-    check_so_sm_questions(
-      df = select(clean_data.tool7$C6_list_members, !any_of(to_be_excluded_questions)),
-      kobotool.survey = kobo_tool.tool7$survey,
-      kobotool.choices = kobo_tool.tool7$choices) |> 
-      mutate(Tab_Name = "C6_list_members"),
+    # check_so_sm_questions(
+    #   df = select(clean_data.tool7$C6_list_members, !any_of(to_be_excluded_questions)),
+    #   kobotool.survey = kobo_tool.tool7$survey,
+    #   kobotool.choices = kobo_tool.tool7$choices) |> 
+    #   mutate(Tab_Name = "C6_list_members") |>
+    #   left_join(clean_data.tool6$C6_list_members |> select(KEY, Sample_Type), by = c("uuid" = "KEY")),
     
     check_so_sm_questions(
       df = select(clean_data.tool7$Subjects_Added, !any_of(to_be_excluded_questions)),
       kobotool.survey = kobo_tool.tool7$survey,
       kobotool.choices = kobo_tool.tool7$choices) |> 
-      mutate(Tab_Name = "Subjects_Added"),
+      mutate(Tab_Name = "Subjects_Added") |>
+      left_join(clean_data.tool6$Subjects_Added |> select(KEY, Sample_Type), by = c("uuid" = "KEY")),
     
     check_so_sm_questions(
       df = select(clean_data.tool7$Relevant_photos, !any_of(to_be_excluded_questions)),
       kobotool.survey = kobo_tool.tool7$survey,
       kobotool.choices = kobo_tool.tool7$choices) |> 
-      mutate(Tab_Name = "Relevant_photos")
+      mutate(Tab_Name = "Relevant_photos") |>
+      left_join(clean_data.tool6$Relevant_photos |> select(KEY, Sample_Type), by = c("uuid" = "KEY"))
   ) |> 
     mutate(tool = "Tool 7 - Shura"),
   
@@ -384,7 +391,7 @@ wrong_choices_result <- rbind(
       kobotool.choices = kobo_tool.tool8$choices) |> 
       mutate(Tab_Name = "Relevant_photos")
   ) |> 
-    mutate(tool = "Tool 8 - Class"),
+    mutate(tool = "Tool 8 - Class", Sample_Type = "CBE"),
   
   # Tool 9
   rbind(
@@ -401,7 +408,7 @@ wrong_choices_result <- rbind(
       mutate(Tab_Name = "Relevant_photos")
     
   ) |> 
-    mutate(tool = "Tool 9 - IP")
+    mutate(tool = "Tool 9 - IP", Sample_Type = "CBE")
 )
 
 names(wrong_choices_result)[names(wrong_choices_result) == "invalid_opts"] = "old_value"

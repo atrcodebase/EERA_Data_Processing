@@ -31,22 +31,28 @@ sample_files_path = list.files("input/sample_files/", full.names = T)
 raw_data_path = list.files("input/raw_data/", full.names = T) |> as.list() %>% setNames(gsub(".*Tool (\\d).*", "tool\\1", .))
 kobo_tools_path = list.files("input/tools/", full.names = T) |> as.list() %>% setNames(gsub(".*Tool (\\d).*", "tool\\1", .))
 relevancy_files_path = list.files("input/relevancy_files/", full.names = T) |> as.list() %>% setNames(gsub(".*tool(\\d).*", "tool\\1", .))
-meta_cols <- c("Site_Visit_ID", "starttime", "Region", "Province", "District", "Area_Type")
-meta_cols.qa_sheet <- c(Visit_ID = "Preschool Visit ID", Survey_Date = "SubmissionDate", Region = "Region", "KEY")
+meta_cols <- c("Site_Visit_ID", "starttime", "Region", "Province", "District", "Area_Type", "Sample_Type")
+meta_cols.qa_sheet <- c(Visit_ID = "Site_Visit_ID", "School Code", "Sample_Type", Survey_Date = "SubmissionDate", Region = "Region", "KEY")
 
 # Read inputs --------------------------------------------------------------
 # reading the datasets
 raw_data.tool1 = read_xlsx_sheets(raw_data_path$tool1)
+raw_data.tool1$data <- raw_data.tool1$data |> mutate(Sample_Type = "Public School")
 raw_data.tool2 = read_xlsx_sheets(raw_data_path$tool2)
-raw_data.tool3 = read_xlsx_sheets(raw_data_path$tool3)
+raw_data.tool2$data <- raw_data.tool2$data |> mutate(Sample_Type = "Public School")
+raw_data.tool3 = read_xlsx_sheets(raw_data_path$tool3) 
 # Need to be fixed by QA team in SCTO
-raw_data.tool3$data <- raw_data.tool3$data %>% select(-`E1__`)
+raw_data.tool3$data <- raw_data.tool3$data %>% select(-`E1__`) |> mutate(Sample_Type = "Public School")
 raw_data.tool4 = read_xlsx_sheets(raw_data_path$tool4)
+raw_data.tool4$data <- raw_data.tool4$data |> mutate(Sample_Type = "Public School")
 raw_data.tool5 = read_xlsx_sheets(raw_data_path$tool5)
+raw_data.tool5$data <- raw_data.tool5$data |> mutate(Sample_Type = "Public School")
 raw_data.tool6 = read_xlsx_sheets(raw_data_path$tool6)
 raw_data.tool7 = read_xlsx_sheets(raw_data_path$tool7)
 raw_data.tool8 = read_xlsx_sheets(raw_data_path$tool8)
+raw_data.tool8$data <- raw_data.tool8$data |> mutate(Sample_Type = "CBE")
 raw_data.tool9 = read_xlsx_sheets(raw_data_path$tool9)
+raw_data.tool9$data <- raw_data.tool9$data |> mutate(Sample_Type = "CBE")
 
 
 # read the kobo Tools
@@ -257,11 +263,11 @@ source("R/attach_labels.R")
 
 
 # re-code variables ------------------------------------------------------- PENDING - On-going
-# source("R/recoded_vars.R")
+source("R/recoded_vars.R")
 
 
 # Logical inconsistencies ------------------------------------------------- PENDING - On-going
-# source("R/logical_checks.R")
+source("R/logical_checks.R")
 
 
 # change 7777, 8888, 9999 to NA  ------------------------------------------ DONE - Confirm the numbers need to be NAed with QA team before running this part

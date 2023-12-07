@@ -111,7 +111,7 @@ sm_na_issues <- rbind(
     log_nas_in_sm(clean_data.tool1$Other_Shifts_Detail, extra_cols = meta_cols, tool.survey = kobo_tool.tool1$survey, tool.choices = kobo_tool.tool1$choices),
     log_nas_in_sm(clean_data.tool1$Headmasters, extra_cols = meta_cols, tool.survey = kobo_tool.tool1$survey, tool.choices = kobo_tool.tool1$choices)
   ) |>
-    mutate(tool = "Tool 1 - Headmaster", Sample_Type = "Public School"),
+    mutate(tool = "Tool 1 - Headmaster"),
   
   # Tool 2
   rbind(
@@ -120,32 +120,30 @@ sm_na_issues <- rbind(
     log_nas_in_sm(clean_data.tool2$Teachers_Pack_Group, extra_cols = meta_cols, tool.survey = kobo_tool.tool2$survey, tool.choices = kobo_tool.tool2$choices),
     log_nas_in_sm(clean_data.tool2$Students_Pack_Group, extra_cols = meta_cols, tool.survey = kobo_tool.tool2$survey, tool.choices = kobo_tool.tool2$choices)
   ) |> 
-    mutate(tool = "Tool 2 - Light", Sample_Type = "Public School"),
+    mutate(tool = "Tool 2 - Light"),
   
   # Tool 3
   log_nas_in_sm(clean_data.tool3$data, extra_cols = meta_cols, tool.survey = kobo_tool.tool3$survey, tool.choices = kobo_tool.tool3$choices) |> 
-    mutate(tool = "Tool 3 - Headcount", Sample_Type = "Public School"),
+    mutate(tool = "Tool 3 - Headcount"),
   
   # Tool 4
   rbind(
     log_nas_in_sm(clean_data.tool4$data, extra_cols = meta_cols, tool.survey = kobo_tool.tool4$survey, tool.choices = kobo_tool.tool4$choices),
     log_nas_in_sm(clean_data.tool4$Subjects_Not_Being_Taught, extra_cols = meta_cols, tool.survey = kobo_tool.tool4$survey, tool.choices = kobo_tool.tool4$choices)
   ) |> 
-    mutate(tool = "Tool 4 - Teacher", Sample_Type = "Public School"),
+    mutate(tool = "Tool 4 - Teacher"),
   
   # Tool 5
   log_nas_in_sm(clean_data.tool5$data, extra_cols = meta_cols, tool.survey = kobo_tool.tool5$survey, tool.choices = kobo_tool.tool5$choices) |> 
-    mutate(tool = "Tool 5 - WASH", Sample_Type = "Public School"),
+    mutate(tool = "Tool 5 - WASH"),
   
   # Tool 6
   log_nas_in_sm(clean_data.tool6$data, extra_cols = meta_cols, tool.survey = kobo_tool.tool6$survey, tool.choices = kobo_tool.tool6$choices) |> 
-    mutate(tool = "Tool 6 - Parent") |>
-    left_join(clean_data.tool6$data |> select(KEY, Sample_Type), by = "KEY"),
+    mutate(tool = "Tool 6 - Parent"),
   
   # Tool 7
   log_nas_in_sm(clean_data.tool7$data, extra_cols = meta_cols, tool.survey = kobo_tool.tool7$survey, tool.choices = kobo_tool.tool7$choices) |> 
-    mutate(tool = "Tool 7 - Shura") |>
-    left_join(clean_data.tool7$data |> select(KEY, Sample_Type), by = "KEY"),
+    mutate(tool = "Tool 7 - Shura"),
   
   # Tool 8
   rbind(
@@ -155,11 +153,11 @@ sm_na_issues <- rbind(
     log_nas_in_sm(clean_data.tool8$Teacher_Kit, extra_cols = meta_cols, tool.survey = kobo_tool.tool8$survey, tool.choices = kobo_tool.tool8$choices),
     log_nas_in_sm(clean_data.tool8$Student_Kit, extra_cols = meta_cols, tool.survey = kobo_tool.tool8$survey, tool.choices = kobo_tool.tool8$choices)
   ) |> 
-    mutate(tool = "Tool 8 - Class", Sample_Type = "CBE"),
+    mutate(tool = "Tool 8 - Class"),
   
   # Tool 9
   log_nas_in_sm(clean_data.tool9$data, extra_cols = meta_cols, tool.survey = kobo_tool.tool9$survey, tool.choices = kobo_tool.tool9$choices) |> 
-    mutate(tool = "Tool 9 - IP", Sample_Type = "CBE")
+    mutate(tool = "Tool 9 - IP")
 )
 
 # removing extra elements from the environment

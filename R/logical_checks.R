@@ -15,6 +15,26 @@ other_shifts <- clean_data.tool1$Other_Shifts_Detail |>
   unique()
   
 lc_tool1 <- rbind(
+  # Flagging interview conducted before the first day of data collection
+  clean_data.tool1$data |>
+    filter(starttime < janitor::convert_to_date(data_collection_start_date_ps)) |> 
+    mutate(
+      Issue = "The interview is conducted before first day of data collection!",
+      Question = "starttime",
+      Old_value = starttime,
+      Related_question = "data_collection_start_date_ps",
+      Related_value = as.character(janitor::convert_to_date(data_collection_start_date_ps))
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
   # Flagging duplicated site visit ID
   clean_data.tool1$data |>
     filter(duplicated(Site_Visit_ID, fromLast = T) | duplicated(Site_Visit_ID, fromLast = F)) |> 
@@ -55,30 +75,30 @@ lc_tool1 <- rbind(
       Issue
     ),
   
-  # flagging inconsistent answers in A30 and C8
-  clean_data.tool1$data |>
-    filter(
-      (A30 == "Yes, fully converted to Islamic studies" & C8 != "Yes, fully converted to Islamic studies") |
-      (A30 == "Yes, partially converted to Islamic studies" & C8 != "Yes, partially converted to Islamic studies") |
-      (A30 != "Yes, fully converted to Islamic studies" & C8 == "Yes, fully converted to Islamic studies") |
-      (A30 != "Yes, partially converted to Islamic studies" & C8 == "Yes, partially converted to Islamic studies")
-  ) |> 
-    mutate(
-      Issue = "The answer to A30 and C8 is inconsistent!",
-      Question = "A30",
-      Old_value = A30,
-      Related_question = "C8",
-      Related_value = C8
-    ) |> 
-    select(
-      all_of(meta_cols),
-      Question,
-      Old_value,
-      Related_question,
-      Related_value,
-      KEY,
-      Issue
-    ),
+  # # flagging inconsistent answers in A30 and C8
+  # clean_data.tool1$data |>
+  #   filter(
+  #     (A30 == "Yes, fully converted to Islamic studies" & C8 != "Yes, fully converted to Islamic studies") |
+  #     (A30 == "Yes, partially converted to Islamic studies" & C8 != "Yes, partially converted to Islamic studies") |
+  #     (A30 != "Yes, fully converted to Islamic studies" & C8 == "Yes, fully converted to Islamic studies") |
+  #     (A30 != "Yes, partially converted to Islamic studies" & C8 == "Yes, partially converted to Islamic studies")
+  # ) |> 
+  #   mutate(
+  #     Issue = "The answer to A30 and C8 is inconsistent!",
+  #     Question = "A30",
+  #     Old_value = A30,
+  #     Related_question = "C8",
+  #     Related_value = C8
+  #   ) |> 
+  #   select(
+  #     all_of(meta_cols),
+  #     Question,
+  #     Old_value,
+  #     Related_question,
+  #     Related_value,
+  #     KEY,
+  #     Issue
+  #   ),
  
   # Flagging if the school is closed due to WASH issues or lack of building but at the same time it is used as clinic, hospital or for MoE programs
   clean_data.tool1$data |>
@@ -515,8 +535,73 @@ lc_tool1 <- rbind(
       Related_value,
       KEY,
       Issue
+    )
+  
+) |> mutate(tool = "Tool 1 - Headmaster", sheet = "data")
+
+
+lc_tool1.school_operationality <- rbind(
+  # Flagging if It is reported that Grade's classes are running for both Girls and Boys which is differed with Sampling information.
+  clean_data.tool1$School_Operationality |>
+    filter(C13A2 == "Both" & School_CBE_Gender_Based_On_The_Sample != "Mixed") |>
+    mutate(
+      Issue = paste0("It is reported that ", Grade_Name_Eng, "'s classes are running for both Girls and Boys which is differed with Sampling information."),
+      Question = "C13A2",
+      Old_value = C13A2,
+      Related_question = "School_CBE_Gender_Based_On_The_Sample",
+      Related_value = School_CBE_Gender_Based_On_The_Sample
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
     ),
-) |> mutate(tool = "Tool 1", sheet = "data")
+  
+  # Flagging if It is reported that Grade's classes are running only for Boys which is differed with Sampling information.
+  clean_data.tool1$School_Operationality |>
+    filter(C13A2 == "Boys" & School_CBE_Gender_Based_On_The_Sample %in% c("Mixed", "Girls")) |>
+    mutate(
+      Issue = paste0("It is reported that ", Grade_Name_Eng, "'s classes are running only for Boys which is differed with Sampling information."),
+      Question = "C13A2",
+      Old_value = C13A2,
+      Related_question = "School_CBE_Gender_Based_On_The_Sample",
+      Related_value = School_CBE_Gender_Based_On_The_Sample
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  # Flagging if It is reported that Grade's classes are running only for Girls which is differed with Sampling information.
+  clean_data.tool1$School_Operationality |>
+    filter(C13A2 == "Girls" & School_CBE_Gender_Based_On_The_Sample %in% c("Mixed", "Boys")) |>
+    mutate(
+      Issue = paste0("It is reported that ", Grade_Name_Eng, "'s classes are running only for Girls which is differed with Sampling information."),
+      Question = "C13A2",
+      Old_value = C13A2,
+      Related_question = "School_CBE_Gender_Based_On_The_Sample",
+      Related_value = School_CBE_Gender_Based_On_The_Sample
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    )
+  
+) |> mutate(tool = "Tool 1 - Headmaster", sheet = "School_Operationality")
 
 
 lc_tool1.school_operationality_other <- rbind(
@@ -578,13 +663,33 @@ lc_tool1.school_operationality_other <- rbind(
       Related_value,
       KEY,
       Issue
-    ),
+    )
   
-) |> mutate(tool = "Tool 1", sheet = "School_Operationality_Other_...")
+) |> mutate(tool = "Tool 1 - Headmaster", sheet = "School_Operationality_Other_...")
 
 
 # Logging issues in Tool 2 ------------------------------------------------
 lc_tool2 <- rbind(
+  # Flagging interview conducted before the first day of data collection
+  clean_data.tool2$data |>
+    filter(starttime < janitor::convert_to_date(data_collection_start_date_ps)) |> 
+    mutate(
+      Issue = "The interview is conducted before first day of data collection!",
+      Question = "starttime",
+      Old_value = starttime,
+      Related_question = "data_collection_start_date_ps",
+      Related_value = as.character(janitor::convert_to_date(data_collection_start_date_ps))
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
   # Flagging duplicated site visit ID
   clean_data.tool2$data |>
     filter(duplicated(Site_Visit_ID, fromLast = T) | duplicated(Site_Visit_ID, fromLast = F)) |> 
@@ -691,33 +796,34 @@ lc_tool2 <- rbind(
     ),
   
   # flagging if any of the choices of C7 is selected in tool 1 but not in tool 2 or vice versa
-  clean_data.tool2$data |>
-    distinct(Site_Visit_ID, .keep_all = T) |> 
-    left_join(
-      clean_data.tool1$data |>
-        select(starts_with("B6"), Site_Visit_ID),
-      by = "Site_Visit_ID"
-    ) |> 
-    filter(
-      C7_1 != B6_1 | C7_2 != B6_2 | C7_3 != B6_3 | C7_4 != B6_4 | C7_5 != B6_5 | C7_6 != B6_6 | C7_7 != B6_7 | C7_8 != B6_8 | C7_9!= B6_9 |
-        C7_10 != B6_10 | C7_11 != B6_11 | C7_12 != B6_12 | C7_12 != B6_12 | C7_13 != B6_13 | C7_14 != B6_14 | C7_15 != B6_15
-    ) |> 
-    mutate(
-      Issue = "Same response to 'Can you tell me why this school is closed?' across tool 1 and tool 2 is inconsistent!",
-      Question = "C7",
-      Old_value = C7,
-      Related_question = "B6",
-      Related_value = B6
-    ) |> 
-    select(
-      all_of(meta_cols),
-      Question,
-      Old_value,
-      Related_question,
-      Related_value,
-      KEY,
-      Issue
-    ),
+  # Omitted
+  # clean_data.tool2$data |>
+  #   distinct(Site_Visit_ID, .keep_all = T) |> 
+  #   left_join(
+  #     clean_data.tool1$data |>
+  #       select(starts_with("B6"), Site_Visit_ID),
+  #     by = "Site_Visit_ID"
+  #   ) |> 
+  #   filter(
+  #     C7_1 != B6_1 | C7_2 != B6_2 | C7_3 != B6_3 | C7_4 != B6_4 | C7_5 != B6_5 | C7_6 != B6_6 | C7_7 != B6_7 | C7_8 != B6_8 | C7_9!= B6_9 |
+  #       C7_10 != B6_10 | C7_11 != B6_11 | C7_12 != B6_12 | C7_12 != B6_12 | C7_13 != B6_13 | C7_14 != B6_14 | C7_15 != B6_15
+  #   ) |> 
+  #   mutate(
+  #     Issue = "Same response to 'Can you tell me why this school is closed?' across tool 1 and tool 2 is inconsistent!",
+  #     Question = "C7",
+  #     Old_value = C7,
+  #     Related_question = "B6",
+  #     Related_value = B6
+  #   ) |> 
+  #   select(
+  #     all_of(meta_cols),
+  #     Question,
+  #     Old_value,
+  #     Related_question,
+  #     Related_value,
+  #     KEY,
+  #     Issue
+  #   ),
   
   # flagging if the answer to 'What is the school building being used for?' is inconsistent across tool 1 and tool 2
   clean_data.tool2$data |>
@@ -769,78 +875,100 @@ lc_tool2 <- rbind(
       Related_value,
       KEY,
       Issue
-    ),
-  
-  # flagging if the answer to 'Where are male children and adults going for schooling since the school was closed?' is inconsistent across tool 1 and tool 2
-  clean_data.tool2$data |>
-    distinct(Site_Visit_ID, .keep_all = T) |> 
-    left_join(
-      clean_data.tool1$data |>
-        select(starts_with("B9"), Site_Visit_ID),
-      by = "Site_Visit_ID"
-    ) |> 
-    filter(
-      C11_1 != B9_1 |
-        C11_2 != B9_2 |
-        C11_3 != B9_3 |
-        C11_4 != B9_4 |
-        C11_5 != B9_5 |
-        C11_6 != B9_6
-    ) |> 
-    mutate(
-      Issue = "The answer to this question is inconsistent across tool 1 and tool 2!",
-      Question = "C11",
-      Old_value = C11,
-      Related_question = "B9",
-      Related_value = B9
-    ) |> 
-    select(
-      all_of(meta_cols),
-      Question,
-      Old_value,
-      Related_question,
-      Related_value,
-      KEY,
-      Issue
-    ),
-  
-  # flagging if the answer to 'Where are female children and adults going for schooling since the school was closed?' is inconsistent across tool 1 and tool 2
-  clean_data.tool2$data |>
-    distinct(Site_Visit_ID, .keep_all = T) |> 
-    left_join(
-      clean_data.tool1$data |>
-        select(starts_with("B10"), Site_Visit_ID),
-      by = "Site_Visit_ID"
-    ) |> 
-    filter(
-      C12_1 != B10_1 |
-      C12_2 != B10_2 |
-      C12_3 != B10_3 |
-      C12_4 != B10_4 |
-      C12_5 != B10_5 |
-      C12_6 != B10_6
-      ) |> 
-    mutate(
-      Issue = "The answer to this question is inconsistent across tool 1 and tool 2!",
-      Question = "C12",
-      Old_value = C12,
-      Related_question = "B10",
-      Related_value = B10
-    ) |> 
-    select(
-      all_of(meta_cols),
-      Question,
-      Old_value,
-      Related_question,
-      Related_value,
-      KEY,
-      Issue
     )
   
-)|> mutate(tool = "Tool 2")
+  # flagging if the answer to 'Where are male children and adults going for schooling since the school was closed?' is inconsistent across tool 1 and tool 2
+  # Omitted
+  # clean_data.tool2$data |>
+  #   distinct(Site_Visit_ID, .keep_all = T) |> 
+  #   left_join(
+  #     clean_data.tool1$data |>
+  #       select(starts_with("B9"), Site_Visit_ID),
+  #     by = "Site_Visit_ID"
+  #   ) |> 
+  #   filter(
+  #     C11_1 != B9_1 |
+  #       C11_2 != B9_2 |
+  #       C11_3 != B9_3 |
+  #       C11_4 != B9_4 |
+  #       C11_5 != B9_5 |
+  #       C11_6 != B9_6
+  #   ) |> 
+  #   mutate(
+  #     Issue = "The answer to this question is inconsistent across tool 1 and tool 2!",
+  #     Question = "C11",
+  #     Old_value = C11,
+  #     Related_question = "B9",
+  #     Related_value = B9
+  #   ) |> 
+  #   select(
+  #     all_of(meta_cols),
+  #     Question,
+  #     Old_value,
+  #     Related_question,
+  #     Related_value,
+  #     KEY,
+  #     Issue
+  #   ),
+  
+  # flagging if the answer to 'Where are female children and adults going for schooling since the school was closed?' is inconsistent across tool 1 and tool 2
+  # Omitted
+  # clean_data.tool2$data |>
+  #   distinct(Site_Visit_ID, .keep_all = T) |> 
+  #   left_join(
+  #     clean_data.tool1$data |>
+  #       select(starts_with("B10"), Site_Visit_ID),
+  #     by = "Site_Visit_ID"
+  #   ) |> 
+  #   filter(
+  #     C12_1 != B10_1 |
+  #     C12_2 != B10_2 |
+  #     C12_3 != B10_3 |
+  #     C12_4 != B10_4 |
+  #     C12_5 != B10_5 |
+  #     C12_6 != B10_6
+  #     ) |> 
+  #   mutate(
+  #     Issue = "The answer to this question is inconsistent across tool 1 and tool 2!",
+  #     Question = "C12",
+  #     Old_value = C12,
+  #     Related_question = "B10",
+  #     Related_value = B10
+  #   ) |> 
+  #   select(
+  #     all_of(meta_cols),
+  #     Question,
+  #     Old_value,
+  #     Related_question,
+  #     Related_value,
+  #     KEY,
+  #     Issue
+  #   )
+  ) |> 
+  mutate(tool = "Tool 2 - Light", sheet = "data")
 
 # Logging issues in Tool 3 ------------------------------------------------
 lc_tool3 <- rbind(
+  # Flagging interview conducted before the first day of data collection
+  clean_data.tool3$data |>
+    filter(starttime < janitor::convert_to_date(data_collection_start_date_ps)) |> 
+    mutate(
+      Issue = "The interview is conducted before first day of data collection!",
+      Question = "starttime",
+      Old_value = starttime,
+      Related_question = "data_collection_start_date_ps",
+      Related_value = as.character(janitor::convert_to_date(data_collection_start_date_ps))
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
   # Flagging duplicated site visit ID
   clean_data.tool3$data |>
     filter(duplicated(Site_Visit_ID, fromLast = T) | duplicated(Site_Visit_ID, fromLast = F)) |> 
@@ -849,7 +977,8 @@ lc_tool3 <- rbind(
       Question = "Site_Visit_ID",
       Old_value = Site_Visit_ID,
       Related_question = "",
-      Related_value = ""
+      Related_value = "",
+      sheet = "data"
     ) |> 
     select(
       all_of(meta_cols),
@@ -858,7 +987,8 @@ lc_tool3 <- rbind(
       Related_question,
       Related_value,
       KEY,
-      Issue
+      Issue,
+      sheet
     ),
   
   # flagging if the answer to 'Is the school Islamic education school?' is inconsistent across tool 1 and tool 3
@@ -879,7 +1009,8 @@ lc_tool3 <- rbind(
       Question = "B6",
       Old_value = B6,
       Related_question = "A30.tool1",
-      Related_value = A30.tool1
+      Related_value = A30.tool1,
+      sheet = "data"
     ) |> 
     select(
       all_of(meta_cols),
@@ -888,7 +1019,8 @@ lc_tool3 <- rbind(
       Related_question,
       Related_value,
       KEY,
-      Issue
+      Issue,
+      sheet
     ),
   
   # flagging if the answer to 'If yes, what type of Islamic school is it?' is inconsistent across tool 1 and tool 3
@@ -905,7 +1037,8 @@ lc_tool3 <- rbind(
       Question = "B7",
       Old_value = B7,
       Related_question = "A31.tool1",
-      Related_value = A31.tool1
+      Related_value = A31.tool1,
+      sheet = "data"
     ) |> 
     select(
       all_of(meta_cols),
@@ -914,7 +1047,8 @@ lc_tool3 <- rbind(
       Related_question,
       Related_value,
       KEY,
-      Issue
+      Issue,
+      sheet
     ),
   
   # flagging if the answer to 'School type' is inconsistent across tool 1 and tool 3
@@ -936,7 +1070,8 @@ lc_tool3 <- rbind(
       Question = "School_Type_SV",
       Old_value = School_Type_SV,
       Related_question = "School_Type_SV.tool1",
-      Related_value = School_Type_SV.tool1
+      Related_value = School_Type_SV.tool1,
+      sheet = "data"
     ) |> 
     select(
       all_of(meta_cols),
@@ -945,7 +1080,8 @@ lc_tool3 <- rbind(
       Related_question,
       Related_value,
       KEY,
-      Issue
+      Issue,
+      sheet
     ),
   
   # flagging if the selected date in D2 is equal to survey date but no is selected in D3
@@ -956,7 +1092,8 @@ lc_tool3 <- rbind(
       Question = "D2",
       Old_value = D2,
       Related_question = "D3",
-      Related_value = D3
+      Related_value = D3,
+      sheet = "Todays_Attendance_Detail"
     ) |> 
     select(
       all_of(meta_cols),
@@ -965,18 +1102,20 @@ lc_tool3 <- rbind(
       Related_question,
       Related_value,
       KEY,
-      Issue
+      Issue,
+      sheet
     ),
   
   # flagging if the selected date in D2 is not equal to survey date but yes is selected in D3
   clean_data.tool3$Todays_Attendance_Detail |>
-    filter(D2 != format.Date(starttime, "%Y-%m-%d") & D3 == "Yes") |> 
+    filter(D1 == "Yes" & D2 != format.Date(starttime, "%Y-%m-%d") & D3 == "Yes") |> 
     mutate(
-      Issue = "The date in D2 is not equal to survey date, but in D3 'Yes' is selected!",
+      Issue = "The date in D2 is not equal to survey date, but in D3(confirmed D2 is equal to the day of interview) 'Yes' is selected!",
       Question = "D2",
-      Old_value = D2,
+      Old_value = as.character(D2),
       Related_question = "D3",
-      Related_value = D3
+      Related_value = D3,
+      sheet = "Todays_Attendance_Detail"
     ) |> 
     select(
       all_of(meta_cols),
@@ -985,18 +1124,20 @@ lc_tool3 <- rbind(
       Related_question,
       Related_value,
       KEY,
-      Issue
+      Issue,
+      sheet
     ),
   
   # flagging if the selected date in D2 is in future
   clean_data.tool3$Todays_Attendance_Detail |>
     filter(D2 > format.Date(starttime, "%Y-%m-%d")) |>
     mutate(
-      Issue = "The date in D2 is in future!",
+      Issue = "The date in D2 is in the future!",
       Question = "D2",
-      Old_value = D2,
+      Old_value = as.character(D2),
       Related_question = "",
-      Related_value = ""
+      Related_value = "", 
+      sheet = "Todays_Attendance_Detail"
     ) |> 
     select(
       all_of(meta_cols),
@@ -1005,7 +1146,8 @@ lc_tool3 <- rbind(
       Related_question,
       Related_value,
       KEY,
-      Issue
+      Issue,
+      sheet
     ),
   
   # flagging if the recorded date in D5 is greater than today
@@ -1014,9 +1156,10 @@ lc_tool3 <- rbind(
     mutate(
       Issue = "The date in D5 is in future!",
       Question = "D5",
-      Old_value = D5,
+      Old_value = as.character(D5),
       Related_question = "",
-      Related_value = ""
+      Related_value = "",
+      sheet = "LastWeek_Attendance_Detail"
     ) |> 
     select(
       all_of(meta_cols),
@@ -1025,7 +1168,8 @@ lc_tool3 <- rbind(
       Related_question,
       Related_value,
       KEY,
-      Issue
+      Issue,
+      sheet
     ),
   
   # flagging if school is type male but females are among the students
@@ -1041,7 +1185,8 @@ lc_tool3 <- rbind(
       Question = "E3A2",
       Old_value = E3A2,
       Related_question = "School_CBE_Gender_Based_On_The_Sample",
-      Related_value = School_CBE_Gender_Based_On_The_Sample
+      Related_value = School_CBE_Gender_Based_On_The_Sample,
+      sheet = "Student_Headcount"
     ) |> 
     select(
       all_of(meta_cols),
@@ -1050,7 +1195,8 @@ lc_tool3 <- rbind(
       Related_question,
       Related_value,
       KEY,
-      Issue
+      Issue,
+      sheet
     ),
   
   # flagging if school is type male but females are among the students
@@ -1066,7 +1212,8 @@ lc_tool3 <- rbind(
       Question = "E5_Female",
       Old_value = E5_Female,
       Related_question = "School_CBE_Gender_Based_On_The_Sample",
-      Related_value = School_CBE_Gender_Based_On_The_Sample
+      Related_value = School_CBE_Gender_Based_On_The_Sample,
+      sheet = "Student_Headcount"
     ) |> 
     select(
       all_of(meta_cols),
@@ -1075,7 +1222,8 @@ lc_tool3 <- rbind(
       Related_question,
       Related_value,
       KEY,
-      Issue
+      Issue,
+      sheet
     ),
   
   # flagging if school is type female but males are among the students
@@ -1091,7 +1239,8 @@ lc_tool3 <- rbind(
       Question = "E3A1",
       Old_value = E3A1,
       Related_question = "School_CBE_Gender_Based_On_The_Sample",
-      Related_value = School_CBE_Gender_Based_On_The_Sample
+      Related_value = School_CBE_Gender_Based_On_The_Sample,
+      sheet = "Student_Headcount"
     ) |> 
     select(
       all_of(meta_cols),
@@ -1100,7 +1249,8 @@ lc_tool3 <- rbind(
       Related_question,
       Related_value,
       KEY,
-      Issue
+      Issue,
+      sheet
     ),
   
   # flagging if school is type female but males are among the students
@@ -1116,7 +1266,8 @@ lc_tool3 <- rbind(
       Question = "E5_Male",
       Old_value = E5_Male,
       Related_question = "School_CBE_Gender_Based_On_The_Sample",
-      Related_value = School_CBE_Gender_Based_On_The_Sample
+      Related_value = School_CBE_Gender_Based_On_The_Sample,
+      sheet = "Student_Headcount"
     ) |> 
     select(
       all_of(meta_cols),
@@ -1125,83 +1276,48 @@ lc_tool3 <- rbind(
       Related_question,
       Related_value,
       KEY,
-      Issue
+      Issue,
+      sheet
     )
-  
-)|> mutate(tool = "Tool 3")
+  ) |> 
+  mutate(tool = "Tool 3 - Headcount")
 
 
 # Logging issues in Tool 4 ------------------------------------------------
 lc_tool4 <- rbind(
-  # Flagging duplicated site visit ID
+  # Flagging interview conducted before the first day of data collection
   clean_data.tool4$data |>
-    filter(duplicated(Site_Visit_ID, fromLast = T) | duplicated(Site_Visit_ID, fromLast = F)) |> 
+    filter(starttime < janitor::convert_to_date(data_collection_start_date_ps)) |> 
     mutate(
-      Issue = "The site visit ID is duplicated!",
+      Issue = "The interview is conducted before first day of data collection!",
+      Question = "starttime",
+      Old_value = as.character(starttime),
+      Related_question = "data_collection_start_date_ps",
+      Related_value = as.character(janitor::convert_to_date(data_collection_start_date_ps))
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  # Flagging more or less than 3 sites visit ID
+  clean_data.tool4$data |>
+    group_by(Site_Visit_ID, Region, Province, District, Area_Type, Sample_Type) |>
+    summarise(n_site_visit_ids = n()) |>
+    filter(n_site_visit_ids != 3) |> 
+    mutate(
+      Issue = "The site visit ID is either less or more than 3!",
       Question = "Site_Visit_ID",
       Old_value = Site_Visit_ID,
-      Related_question = "",
-      Related_value = ""
-    ) |> 
-    select(
-      all_of(meta_cols),
-      Question,
-      Old_value,
-      Related_question,
-      Related_value,
-      KEY,
-      Issue
-    ),
-  
-  # Flagging if the grades selected in D8 but reported nonoperational in C13A1 of tool 1
-  clean_data.tool4$data |> 
-    select(all_of(meta_cols), starts_with("D8"), -D8, KEY) |> 
-    pivot_longer(cols = D8_1:D8_12, names_to = "grade") |> 
-    filter(value == 1) |> 
-    mutate(
-      grade = str_extract(grade, "(?<=_)\\d+"),
-      Grade_ID = paste0(Site_Visit_ID, "-", grade)
-    ) |> 
-    select(-value) |> 
-    left_join(
-      clean_data.tool1$School_Operationality |> 
-        filter(Grade_ID != "" & !(duplicated(Grade_ID, fromLast = T) | duplicated(Grade_ID, fromLast = F))) |> 
-        select(Grade_ID, C13A1),
-      by = "Grade_ID"
-    ) |> 
-    filter(C13A1 == "No") |> 
-    mutate(
-      Issue = "The selected grade in D8 is non-operational in question C13A1 of tool 1!",
-      Question = "D8",
-      Old_value = grade,
-      Related_question = "C13A1.tool1",
-      Related_value = C13A1
-    ) |> 
-    select(
-      all_of(meta_cols),
-      Question,
-      Old_value,
-      Related_question,
-      Related_value,
-      KEY,
-      Issue
-    ),
-  
-  # Flagging if the changes in girls enrollment is inconsistent in comparison to tool 1
-  clean_data.tool4$data |>
-    left_join(
-      clean_data.tool1$data |> 
-        distinct(Site_Visit_ID, .keep_all = T) |> 
-        select(E1.tool1 = E1, Site_Visit_ID),
-      by = "Site_Visit_ID"
-    ) |> 
-    filter(E1 != E1.tool1) |> 
-    mutate(
-      Issue = "The changes in girls enrollment is inconsistent in comparison to tool 1!",
-      Question = "E1",
-      Old_value = E1,
-      Related_question = "E1.tool1",
-      Related_value = E1.tool1
+      Related_question = "n_site_visit_ids",
+      Related_value = as.character(n_site_visit_ids),
+      starttime = NA_POSIXct_,
+      KEY = ""
     ) |> 
     select(
       all_of(meta_cols),
@@ -1212,11 +1328,76 @@ lc_tool4 <- rbind(
       KEY,
       Issue
     )
-)|> mutate(tool = "Tool 4")
+  
+  # Flagging if the grades selected in D8 but reported nonoperational in C13A1 of tool 1
+  # TS : CHECK not working, revision needed
+  # clean_data.tool4$data |> 
+  #   select(all_of(meta_cols), starts_with("D8"), -D8, KEY) |> 
+  #   pivot_longer(cols = D8_1:D8_12, names_to = "grade") |> 
+  #   filter(value == 1) |> 
+  #   mutate(
+  #     grade = str_extract(grade, "(?<=_)\\d+"),
+  #     Grade_ID = paste0(Site_Visit_ID, "-", grade)
+  #   ) |> 
+  #   select(-value) |> 
+  #   left_join(
+  #     clean_data.tool1$School_Operationality |> 
+  #       filter(Grade_ID != "" & !(duplicated(Grade_ID, fromLast = T) | duplicated(Grade_ID, fromLast = F))) |> 
+  #       select(Grade_ID, C13A1),
+  #     by = "Grade_ID"
+  #   ) |> 
+  #   filter(C13A1 == "No") |> 
+  #   mutate(
+  #     Issue = "The selected grade in D8 is non-operational in question C13A1 of tool 1!",
+  #     Question = "D8",
+  #     Old_value = grade,
+  #     Related_question = "C13A1.tool1",
+  #     Related_value = C13A1
+  #   ) |> 
+  #   select(
+  #     all_of(meta_cols),
+  #     Question,
+  #     Old_value,
+  #     Related_question,
+  #     Related_value,
+  #     KEY,
+  #     Issue
+  #   ),
+  
+  # Flagging if the changes in girls enrollment is inconsistent in comparison to tool 1
+  # TS : Omitted for now
+  # clean_data.tool4$data |>
+  #   left_join(
+  #     clean_data.tool1$data |> 
+  #       distinct(Site_Visit_ID, .keep_all = T) |> 
+  #       select(E1.tool1 = E1, Site_Visit_ID),
+  #     by = "Site_Visit_ID"
+  #   ) |> 
+  #   filter(E1 != E1.tool1) |> 
+  #   mutate(
+  #     Issue = "The changes in girls enrollment is inconsistent in comparison to tool 1!",
+  #     Question = "E1",
+  #     Old_value = E1,
+  #     Related_question = "E1.tool1",
+  #     Related_value = E1.tool1
+  #   ) |> 
+  #   select(
+  #     all_of(meta_cols),
+  #     Question,
+  #     Old_value,
+  #     Related_question,
+  #     Related_value,
+  #     KEY,
+  #     Issue
+  #   )
+) |> 
+  mutate(tool = "Tool 4 - Teacher", sheet = "data")
 
 
 Logic_check_result <- bind_rows(
   lc_tool1,
+  lc_tool1.school_operationality,
+  lc_tool1.school_operationality_other,
   lc_tool2,
   lc_tool3,
   lc_tool4
