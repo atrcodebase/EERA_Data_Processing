@@ -230,6 +230,9 @@ source("R/create_translation_log.R")
 source("R/missing_qa.R")
 
 
+# fixing select multiple variables ---------------------------------------- Pending
+
+
 # Check select multiple variables ----------------------------------------- DONE
 source("R/check_select_multiple_questions.R")
 

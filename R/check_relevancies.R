@@ -15,81 +15,81 @@ clean_data.tool9_joined <- clean_data.tool9
 
 # joining DFs to be able to check the relevancy failure in child s -------------
 # Tool 1
-clean_data.tool1_joined$Support_Respondents <- join_dfs(clean_data.tool1$Support_Respondents, clean_data.tool1$data)
-clean_data.tool1_joined$School_Operationality <- join_dfs(clean_data.tool1$School_Operationality, clean_data.tool1$data)
-clean_data.tool1_joined$School_Operationality_Other_... <- join_dfs(clean_data.tool1$School_Operationality_Other_..., clean_data.tool1$data)
+clean_data.tool1_joined$Support_Respondents <- join_dfs(clean_data.tool1$Support_Respondents, clean_data.tool1$data |> select(!any_of(meta_cols)))
+clean_data.tool1_joined$School_Operationality <- join_dfs(clean_data.tool1$School_Operationality, clean_data.tool1$data |> select(!any_of(meta_cols)))
+clean_data.tool1_joined$School_Operationality_Other_... <- join_dfs(clean_data.tool1$School_Operationality_Other_..., clean_data.tool1$data |> select(!any_of(meta_cols)))
 clean_data.tool1_joined$Shifts_Detail <- join_dfs(clean_data.tool1$Shifts_Detail, clean_data.tool1$data)
-clean_data.tool1_joined$Other_Shifts_Detail <- join_dfs(clean_data.tool1$Other_Shifts_Detail, clean_data.tool1$data)
-clean_data.tool1_joined$Headmasters <- join_dfs(clean_data.tool1$Headmasters, clean_data.tool1$data)
-clean_data.tool1_joined$Curriculum_Changes <- join_dfs(clean_data.tool1$Curriculum_Changes, clean_data.tool1$data)
-clean_data.tool1_joined$Weekly_Class_Schedule <- join_dfs(clean_data.tool1$Weekly_Class_Schedule, clean_data.tool1$data)
-clean_data.tool1_joined$Grades_Curriculum <- join_dfs(clean_data.tool1$Grades_Curriculum, clean_data.tool1$data)
-clean_data.tool1_joined$Subjects_Detail <- join_dfs(clean_data.tool1$Subjects_Detail, clean_data.tool1$data)
-clean_data.tool1_joined$Education_Quality <- join_dfs(clean_data.tool1$Education_Quality, clean_data.tool1$data)
-clean_data.tool1_joined$Relevant_photos <- join_dfs(clean_data.tool1$Relevant_photos, clean_data.tool1$data)
+clean_data.tool1_joined$Other_Shifts_Detail <- join_dfs(clean_data.tool1$Other_Shifts_Detail, clean_data.tool1$data |> select(!any_of(meta_cols)))
+clean_data.tool1_joined$Headmasters <- join_dfs(clean_data.tool1$Headmasters, clean_data.tool1$data |> select(!any_of(meta_cols)))
+clean_data.tool1_joined$Curriculum_Changes <- join_dfs(clean_data.tool1$Curriculum_Changes, clean_data.tool1$data |> select(!any_of(meta_cols)))
+clean_data.tool1_joined$Weekly_Class_Schedule <- join_dfs(clean_data.tool1$Weekly_Class_Schedule, clean_data.tool1$data |> select(!any_of(meta_cols)))
+clean_data.tool1_joined$Grades_Curriculum <- join_dfs(clean_data.tool1$Grades_Curriculum, clean_data.tool1$data |> select(!any_of(meta_cols)))
+clean_data.tool1_joined$Subjects_Detail <- join_dfs(clean_data.tool1$Subjects_Detail, clean_data.tool1$data) |> select(!any_of(meta_cols))
+clean_data.tool1_joined$Education_Quality <- join_dfs(clean_data.tool1$Education_Quality, clean_data.tool1$data |> select(!any_of(meta_cols)))
+clean_data.tool1_joined$Relevant_photos <- join_dfs(clean_data.tool1$Relevant_photos, clean_data.tool1$data |> select(!any_of(meta_cols)))
 
 
 # Tool 2
-clean_data.tool2_joined$Support_Respondents<- join_dfs(clean_data.tool2$Support_Respondents, clean_data.tool2$data)
-clean_data.tool2_joined$Attendance_Sheet_Photos<- join_dfs(clean_data.tool2$Attendance_Sheet_Photos, clean_data.tool2$data)
-clean_data.tool2_joined$Public_Stationary_Kit_Group<- join_dfs(clean_data.tool2$Public_Stationary_Kit_Group, clean_data.tool2$data)
-clean_data.tool2_joined$Teachers_Pack_Group<- join_dfs(clean_data.tool2$Teachers_Pack_Group, clean_data.tool2$data)
-clean_data.tool2_joined$Students_Pack_Group<- join_dfs(clean_data.tool2$Students_Pack_Group, clean_data.tool2$data)
-clean_data.tool2_joined$Relevant_photos<- join_dfs(clean_data.tool2$Relevant_photos, clean_data.tool2$data)
+clean_data.tool2_joined$Support_Respondents<- join_dfs(clean_data.tool2$Support_Respondents, clean_data.tool2$data |> select(!any_of(meta_cols)))
+clean_data.tool2_joined$Attendance_Sheet_Photos<- join_dfs(clean_data.tool2$Attendance_Sheet_Photos, clean_data.tool2$data) |> select(!any_of(meta_cols))
+clean_data.tool2_joined$Public_Stationary_Kit_Group<- join_dfs(clean_data.tool2$Public_Stationary_Kit_Group, clean_data.tool2$data |> select(!any_of(meta_cols)))
+clean_data.tool2_joined$Teachers_Pack_Group<- join_dfs(clean_data.tool2$Teachers_Pack_Group, clean_data.tool2$data |> select(!any_of(meta_cols)))
+clean_data.tool2_joined$Students_Pack_Group<- join_dfs(clean_data.tool2$Students_Pack_Group, clean_data.tool2$data |> select(!any_of(meta_cols)))
+clean_data.tool2_joined$Relevant_photos<- join_dfs(clean_data.tool2$Relevant_photos, clean_data.tool2$data |> select(!any_of(meta_cols)))
 
 
 # Tool 3
-clean_data.tool3_joined$Support_Respondents <- join_dfs(clean_data.tool3$Support_Respondents, clean_data.tool3$data)
-clean_data.tool3_joined$Enrollement_Attendance_Summary <- join_dfs(clean_data.tool3$Enrollement_Attendance_Summary, clean_data.tool3$data)
-clean_data.tool3_joined$Grade_Details <- join_dfs(clean_data.tool3$Grade_Details, clean_data.tool3$data)
-clean_data.tool3_joined$Todays_Attendance_Detail <- join_dfs(clean_data.tool3$Todays_Attendance_Detail, clean_data.tool3$data)
-clean_data.tool3_joined$LastWeek_Attendance_Detail <- join_dfs(clean_data.tool3$LastWeek_Attendance_Detail, clean_data.tool3$data)
-clean_data.tool3_joined$Student_Headcount <- join_dfs(clean_data.tool3$Student_Headcount, clean_data.tool3$data)
-clean_data.tool3_joined$Relevant_photos <- join_dfs(clean_data.tool3$Relevant_photos, clean_data.tool3$data)
+clean_data.tool3_joined$Support_Respondents <- join_dfs(clean_data.tool3$Support_Respondents, clean_data.tool3$data |> select(!any_of(meta_cols)))
+clean_data.tool3_joined$Enrollement_Attendance_Summary <- join_dfs(clean_data.tool3$Enrollement_Attendance_Summary, clean_data.tool3$data |> select(!any_of(meta_cols)))
+clean_data.tool3_joined$Grade_Details <- join_dfs(clean_data.tool3$Grade_Details, clean_data.tool3$data |> select(!any_of(meta_cols)))
+clean_data.tool3_joined$Todays_Attendance_Detail <- join_dfs(clean_data.tool3$Todays_Attendance_Detail, clean_data.tool3$data |> select(!any_of(meta_cols)))
+clean_data.tool3_joined$LastWeek_Attendance_Detail <- join_dfs(clean_data.tool3$LastWeek_Attendance_Detail, clean_data.tool3$data |> select(!any_of(meta_cols)))
+clean_data.tool3_joined$Student_Headcount <- join_dfs(clean_data.tool3$Student_Headcount, clean_data.tool3$data |> select(!any_of(meta_cols)))
+clean_data.tool3_joined$Relevant_photos <- join_dfs(clean_data.tool3$Relevant_photos, clean_data.tool3$data |> select(!any_of(meta_cols)))
 
 
 # Tool 4
-clean_data.tool4_joined$Additional_Subjects <- join_dfs(clean_data.tool4$Additional_Subjects, clean_data.tool4$data)
-clean_data.tool4_joined$Subjects_taught_by_this_teacher <- join_dfs(clean_data.tool4$Subjects_taught_by_this_teacher, clean_data.tool4$data)
-clean_data.tool4_joined$Subjects_Not_Being_Taught <- join_dfs(clean_data.tool4$Subjects_Not_Being_Taught, clean_data.tool4$data)
-clean_data.tool4_joined$Relevant_photos <- join_dfs(clean_data.tool4$Relevant_photos, clean_data.tool4$data)
+clean_data.tool4_joined$Additional_Subjects <- join_dfs(clean_data.tool4$Additional_Subjects, clean_data.tool4$data |> select(!any_of(meta_cols)))
+clean_data.tool4_joined$Subjects_taught_by_this_teacher <- join_dfs(clean_data.tool4$Subjects_taught_by_this_teacher, clean_data.tool4$data |> select(!any_of(meta_cols)))
+clean_data.tool4_joined$Subjects_Not_Being_Taught <- join_dfs(clean_data.tool4$Subjects_Not_Being_Taught, clean_data.tool4$data |> select(!any_of(meta_cols)))
+clean_data.tool4_joined$Relevant_photos <- join_dfs(clean_data.tool4$Relevant_photos, clean_data.tool4$data |> select(!any_of(meta_cols)))
 
 
 # Tool 5
-clean_data.tool5_joined$Under_Construction_Toilets <- join_dfs(clean_data.tool5$Under_Construction_Toilets, clean_data.tool5$data)
-clean_data.tool5_joined$Useable_Toilets <- join_dfs(clean_data.tool5$Useable_Toilets, clean_data.tool5$data)
-clean_data.tool5_joined$Non_Useable_Toilets <- join_dfs(clean_data.tool5$Non_Useable_Toilets, clean_data.tool5$data)
-clean_data.tool5_joined$Relevant_photos <- join_dfs(clean_data.tool5$Relevant_photos, clean_data.tool5$data)
+clean_data.tool5_joined$Under_Construction_Toilets <- join_dfs(clean_data.tool5$Under_Construction_Toilets, clean_data.tool5$data |> select(!any_of(meta_cols)))
+clean_data.tool5_joined$Useable_Toilets <- join_dfs(clean_data.tool5$Useable_Toilets, clean_data.tool5$data |> select(!any_of(meta_cols)))
+clean_data.tool5_joined$Non_Useable_Toilets <- join_dfs(clean_data.tool5$Non_Useable_Toilets, clean_data.tool5$data |> select(!any_of(meta_cols)))
+clean_data.tool5_joined$Relevant_photos <- join_dfs(clean_data.tool5$Relevant_photos, clean_data.tool5$data |> select(!any_of(meta_cols)))
 
 
 # Tool 6
-clean_data.tool6_joined$Subjects_Added <- join_dfs(clean_data.tool6$Subjects_Added, clean_data.tool6$data)
-clean_data.tool6_joined$Relevant_photos <- join_dfs(clean_data.tool6$Relevant_photos, clean_data.tool6$data)
+clean_data.tool6_joined$Subjects_Added <- join_dfs(clean_data.tool6$Subjects_Added, clean_data.tool6$data |> select(!any_of(meta_cols)))
+clean_data.tool6_joined$Relevant_photos <- join_dfs(clean_data.tool6$Relevant_photos, clean_data.tool6$data |> select(!any_of(meta_cols)))
 
 
 # Tool 7
-clean_data.tool7_joined$C6_list_members <- join_dfs(clean_data.tool7$C6_list_members, clean_data.tool7$data)
-clean_data.tool7_joined$Subjects_Added <- join_dfs(clean_data.tool7$Subjects_Added, clean_data.tool7$data)
-clean_data.tool7_joined$Relevant_photos <- join_dfs(clean_data.tool7$Relevant_photos, clean_data.tool7$data)
+clean_data.tool7_joined$C6_list_members <- join_dfs(clean_data.tool7$C6_list_members, clean_data.tool7$data |> select(!any_of(meta_cols)))
+clean_data.tool7_joined$Subjects_Added <- join_dfs(clean_data.tool7$Subjects_Added, clean_data.tool7$data |> select(!any_of(meta_cols)))
+clean_data.tool7_joined$Relevant_photos <- join_dfs(clean_data.tool7$Relevant_photos, clean_data.tool7$data |> select(!any_of(meta_cols)))
 
 
 # Tool 8
-clean_data.tool8_joined$Classes <- join_dfs(clean_data.tool8$Classes, clean_data.tool8$data)
-clean_data.tool8_joined$Adults_At_The_CBE <- join_dfs(clean_data.tool8$Adults_At_The_CBE, clean_data.tool8$data)
-clean_data.tool8_joined$Section_2_2_3_Attendance_Rec... <- join_dfs(clean_data.tool8$Section_2_2_3_Attendance_Rec..., clean_data.tool8$data)
-clean_data.tool8_joined$Section_2_2_4_Headcount <- join_dfs(clean_data.tool8$Section_2_2_4_Headcount, clean_data.tool8$data)
-clean_data.tool8_joined$Students_Enrolment_Book <- join_dfs(clean_data.tool8$Students_Enrolment_Book, clean_data.tool8$data)
-clean_data.tool8_joined$Section_2_4_Student_Ages <- join_dfs(clean_data.tool8$Section_2_4_Student_Ages, clean_data.tool8$data)
-clean_data.tool8_joined$Classroom_Materials <- join_dfs(clean_data.tool8$Classroom_Materials, clean_data.tool8$data)
-clean_data.tool8_joined$Teacher_Kit <- join_dfs(clean_data.tool8$Teacher_Kit, clean_data.tool8$data)
-clean_data.tool8_joined$Student_Kit <- join_dfs(clean_data.tool8$Student_Kit, clean_data.tool8$data)
-clean_data.tool8_joined$V_list_of_all_members <- join_dfs(clean_data.tool8$V_list_of_all_members, clean_data.tool8$data)
-clean_data.tool8_joined$Subjects_Added <- join_dfs(clean_data.tool8$Subjects_Added, clean_data.tool8$data)
-clean_data.tool8_joined$Relevant_photos <- join_dfs(clean_data.tool8$Relevant_photos, clean_data.tool8$data)
+clean_data.tool8_joined$Classes <- join_dfs(clean_data.tool8$Classes, clean_data.tool8$data |> select(!any_of(meta_cols)))
+clean_data.tool8_joined$Adults_At_The_CBE <- join_dfs(clean_data.tool8$Adults_At_The_CBE, clean_data.tool8$data |> select(!any_of(meta_cols)))
+clean_data.tool8_joined$Section_2_2_3_Attendance_Rec... <- join_dfs(clean_data.tool8$Section_2_2_3_Attendance_Rec..., clean_data.tool8$data |> select(!any_of(meta_cols)))
+clean_data.tool8_joined$Section_2_2_4_Headcount <- join_dfs(clean_data.tool8$Section_2_2_4_Headcount, clean_data.tool8$data |> select(!any_of(meta_cols)))
+clean_data.tool8_joined$Students_Enrolment_Book <- join_dfs(clean_data.tool8$Students_Enrolment_Book, clean_data.tool8$data |> select(!any_of(meta_cols)))
+clean_data.tool8_joined$Section_2_4_Student_Ages <- join_dfs(clean_data.tool8$Section_2_4_Student_Ages, clean_data.tool8$data |> select(!any_of(meta_cols)))
+clean_data.tool8_joined$Classroom_Materials <- join_dfs(clean_data.tool8$Classroom_Materials, clean_data.tool8$data |> select(!any_of(meta_cols)))
+clean_data.tool8_joined$Teacher_Kit <- join_dfs(clean_data.tool8$Teacher_Kit, clean_data.tool8$data |> select(!any_of(meta_cols)))
+clean_data.tool8_joined$Student_Kit <- join_dfs(clean_data.tool8$Student_Kit, clean_data.tool8$data |> select(!any_of(meta_cols)))
+clean_data.tool8_joined$V_list_of_all_members <- join_dfs(clean_data.tool8$V_list_of_all_members, clean_data.tool8$data |> select(!any_of(meta_cols)))
+clean_data.tool8_joined$Subjects_Added <- join_dfs(clean_data.tool8$Subjects_Added, clean_data.tool8$data |> select(!any_of(meta_cols)))
+clean_data.tool8_joined$Relevant_photos <- join_dfs(clean_data.tool8$Relevant_photos, clean_data.tool8$data |> select(!any_of(meta_cols)))
 
 
 # Tool 9
-clean_data.tool9_joined$Relevant_photos <- join_dfs(clean_data.tool9$Relevant_photos, clean_data.tool9$data)
+clean_data.tool9_joined$Relevant_photos <- join_dfs(clean_data.tool9$Relevant_photos, clean_data.tool9$data |> select(!any_of(meta_cols)))
 
 
 # listing the required questions -----------------------------------------------
@@ -221,7 +221,8 @@ relevancy_issues <- rbind(
     #   left_join(select(clean_data.tool6_joined$Relevant_photos, KEY, Sample_type = Sample_Type), by = "KEY")
   ) |>
     mutate(tool = "Tool 6 - Parent") |> 
-    filter(!(question %in% tool6.notrequired_questions & (is.na(value) | value == ""))),
+    filter(!(question %in% tool6.notrequired_questions & (is.na(value) | value == ""))) |>
+    select(everything(), tool, Sample_type),
   
   
   # Tool 7
@@ -243,7 +244,8 @@ relevancy_issues <- rbind(
       left_join(select(clean_data.tool7_joined$Relevant_photos, KEY, Sample_type = Sample_Type), by = "KEY")
   ) |> 
     mutate(tool = "Tool 7 - Shura") |> 
-    filter(!(question %in% tool7.notrequired_questions & (is.na(value) | value == ""))),
+    filter(!(question %in% tool7.notrequired_questions & (is.na(value) | value == ""))) |>
+    select(everything(), tool, Sample_type),
   
   
   # Tool 8 

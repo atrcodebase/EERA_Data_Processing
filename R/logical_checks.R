@@ -35,7 +35,7 @@ lc_tool1 <- rbind(
       Issue
     ),
   
-  # Flagging duplicated site visit ID
+  # 0 Flagging duplicated site visit ID
   clean_data.tool1$data |>
     filter(duplicated(Site_Visit_ID, fromLast = T) | duplicated(Site_Visit_ID, fromLast = F)) |> 
     mutate(
@@ -55,7 +55,7 @@ lc_tool1 <- rbind(
       Issue
     ),
   
-  # flagging if the gender of interviewee and her position is inconsistent
+  # 1 flagging if the gender of interviewee and her position is inconsistent
   clean_data.tool1$data |>
     filter(Gender_Of_Interviewee == "Female" & Interviewee_Respondent_Type == "Mullah Imam") |> 
     mutate(
@@ -100,7 +100,7 @@ lc_tool1 <- rbind(
   #     Issue
   #   ),
  
-  # Flagging if the school is closed due to WASH issues or lack of building but at the same time it is used as clinic, hospital or for MoE programs
+  # 3 Flagging if the school is closed due to WASH issues or lack of building but at the same time it is used as clinic, hospital or for MoE programs
   clean_data.tool1$data |>
     filter(
       B6 == "The school does not have a building or has infrastructural and WASH issues" &
@@ -123,7 +123,7 @@ lc_tool1 <- rbind(
       Issue
     ), 
   
-  # Flagging if both supportive respondents have the same position (especially when they are from position that there is only one in each school)
+  # 4 Flagging if both supportive respondents have the same position (especially when they are from position that there is only one in each school)
   clean_data.tool1$Support_Respondents |>
     filter(C12A3 %in% c("Deputy Teaching Affairs", "Executive Manager")) |> 
     group_by(PARENT_KEY) |> 
@@ -145,7 +145,7 @@ lc_tool1 <- rbind(
       Issue
     ),
   
-  # Flagging if the same shift is reported in both shift details sheet and other shift details sheet
+  # 5 Flagging if the same shift is reported in both shift details sheet and other shift details sheet
   clean_data.tool1$Shifts_Detail |>
     mutate(shifts_key = paste0(Shift_Name_Eng, "_", PARENT_KEY)) |> 
     filter(shifts_key %in% other_shifts) |> 
@@ -166,7 +166,7 @@ lc_tool1 <- rbind(
       Issue
     ),
   
-  # Flagging if respondent reported "No" to confirm the n of male teachers but later reported the same number of male teachers as it's in the sample
+  # 6 Flagging if respondent reported "No" to confirm the n of male teachers but later reported the same number of male teachers as it's in the sample
   clean_data.tool1$data |>
     filter(D2 == N_Male_Teachers) |>
     mutate(
@@ -186,7 +186,7 @@ lc_tool1 <- rbind(
       Issue
     ),
   
-  # Flagging if respondent reported "No" to confirm the n of female teachers but later reported the same number of female teachers as it's in the sample
+  # 8 Flagging if respondent reported "No" to confirm the n of female teachers but later reported the same number of female teachers as it's in the sample
   clean_data.tool1$data |>
     filter(D6 == N_Female_Teachers) |>
     mutate(
@@ -206,7 +206,7 @@ lc_tool1 <- rbind(
       Issue
     ),
   
-  # Flagging if the school is type female but male students are there
+  # 9 Flagging if the school is type female but male students are there
   clean_data.tool1$data |>
     filter(
       School_CBE_Gender_Based_On_The_Sample == "Girls" &
@@ -229,7 +229,7 @@ lc_tool1 <- rbind(
       Issue
     ),
   
-  # Flagging if the school is type male but female students are there
+  # 10 Flagging if the school is type male but female students are there
   clean_data.tool1$data |>
     filter(
       School_CBE_Gender_Based_On_The_Sample == "Boys" &
@@ -252,7 +252,7 @@ lc_tool1 <- rbind(
       Issue
     ),
   
-  # Flagging if the school is reported open without student and teacher, but reported a reason that it is closed - Light Issue
+  # 11 Flagging if the school is reported open without student and teacher, but reported a reason that it is closed - Light Issue
   # clean_data.tool1$data |>
   #   filter(A34 == "Yes, school is open, and there are only staff members but there are no teachers and students inside" & !is.na(B6) & B6 != "8888") |>
   #   mutate(
@@ -272,7 +272,7 @@ lc_tool1 <- rbind(
   #     Issue
   #   ),
   
-  # Flagging if the school is type male but reported there are no female teachers as a result of recent bans as a reason for the closure of school
+  # 12 Flagging if the school is type male but reported there are no female teachers as a result of recent bans as a reason for the closure of school
   clean_data.tool1$data |>
     filter(School_CBE_Gender_Based_On_The_Sample == "Boys" & B6_3 == 1) |>
     mutate(
@@ -292,7 +292,7 @@ lc_tool1 <- rbind(
       Issue
     ),
   
-  # Flagging if The School with type of 'Madrassa (public) is reported closed, but also reported male children and adults are going to madrassa in Q B9!
+  # 13 Flagging if The School with type of 'Madrassa (public) is reported closed, but also reported male children and adults are going to madrassa in Q B9!
   clean_data.tool1$data |>
     filter(A31 == "Madrassa (public)" & B9_3 == 1) |>
     mutate(
@@ -312,7 +312,7 @@ lc_tool1 <- rbind(
       Issue
     ),
   
-  # Flagging if The School with type of 'Madrassa (public) is reported closed, but also reported male children and adults are going to madrassa in Q B9!
+  # 14 Flagging if The School with type of 'Madrassa (public) is reported closed, but also reported male children and adults are going to madrassa in Q B9!
   clean_data.tool1$data |>
     filter(A31 == "Madrassa (public)" & B10_3 == 1) |>
     mutate(
@@ -332,7 +332,7 @@ lc_tool1 <- rbind(
       Issue
     ),
   
-  # Flagging if the Consent is No
+  # 15 Flagging if the Consent is No
   clean_data.tool1$data |>
     filter(C3 == "No") |>
     mutate(
@@ -352,7 +352,7 @@ lc_tool1 <- rbind(
       Issue
     ),
   
-  # Flagging if The School has only headmaster(s) but the designation of respondent is reported either Official or Acting Principal
+  # 16 Flagging if The School has only headmaster(s) but the designation of respondent is reported either Official or Acting Principal
   clean_data.tool1$data |>
     filter(C2 == "The school has only headmaster(s)" & C4 %in% c("Official Principal", "Acting Principal")) |>
     mutate(
@@ -372,7 +372,7 @@ lc_tool1 <- rbind(
       Issue
     ),
   
-  # Flagging if The School has only a deputy teaching manager and headmaster(s) but the designation of respondent is reported either Official or Acting Principal
+  # 17 Flagging if The School has only a deputy teaching manager and headmaster(s) but the designation of respondent is reported either Official or Acting Principal
   clean_data.tool1$data |>
     filter(C2 == "The school has a deputy teaching manager and headmaster(s) but not a principal" & C4 %in% c("Official Principal", "Acting Principal")) |>
     mutate(
@@ -392,7 +392,7 @@ lc_tool1 <- rbind(
       Issue
     ),
   
-  # Flagging if The School has a principal but in question C4_1 it is reported that school does not have a principal
+  # 18 Flagging if The School has a principal but in question C4_1 it is reported that school does not have a principal
   clean_data.tool1$data |>
     filter(C2 %in% c("The school has a principal, deputy teaching manager, and headmaster(s)", "The school has a principal and headmaster(s) but not a deputy teaching manager") &
              C4_1 == "The school does not have a principal and I fulfil the duties and responsibilities of the principal for this school") |>
@@ -413,7 +413,7 @@ lc_tool1 <- rbind(
       Issue
     ),
   
-  # Flagging if The School does not have a principal, but in question C4_1 it is reported either Principal is not present today or does not want to participate in the interview.
+  # 19 Flagging if The School does not have a principal, but in question C4_1 it is reported either Principal is not present today or does not want to participate in the interview.
   clean_data.tool1$data |>
     filter(C2 %in% c("The school has a deputy teaching manager and headmaster(s) but not a principal", "The school has only headmaster(s)") &
              C4_1 %in% c("The school principal is not present today and I am officially acting principal in his/her absence",
@@ -435,29 +435,7 @@ lc_tool1 <- rbind(
       Issue
     ),
   
-  # Flagging if The School does not have a principal, but in question C4_1 it is reported either Principal is not present today or does not want to participate in the interview.
-  clean_data.tool1$data |>
-    filter(C2 %in% c("The school has a deputy teaching manager and headmaster(s) but not a principal", "The school has only headmaster(s)") &
-             C4_1 %in% c("The school principal is not present today and I am officially acting principal in his/her absence",
-                         "The school principal does not want to participate in interview, and I am officially delegated to participate in the interviews in his/her absence")) |>
-    mutate(
-      Issue = "The School does not have a principal, but in question C4_1 it is reported either Principal is not present today or does not want to participate in the interview.",
-      Question = "C2",
-      Old_value = C2,
-      Related_question = "C4_1",
-      Related_value = C4_1
-    ) |> 
-    select(
-      all_of(meta_cols),
-      Question,
-      Old_value,
-      Related_question,
-      Related_value,
-      KEY,
-      Issue
-    ),
-  
-  # Flagging if The question C8 and A30 has different responses.
+  # 20 Flagging if The question C8 and A30 has different responses.
   clean_data.tool1$data |>
     filter(C8 == "Yes, fully converted to Islamic studies" & A30 != "Yes, fully converted to Islamic studies") |>
     mutate(
@@ -477,7 +455,7 @@ lc_tool1 <- rbind(
       Issue
     ),
   
-  # Flagging if The question C8 and A30 has different responses.
+  # 21 Flagging if The question C8 and A30 has different responses.
   clean_data.tool1$data |>
     filter(C8 == "Yes, partially converted to Islamic studies" & A30 != "Yes, partially converted to Islamic studies") |>
     mutate(
@@ -497,7 +475,7 @@ lc_tool1 <- rbind(
       Issue
     ),
   
-  # Flagging if The question C8 and A30 has different responses.
+  # 22 Flagging if The question C8 and A30 has different responses.
   clean_data.tool1$data |>
     filter(C8 == "No, the school is a general studies school" & A30 != "No") |>
     mutate(
@@ -517,7 +495,7 @@ lc_tool1 <- rbind(
       Issue
     ),
   
-  # Flagging if The question C9 and A31 has different responses.
+  # 23 Flagging if The question C9 and A31 has different responses.
   clean_data.tool1$data |>
     filter(C9 != A31) |>
     mutate(
@@ -536,6 +514,8 @@ lc_tool1 <- rbind(
       KEY,
       Issue
     )
+  
+  # 24 
   
 ) |> mutate(tool = "Tool 1 - Headmaster", sheet = "data")
 

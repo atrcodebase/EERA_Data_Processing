@@ -39,6 +39,69 @@ check_logs_for_df <- function(cleaning_log, df, tool_name, deleted_keys) {
   return(cleaning_log)
 }
 
+v_existed_in_data <- function(log){
+  
+  log <- log |> 
+    arrange(tool, Tab_Name)
+  
+  log$value_in_data <- "False"
+  
+  # i = 16
+  for(i in 1:nrow(log)){
+    cat("indexing ",i, "\n")
+    
+    df_name <- log[[i, "tool"]]
+    sh <- log[[i, "Tab_Name"]]
+    
+    if(df_name == "Tool 1 - Headmaster"){
+      df_name <- "clean_data.tool1"
+    }
+    if(df_name == "Tool 2 - Light"){
+      df_name <- "clean_data.tool2"
+    }
+    if(df_name == "Tool 3 - Headcount"){
+      df_name <- "clean_data.tool3"
+    }
+    if(df_name == "Tool 4 - Teacher"){
+      df_name <- "clean_data.tool4"
+    }
+    if(df_name == "Tool 6 - Parent"){
+      df_name <- "clean_data.tool6"
+    }
+    if(df_name == "Tool 7 - Shura"){
+      df_name <- "clean_data.tool7"
+    }
+    if(df_name == "Tool 8 - Class"){
+      df_name <- "clean_data.tool8"
+    }
+    if(df_name == "Tool 5 - WASH"){
+      df_name <- "clean_data.tool5"
+    }
+    if(df_name == "Tool 9 - IP"){
+      df_name <- "clean_data.tool9"
+    }
+    
+    df_name_full <- paste0(df_name,"$",sh)
+    expre <- paste0(df_name_full,"[",df_name_full,"$KEY == '",log[[i, "KEY"]],"', '",log[[i, "question"]], "']")
+    v_log <- log[[i, "new_value"]]
+    v_df <- eval(parse(text = expre))
+    
+    if(length(v_df) == 0){
+      v_df <- NA_character_
+    }
+    
+    if(!is.na(v_df) & !is.na(v_log)){
+      if(v_df == v_log){
+        log[i, "value_in_data"] <- "True"
+      }
+    }else{
+      log[i, "value_in_data"] <- "True"
+    }
+  }
+  
+  return(log)
+}
+
 # form names
 # form_names <- c()
 form_names_ps <- unique(correction_log_ps$tool) |> na.omit()
@@ -256,12 +319,12 @@ if (any(correction_log_ready_ps$tool == tool_name)) {
 }
 
 if (any(correction_log_ready_cbe$tool == tool_name)) {
-  clean_data.tool6$data <- raw_data.tool6$data |> apply_log(log = correction_log_ready_cbe |> filter(tool == tool_name & Tab_Name == "data"))
+  clean_data.tool6$data <- clean_data.tool6$data |> apply_log(log = correction_log_ready_cbe |> filter(tool == tool_name & Tab_Name == "data"))
   if(nrow(correction_log_ready_cbe |> filter(tool == tool_name & Tab_Name == "Subjects_Added")) > 0){
-    clean_data.tool6$Subjects_Added <- raw_data.tool6$Subjects_Added |> apply_log(log = correction_log_ready_cbe |> filter(tool == tool_name & Tab_Name == "Subjects_Added"))
+    clean_data.tool6$Subjects_Added <- clean_data.tool6$Subjects_Added |> apply_log(log = correction_log_ready_cbe |> filter(tool == tool_name & Tab_Name == "Subjects_Added"))
   }
   if(nrow(correction_log_ready_cbe |> filter(tool == tool_name & Tab_Name == "Relevant_photos")) > 0){
-    clean_data.tool6$Relevant_photos <- raw_data.tool6$Relevant_photos |> apply_log(log = correction_log_ready_cbe |> filter(tool == tool_name & Tab_Name == "Relevant_photos"))
+    clean_data.tool6$Relevant_photos <- clean_data.tool6$Relevant_photos |> apply_log(log = correction_log_ready_cbe |> filter(tool == tool_name & Tab_Name == "Relevant_photos"))
   }
 }
 
@@ -283,20 +346,19 @@ if (any(correction_log_ready_ps$tool == tool_name)) {
 }
 
 if (any(correction_log_ready_cbe$tool == tool_name)) {
-  clean_data.tool7$data <- raw_data.tool7$data |> apply_log(log = correction_log_ready_cbe |> filter(tool == tool_name & Tab_Name == "data"))
-  clean_data.tool7$C6_list_members <- raw_data.tool7$C6_list_members |> apply_log(log = correction_log_ready_cbe |> filter(tool == tool_name & Tab_Name == "C6_list_members"))
+  clean_data.tool7$data <- clean_data.tool7$data |> apply_log(log = correction_log_ready_cbe |> filter(tool == tool_name & Tab_Name == "data"))
+  clean_data.tool7$C6_list_members <- clean_data.tool7$C6_list_members |> apply_log(log = correction_log_ready_cbe |> filter(tool == tool_name & Tab_Name == "C6_list_members"))
   if(nrow(correction_log_ready_cbe |> filter(tool == tool_name & Tab_Name == "Subjects_Added"))>0){
-    clean_data.tool7$Subjects_Added <- raw_data.tool7$Subjects_Added |> apply_log(log = correction_log_ready_cbe |> filter(tool == tool_name & Tab_Name == "Subjects_Added"))
+    clean_data.tool7$Subjects_Added <- clean_data.tool7$Subjects_Added |> apply_log(log = correction_log_ready_cbe |> filter(tool == tool_name & Tab_Name == "Subjects_Added"))
   }
   if(nrow(correction_log_ready_cbe |> filter(tool == tool_name & Tab_Name == "Relevant_photos"))>0){
-    clean_data.tool7$Relevant_photos <- raw_data.tool7$Relevant_photos |> apply_log(log = correction_log_ready_cbe |> filter(tool == tool_name & Tab_Name == "Relevant_photos"))
+    clean_data.tool7$Relevant_photos <- clean_data.tool7$Relevant_photos |> apply_log(log = correction_log_ready_cbe |> filter(tool == tool_name & Tab_Name == "Relevant_photos"))
   }
 }
 
 # Tool 8
 tool_name <- "Tool 8 - Class"
 if (any(correction_log_ready_cbe$tool == tool_name)) {
-  # data = raw_data.tool8$Section_2_2_3_Attendance_Rec...
   clean_data.tool8$data <- raw_data.tool8$data |> apply_log(log = correction_log_ready_cbe |> filter(tool == tool_name & Tab_Name == "data"))
   if(nrow(correction_log_ready_cbe |> filter(tool == tool_name & Tab_Name == "Classes"))> 0){
     clean_data.tool8$Classes <- raw_data.tool8$Classes |> apply_log(log = correction_log_ready_cbe |> filter(tool == tool_name & Tab_Name == "Classes"))
@@ -553,7 +615,7 @@ correction_log_discrep <- rbind( ## DOUBLE CHECK HERE
                 ), by = c("KEY", "question", "new_value", "Tab_Name")) |>
     left_join(bind_rows(correction_log_ready_ps, correction_log_ready_cbe) |>
                 select(KEY, question, Tab_Name, Sample_Type), by = c("KEY", "question", "Tab_Name")) |>
-    mutate(issue = "The changes is not logged in correction log sheet.")
+    mutate(issue = "The changes is not logged in correction log sheet (Please check the type of new_value with type of values in the question).")
   ,
   bind_rows(correction_log_ready_ps, correction_log_ready_cbe) |>
     mutate(
@@ -567,6 +629,23 @@ correction_log_discrep <- rbind( ## DOUBLE CHECK HERE
     mutate(issue = "The log is not applied in the dataset.")
 )
 
+not_applied_log <- correction_log_discrep |>
+  filter(issue == "The log is not applied in the dataset.")
+
+not_applied_log <- v_existed_in_data(not_applied_log)
+
+not_applied_log <- not_applied_log |>
+  mutate(
+    issue = case_when(
+      value_in_data == "True" ~ "The new value already existed in the data/applied on Survey CTO",
+      TRUE ~ "The value is not applied, please make the change directly on Survey CTO"
+    )
+  ) |>
+  select(-value_in_data)
+
+correction_log_discrep <- correction_log_discrep |>
+  filter(issue != "The log is not applied in the dataset.") |>
+  bind_rows(not_applied_log)
 
 
 # Removing extra objects -------------------------------------------------------
