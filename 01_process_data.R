@@ -222,6 +222,10 @@ source("R/main_sheet_to_repeat_sheets.R")
 source("R/check_repeat_sheet_counts.R")
 
 
+# apply translation log --------------------------------------------------- PENDING
+# file.edit("R/apply_translation_log.R")
+
+
 # missing translations (for QA)-------------------------------------------- DONE
 source("R/create_translation_log.R")
 
@@ -230,7 +234,8 @@ source("R/create_translation_log.R")
 source("R/missing_qa.R")
 
 
-# fixing select multiple variables ---------------------------------------- Pending
+# update select multiple binary variables --------- ----------------------- On-going
+# source("R/fix_select_multiple_questions.R")
 
 
 # Check select multiple variables ----------------------------------------- DONE
@@ -249,8 +254,8 @@ source("R/check_outliers.R")
 source("R/compare_sample_vs_df.R")
 
 
-# Relevancy Check --------------------------------------------------------- PENDING - Output under Checking
-# source("R/check_relevancies.R")
+# Relevancy Check --------------------------------------------------------- DONE
+source("R/check_relevancies.R")
 
 
 # Check the responses with the tool --------------------------------------- DONE
@@ -277,11 +282,11 @@ source("R/logical_checks.R")
 # source("R/recode_to_na.R")
 
 
-# prepare data sets to export  --------------------------------------------
+# prepare data sets to export  -------------------------------------------- DONE
 ## remove extra columns
 source("R/remove_extra_columns.R")
 
 
-# export data sets and issues ---------------------------------------------
+# export data sets and issues --------------------------------------------- DONE
 source("R/export_outputs.R")
 

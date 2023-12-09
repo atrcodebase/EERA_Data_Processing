@@ -29,10 +29,13 @@ check_logs_for_df <- function(cleaning_log, df, tool_name, deleted_keys) {
   cleaning_log <- cleaning_log |>
     mutate(
       issue = case_when(
+        substr(KEY, 1, 41) %in% deleted_keys ~ "KEY belongs to a rejected interview, please remove it from the cleaning logs sheet",
+        KEY %in% deleted_keys ~ "KEY belongs to a rejected interview, please remove it from the cleaning logs sheet",
+        tool == tool_name & substr(KEY, 1, 41) %in% deleted_keys ~ "KEY belongs to a rejected interview, please remove it from the cleaning logs sheet",
+        tool == tool_name & KEY %in% deleted_keys ~ "KEY belongs to a rejected interview, please remove it from the cleaning logs sheet",
         tool == tool_name & !question %in% question_names ~ "Wrong question name, please provide the correct question name.",
         tool != tool_name & KEY %in% keys ~ glue::glue("Wrong tool name, the record doesn't belongs to {tool} tool"),
         tool == tool_name & question %in% question_names & !KEY %in% keys ~ "Wrong KEY, please review and provide the correct KEY.",
-        tool == tool_name & substr(KEY, 1, 41) %in% deleted_keys ~ "KEY belongs to a rejected interview, please remove it from the cleaning logs sheet",
         TRUE ~ issue
       )
     )

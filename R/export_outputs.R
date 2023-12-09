@@ -26,12 +26,6 @@ write.xlsx(clean_data.tool9_for_client, paste0(output_data_path, "cleaned_dfs/fo
 
 # Export other outputs ---------------------------------------------------------
 # export issues in data sets
-
-# correction_log_issues = list(
-#   "Correction Log Issues - PS" = correction_log_issues_ps,
-#   "Correction Log Issues - CBE" = correction_log_issues_cbe
-# ) 
-
 if (nrow(correction_log_discrep) > 0){
   
   write.xlsx(correction_log_discrep, paste0(output_data_path, "issues/correction_log_issues/correction_log_issues_", Sys.Date(),".xlsx"))
@@ -82,9 +76,9 @@ if (nrow(wrong_choices_result) > 0){
   write.xlsx(wrong_choices_result, paste0(output_data_path, "issues/wrong_choices/wrong_choices_result_", Sys.Date(),".xlsx"))
 }
 
-# if (nrow(relevancy_issues) > 0){
-#   write.xlsx(relevancy_issues, paste0(output_data_path, "issues/relevancy_checks/relevancy_issues_", Sys.Date(),".xlsx"))
-# }
+if (nrow(relevancy_issues) > 0){
+  write.xlsx(relevancy_issues, paste0(output_data_path, "issues/relevancy_checks/relevancy_issues_", Sys.Date(),".xlsx"))
+}
 
 qa_issues_dfs = list(
   "not QAed interviews" = not_qaed_ints,
