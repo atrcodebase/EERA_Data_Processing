@@ -1979,12 +1979,116 @@ lc_tool6 <- rbind(
       Related_value,
       KEY,
       Issue
+    ),
+  
+  # Flagging if All is selected for girls between 13-18 yrs old attending school
+  clean_data.tool7$data |>
+    filter(D4 == "All") |>
+    mutate(
+      Issue = "'All' is selected for question girls between 13-18 years old attending school, please confirm the response.",
+      Question = "D4",
+      Old_value = D4,
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  # Flagging if Reported Subject has been added but reported 0 for the number of subjects
+  clean_data.tool7$data |>
+    filter(E2_2 == 1 & E4_N <= 0) |>
+    mutate(
+      Issue = "Reported Subject has been added but also reported 0 for the number of subjects",
+      Question = "E4_N",
+      Old_value = E4_N,
+      Related_question = "E2",
+      Related_value = E2
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  # Flagging if The reason for improvement of education quality is reported 'More teachers', but also reported lack of teacher for decreasing attendance
+  clean_data.tool7$data |>
+    filter(E12_2 == 1 & (D6_1 == 1 | D9_3 == 1)) |>
+    mutate(
+      Issue = "The reason for improvement of education quality is reported 'More teachers', but also repoted lack of teacher for decreasing attendance",
+      Question = "E12",
+      Old_value = E12,
+      Related_question = "D6 | D9",
+      Related_value = paste0(D6, " | ", D9)
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  # Flagging if More dedicated time on religious studies is reported but also reported Decreased reliance on religious materials/textbook
+  clean_data.tool7$data |>
+    filter(F4_2 == 1 & F2_3 == 1) |>
+    mutate(
+      Issue = "More dedicated time on religious studies is reported but also reported Decreased reliance on religious materials/textbook",
+      Question = "F4",
+      Old_value = F4,
+      Related_question = "F2",
+      Related_value = F2
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
     )
-  
-  
-  
 ) |> 
   mutate(tool = "Tool 7 - Shura", sheet = "data")
+
+
+lc_tool7_list_members <- rbind(
+  # Flagging if number the sum of Male and Female for the shura postion is reported 0 or less
+  clean_data.tool7$C6_list_members |>
+    filter(C6_Number_Male + C6_Number_Female <= 0) |>
+    mutate(
+      Issue = paste0("The sum of male and female members for the shura position ", Field_Label, " is reported 0 or less"),
+      Question = "C6_Number_Male",
+      Old_value = C6_Number_Male,
+      Related_question = "C6_Number_Female",
+      Related_value = C6_Number_Female
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    )
+) |> 
+  mutate(tool = "Tool 7 - Shura", sheet = "C6_list_members")
+
+
+# Logging issues in Tool 8 ------------------------------------------------
 
 Logic_check_result <- bind_rows(
   lc_tool1,
@@ -1995,7 +2099,8 @@ Logic_check_result <- bind_rows(
   lc_tool4,
   # lc_tool5,
   lc_tool6,
-  # lc_tool7,
+  lc_tool7,
+  lc_tool7_list_members
   # lc_tool8,
   # lc_tool9
 )
