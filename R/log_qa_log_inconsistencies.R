@@ -5,9 +5,10 @@ qaed_ints_key_ps <- qa_sheet_ps |>
   unique()
 
 qaed_pending_key_ps <- qa_sheet_ps |>
-  filter(qa_status == "PENDING") |>
+  filter(qa_status %in% c("PENDING", "NOT QA'ED")) |>
   pull(KEY) |>
   unique()
+
 
 # check if any interview is missed to be QAed 
 not_qaed_ints_ps <- rbind(
@@ -22,7 +23,7 @@ not_qaed_ints_ps <- rbind(
   # filter(starttime > data_collection_start_date_ps) |> 
   mutate(
     issue = case_when(
-      KEY %in% qaed_pending_key_ps ~ "The interview is not QAed but listed in QA_Log sheet.",
+      KEY %in% qaed_pending_key_ps ~ "The interview is in Pending Status (Either not QA'ED or being QA'ED).",
       TRUE ~ "The interview is missing from QA_Log sheet."
     ),
     component = "Public School"
@@ -60,7 +61,7 @@ print(count(inconsistent_qa_status_ps, review_status.qa_logs))
 deletion_inconsistency_ps <- bind_rows(
   qa_sheet_ps |> 
     filter(
-      KEY %in% deleted_keys_ps & qa_status %in% c("APPROVED", "PENDING", "NO CONSENT")
+      KEY %in% deleted_keys_ps & qa_status %in% c("APPROVED", "PENDING", "NO CONSENT", "NOT QA'ED")
     ) |> 
     mutate(issue = glue::glue("The review status in qa logs sheet is ({qa_status}) at the same time it is deleted and logged in deletion log."))
   
@@ -94,7 +95,7 @@ qaed_ints_key_cbe <- qa_sheet_cbe |>
   unique()
 
 qaed_pending_key_cbe <- qa_sheet_cbe |>
-  filter(qa_status == "PENDING") |>
+  filter(qa_status %in% c("PENDING", "NOT QA'ED")) |>
   pull(KEY) |>
   unique()
 
@@ -108,7 +109,7 @@ not_qaed_ints_cbe <- rbind(
   # filter(starttime > data_collection_start_date_cbe) |> 
   mutate(
     issue = case_when(
-      KEY %in% qaed_pending_key_cbe ~ "The interview is not QAed but listed in QA_Log sheet.",
+      KEY %in% qaed_pending_key_cbe ~ "The interview is in Pending Status (Either not QA'ED or being QA'ED).",
       TRUE ~ "The interview is missing from QA_Log sheet."
     ),
     component = "CBE"
@@ -143,7 +144,7 @@ print(count(inconsistent_qa_status_cbe, review_status.qa_logs))
 deletion_inconsistency_cbe <- bind_rows(
   qa_sheet_cbe |> 
     filter(
-      KEY %in% deleted_keys_cbe & qa_status %in% c("APPROVED", "PENDING", "NO CONSENT")
+      KEY %in% deleted_keys_cbe & qa_status %in% c("APPROVED", "PENDING", "NO CONSENT", "NOT QA'ED")
     ) |> 
     mutate(issue = glue::glue("The review status in qa logs sheet is ({qa_status}) at the same time it is deleted and logged in deletion log."))
   # 

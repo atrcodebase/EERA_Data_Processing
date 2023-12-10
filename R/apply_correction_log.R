@@ -228,7 +228,9 @@ if (any(correction_log_ready_ps$tool == tool_name)) {
     clean_data.tool1$Other_Shifts_Detail <- raw_data.tool1$Other_Shifts_Detail |> apply_log(log = correction_log_ready_ps |> filter(tool == tool_name & Tab_Name == "Other_Shifts_Detail")) # error
   }
   clean_data.tool1$Headmasters <- raw_data.tool1$Headmasters |> apply_log(log = correction_log_ready_ps |> filter(tool == tool_name & Tab_Name == "Headmasters"))
-  clean_data.tool1$Curriculum_Changes <- raw_data.tool1$Curriculum_Changes |> apply_log(log = correction_log_ready_ps |> filter(tool == tool_name & Tab_Name == "Curriculum_Changes"))
+  if(nrow(correction_log_ready_ps |> filter(tool == tool_name & Tab_Name == "Curriculum_Changes")) > 0){
+    clean_data.tool1$Curriculum_Changes <- raw_data.tool1$Curriculum_Changes |> apply_log(log = correction_log_ready_ps |> filter(tool == tool_name & Tab_Name == "Curriculum_Changes"))
+  }
   if(nrow(correction_log_ready_ps |> filter(tool == tool_name & Tab_Name == "Weekly_Class_Schedule")) > 0){
     clean_data.tool1$Weekly_Class_Schedule <- raw_data.tool1$Weekly_Class_Schedule |> apply_log(log = correction_log_ready_ps |> filter(tool == tool_name & Tab_Name == "Weekly_Class_Schedule")) # error
   }
@@ -369,7 +371,9 @@ if (any(correction_log_ready_cbe$tool == tool_name)) {
   clean_data.tool8$Adults_At_The_CBE <- raw_data.tool8$Adults_At_The_CBE |> apply_log(log = correction_log_ready_cbe |> filter(tool == tool_name & Tab_Name == "Adults_At_The_CBE"))
   clean_data.tool8$Section_2_2_3_Attendance_Rec... <- raw_data.tool8$Section_2_2_3_Attendance_Rec... |> mutate(E20 = as.character(E20)) |> apply_log(log = correction_log_ready_cbe |> filter(tool == tool_name & Tab_Name == "Section_2_2_3_Attendance_Rec..."))
   clean_data.tool8$Section_2_2_4_Headcount <- raw_data.tool8$Section_2_2_4_Headcount |> apply_log(log = correction_log_ready_cbe |> filter(tool == tool_name & Tab_Name == "Section_2_2_4_Headcount"))
-  clean_data.tool8$Students_Enrolment_Book <- raw_data.tool8$Students_Enrolment_Book |> apply_log(log = correction_log_ready_cbe |> filter(tool == tool_name & Tab_Name == "Students_Enrolment_Book"))
+  if(nrow(correction_log_ready_cbe |> filter(tool == tool_name & Tab_Name == "Students_Enrolment_Book"))> 0){
+    clean_data.tool8$Students_Enrolment_Book <- raw_data.tool8$Students_Enrolment_Book |> apply_log(log = correction_log_ready_cbe |> filter(tool == tool_name & Tab_Name == "Students_Enrolment_Book"))
+  }
   if(nrow(correction_log_ready_cbe |> filter(tool == tool_name & Tab_Name == "Section_2_4_Student_Ages"))>0){
     clean_data.tool8$Section_2_4_Student_Ages <- raw_data.tool8$Section_2_4_Student_Ages |> apply_log(log = correction_log_ready_cbe |> filter(tool == tool_name & Tab_Name == "Section_2_4_Student_Ages"))
   }

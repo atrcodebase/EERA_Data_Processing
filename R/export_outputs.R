@@ -56,11 +56,11 @@ if (nrow(calculate_issues) > 0){
 }
 
 sm_question_issues_dfs = list(
-  "NA issues in select_multiple" = sm_na_issues,
+  # "NA issues in select_multiple" = sm_na_issues,
   "parent_series_inconsistencies" = sm_check_result
 )
 
-if (nrow(sm_check_result) > 0 | nrow(sm_na_issues) > 0){
+if (nrow(sm_check_result) > 0){
   write.xlsx(sm_question_issues_dfs, paste0(output_data_path, "issues/sm_issues/sm_check_result_", Sys.Date(),".xlsx"))
 }
 

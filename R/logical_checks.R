@@ -1291,7 +1291,7 @@ lc_tool4 <- rbind(
     summarise(n_site_visit_ids = n()) |>
     filter(n_site_visit_ids != 3) |> 
     mutate(
-      Issue = "The site visit ID is either less or more than 3!",
+      Issue = "There are either less or more than 3 interviews for this Site Visit ID!",
       Question = "Site_Visit_ID",
       Old_value = Site_Visit_ID,
       Related_question = "n_site_visit_ids",
@@ -1373,6 +1373,618 @@ lc_tool4 <- rbind(
 ) |> 
   mutate(tool = "Tool 4 - Teacher", sheet = "data")
 
+# Logging issues in Tool 6 ------------------------------------------------
+lc_tool6 <- rbind(
+  # Flagging interview conducted before the first day of data collection - Public School
+  clean_data.tool6$data |>
+    filter(Sample_Type == "Public School" & starttime < janitor::convert_to_date(data_collection_start_date_ps)) |> 
+    mutate(
+      Issue = "The interview is conducted before first day of data collection!",
+      Question = "starttime",
+      Old_value = as.character(starttime),
+      Related_question = "data_collection_start_date_ps",
+      Related_value = as.character(janitor::convert_to_date(data_collection_start_date_ps))
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  # Flagging interview conducted before the first day of data collection - CBE
+  clean_data.tool6$data |>
+    filter(Sample_Type == "CBE" & starttime < janitor::convert_to_date(data_collection_start_date_cbe)) |> 
+    mutate(
+      Issue = "The interview is conducted before first day of data collection!",
+      Question = "starttime",
+      Old_value = as.character(starttime),
+      Related_question = "data_collection_start_date_ps",
+      Related_value = as.character(janitor::convert_to_date(data_collection_start_date_ps))
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  # Flagging more or less than 4 sites visit ID - Public School
+  clean_data.tool6$data |>
+    filter(Sample_Type == "Public School") |>
+    group_by(Site_Visit_ID, Region, Province, District, Area_Type, Sample_Type) |>
+    summarise(n_site_visit_ids = n()) |>
+    filter(n_site_visit_ids != 4) |> 
+    mutate(
+      Issue = "There are either less or more than 4 interviews for this Site Visit ID!",
+      Question = "Site_Visit_ID",
+      Old_value = Site_Visit_ID,
+      Related_question = "n_site_visit_ids",
+      Related_value = as.character(n_site_visit_ids),
+      starttime = NA_POSIXct_,
+      KEY = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  # Flagging more or less than 4 sites visit ID - CBE
+  clean_data.tool6$data |>
+    filter(Sample_Type == "CBE") |>
+    group_by(Site_Visit_ID, Region, Province, District, Area_Type, Sample_Type) |>
+    summarise(n_site_visit_ids = n()) |>
+    filter(n_site_visit_ids != 4) |> 
+    mutate(
+      Issue = "There are either less or more than 4 interviews for this Site Visit ID!",
+      Question = "Site_Visit_ID",
+      Old_value = Site_Visit_ID,
+      Related_question = "n_site_visit_ids",
+      Related_value = as.character(n_site_visit_ids),
+      starttime = NA_POSIXct_,
+      KEY = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  # Duplicated combination of Respondent Name and both Phone Numbers for a Site Visit ID
+  clean_data.tool6$data |>
+    mutate(
+      parent_id = paste(Sample_Type, Site_Visit_ID, Respondent_Name, Respondent1_Phone_Number, Respondent2_Phone_Number, sep = "-")
+    ) |>
+    filter(duplicated(parent_id, fromLast = T) | duplicated(parent_id, fromLast = F)) |>
+    mutate(
+      Issue = "The combination of Respondent Name and his/her phone numbers are duplicated for the Site Visit ID and sample type",
+      Question = "",
+      Old_value = "",
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ) |>
+    arrange(Old_value),
+  
+  # Duplicated combination of Respondent Name and first Phone Number for a Site Visit ID
+  clean_data.tool6$data |>
+    mutate(
+      parent_id = paste(Sample_Type, Site_Visit_ID, Respondent_Name, Respondent1_Phone_Number, sep = "-")
+    ) |>
+    filter(duplicated(parent_id, fromLast = T) | duplicated(parent_id, fromLast = F)) |>
+    mutate(
+      Issue = "The combination of Respondent Name and his/her first phone number is duplicated for the Site Visit ID and sample type",
+      Question = "",
+      Old_value = "",
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ) |>
+    arrange(Old_value),
+  
+  # Duplicated Respondent Name for a Site Visit ID
+  clean_data.tool6$data |>
+    mutate(
+      parent_id = paste(Sample_Type, Site_Visit_ID, Respondent_Name, sep = "-")
+    ) |>
+    filter(duplicated(parent_id, fromLast = T) | duplicated(parent_id, fromLast = F)) |>
+    mutate(
+      Issue = "The Respondent Name is duplicated for the Site Visit ID and sample type",
+      Question = "",
+      Old_value = "",
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ) |>
+    arrange(Old_value),
+  
+  # Flagging if the household size reported 1 or less
+  clean_data.tool6$data |>
+    filter(B3 <= 1 | is.na(B3)) |>
+    mutate(
+      Issue = "The Household size is reported less than or equal to 1!",
+      Question = "B3",
+      Old_value = B3,
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  # Flagging if the HH members involved in income earning is reported more than HH members
+  clean_data.tool6$data |>
+    filter(B4 > B3) |>
+    mutate(
+      Issue = "The Household members involved in income earning is reported more than Household members!",
+      Question = "B4",
+      Old_value = B4,
+      Related_question = "B3",
+      Related_value = B3
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  # Flagging if the HH members involved in income earning is reported 0 but also an occupation is selected
+  clean_data.tool6$data |>
+    filter(B4 <= 0 & B5 %in% c("Daily labourer (construction)","Driver","Farmer","Health care worker","Shop owner","Trader","Teacher", "Other")) |>
+    mutate(
+      Issue = "The Household members involved in income earning is reported 0 but also an occupation is selected!",
+      Question = "B4",
+      Old_value = B4,
+      Related_question = "B5",
+      Related_value = B5
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  # Flagging if the HH members involved in income earning is reported more than 0 but also reported no occupation
+  clean_data.tool6$data |>
+    filter(B4 > 0 & B5 %in% c("No occupation and live based on remittance","No occupation and live based on humanitarian assistance")) |>
+    mutate(
+      Issue = "The Household members involved in income earning is reported more than 0 but also reported no occupation for question B5!",
+      Question = "B4",
+      Old_value = B4,
+      Related_question = "B5",
+      Related_value = B5
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  # Flagging if the HH members involved in income earning is reported 0 but also reported a monthly income
+  clean_data.tool6$data |>
+    filter(B4 <= 0 & (B6 > 0 & B6 != 8888 & B6 != 9999)) |>
+    mutate(
+      Issue = "The Household members involved in income earning is reported 0 but also reported a monthly income!",
+      Question = "B4",
+      Old_value = B4,
+      Related_question = "B6",
+      Related_value = B6
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  # Flagging if All is selected for girls between 13-18 yrs old attending school
+  clean_data.tool6$data |>
+    filter(C5 == "All") |>
+    mutate(
+      Issue = "'All' is selected for question girls between 13-18 years old attending school, please confirm the response.",
+      Question = "C5",
+      Old_value = C5,
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+    
+  # Flagging if Reported Subject has been added but reported 0 for the number of subjects
+  clean_data.tool6$data |>
+    filter(D3_2 == 1 & D4_N <= 0) |>
+    mutate(
+      Issue = "Reported Subject has been added but also reported 0 for the number of subjects",
+      Question = "D4_N",
+      Old_value = D4_N,
+      Related_question = "D3",
+      Related_value = D3
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  # Flagging if The reason for improvement of education quality is reported 'More teachers', but also repoted lack of teacher for decreasing attendance
+  clean_data.tool6$data |>
+    filter(D13_2 == 1 & (C10_3 == 1 | C7_1 == 1)) |>
+    mutate(
+      Issue = "The reason for improvement of education quality is reported 'More teachers', but also repoted lack of teacher for decreasing attendance",
+      Question = "D13",
+      Old_value = D13,
+      Related_question = "C10 | C7",
+      Related_value = paste0(C10, " | ", C7)
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  # Flagging if More dedicated time on religious studies is reported but also reported Decreased reliance on religious materials/textbook
+  clean_data.tool6$data |>
+    filter(E3_3 == 1 & E5_2 == 1) |>
+    mutate(
+      Issue = "More dedicated time on religious studies is reported but also reported Decreased reliance on religious materials/textbook",
+      Question = "E3",
+      Old_value = E3,
+      Related_question = "E5",
+      Related_value = E5
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  # Flagging if reported that it is Safer to traveling to/from school, but also reported his/her girl is extremely vulnerable to traveling to/from school
+  clean_data.tool6$data |>
+    filter(F3 == "Safer" & F11 == "Female" & F12_1 == "Extremely vulnerable") |>
+    mutate(
+      Issue = "Reported that it is Safer to traverling to/from school, but also reported his/her girl is extremely vulnerable to traveling to/from school",
+      Question = "F3",
+      Old_value = F3,
+      Related_question = "F12_1",
+      Related_value = F12_1
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  # Flagging if reported that it is Less safe to traveling to/from school, but also reported his/her girl is extremely vulnerable to traveling to/from school
+  clean_data.tool6$data |>
+    filter(F3 == "Less safe" & F11 == "Female" & F12_1 == "Not vulnerable") |>
+    mutate(
+      Issue = "Reported that it is less safer to traverling to/from school, but also reported his/her girl is not vulnerable to traveling to/from school",
+      Question = "F3",
+      Old_value = F3,
+      Related_question = "F12_1",
+      Related_value = F12_1
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  
+  # Flagging if reported that it is Safer to traveling to/from school, but also reported his/her boy is extremely vulnerable to traveling to/from school
+  clean_data.tool6$data |>
+    filter(F6 == "Safer" & F11 == "Male" & F12_1 == "Extremely vulnerable") |>
+    mutate(
+      Issue = "Reported that it is Safer to traverling to/from school, but also reported his/her boy is extremely vulnerable to traveling to/from school",
+      Question = "F6",
+      Old_value = F6,
+      Related_question = "F12_1",
+      Related_value = F12_1
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  # Flagging if reported that it is Less safe to traveling to/from school, but also reported his/her boy is extremely vulnerable to traveling to/from school
+  clean_data.tool6$data |>
+    filter(F6 == "Less safe" & F11 == "Male" & F12_1 == "Not vulnerable") |>
+    mutate(
+      Issue = "Reported that it is less safer to traverling to/from school, but also reported his/her boy is not vulnerable to traveling to/from school",
+      Question = "F6",
+      Old_value = F6,
+      Related_question = "F12_1",
+      Related_value = F12_1
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    )
+) |> 
+  mutate(tool = "Tool 6 - Parent", sheet = "data")
+
+
+# Logging issues in Tool 7 ------------------------------------------------
+# Flagging interview conducted before the first day of data collection - Public School
+lc_tool6 <- rbind(
+  clean_data.tool7$data |>
+    filter(Sample_Type == "Public School" & starttime < janitor::convert_to_date(data_collection_start_date_ps)) |> 
+    mutate(
+      Issue = "The interview is conducted before first day of data collection!",
+      Question = "starttime",
+      Old_value = as.character(starttime),
+      Related_question = "data_collection_start_date_ps",
+      Related_value = as.character(janitor::convert_to_date(data_collection_start_date_ps))
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  # Flagging interview conducted before the first day of data collection - CBE
+  clean_data.tool7$data |>
+    filter(Sample_Type == "CBE" & starttime < janitor::convert_to_date(data_collection_start_date_cbe)) |> 
+    mutate(
+      Issue = "The interview is conducted before first day of data collection!",
+      Question = "starttime",
+      Old_value = as.character(starttime),
+      Related_question = "data_collection_start_date_ps",
+      Related_value = as.character(janitor::convert_to_date(data_collection_start_date_ps))
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  # Flagging more or less than 2 sites visit ID - Public School
+  clean_data.tool7$data |>
+    filter(Sample_Type == "Public School") |>
+    group_by(Site_Visit_ID, Region, Province, District, Area_Type, Sample_Type) |>
+    summarise(n_site_visit_ids = n()) |>
+    filter(n_site_visit_ids != 2) |> 
+    mutate(
+      Issue = "There are either less or more than 2 interviews for this Site Visit ID!",
+      Question = "Site_Visit_ID",
+      Old_value = Site_Visit_ID,
+      Related_question = "n_site_visit_ids",
+      Related_value = as.character(n_site_visit_ids),
+      starttime = NA_POSIXct_,
+      KEY = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  # Flagging more or less than 2 sites visit ID - CBE
+  clean_data.tool7$data |>
+    filter(Sample_Type == "CBE") |>
+    group_by(Site_Visit_ID, Region, Province, District, Area_Type, Sample_Type) |>
+    summarise(n_site_visit_ids = n()) |>
+    filter(n_site_visit_ids != 2) |> 
+    mutate(
+      Issue = "There are either less or more than 2 interviews for this Site Visit ID!",
+      Question = "Site_Visit_ID",
+      Old_value = Site_Visit_ID,
+      Related_question = "n_site_visit_ids",
+      Related_value = as.character(n_site_visit_ids),
+      starttime = NA_POSIXct_,
+      KEY = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  # Duplicated combination of Respondent Name and both Phone Numbers for a Site Visit ID
+  clean_data.tool7$data |>
+    mutate(
+      shura_mem_id = paste(Sample_Type, Site_Visit_ID, B5, Respondent1_Phone_Number, Respondent2_Phone_Number, sep = "-")
+    ) |>
+    filter(duplicated(shura_mem_id, fromLast = T) | duplicated(shura_mem_id, fromLast = F)) |>
+    mutate(
+      Issue = "The combination of Respondent Name and his/her phone numbers are duplicated for the Site Visit ID and sample type",
+      Question = "",
+      Old_value = "",
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ) |>
+    arrange(Old_value),
+  
+  # Duplicated combination of Respondent Name and first Phone Number for a Site Visit ID
+  clean_data.tool7$data |>
+    mutate(
+      shura_mem_id = paste(Sample_Type, Site_Visit_ID, B5, Respondent1_Phone_Number, sep = "-")
+    ) |>
+    filter(duplicated(shura_mem_id, fromLast = T) | duplicated(shura_mem_id, fromLast = F)) |>
+    mutate(
+      Issue = "The combination of Respondent Name and his/her first phone number is duplicated for the Site Visit ID and sample type",
+      Question = "",
+      Old_value = "",
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ) |>
+    arrange(Old_value),
+  
+  # Duplicated Respondent Name for a Site Visit ID
+  clean_data.tool7$data |>
+    mutate(
+      shura_mem_id = paste(Sample_Type, Site_Visit_ID, B5, sep = "-")
+    ) |>
+    filter(duplicated(shura_mem_id, fromLast = T) | duplicated(shura_mem_id, fromLast = F)) |>
+    mutate(
+      Issue = "The Respondent Name is duplicated for the Site Visit ID and sample type",
+      Question = "",
+      Old_value = "",
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ) |>
+    arrange(Old_value),
+  
+  # Flagging if confirmed s/he is a Shura member but also reported the school/CBE never had a Shura
+  clean_data.tool7$data |>
+    filter(B8 == "Yes" &  C0 == "No, the school/CBE never had a shura") |>
+    mutate(
+      Issue = "It is confirmed that s/he is a Shura member but also reported the school/CBE never had a Shura",
+      Question = "B8",
+      Old_value = B8,
+      Related_question = "C0",
+      Related_value = C0
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    )
+  
+  
+  
+) |> 
+  mutate(tool = "Tool 7 - Shura", sheet = "data")
 
 Logic_check_result <- bind_rows(
   lc_tool1,
@@ -1380,9 +1992,9 @@ Logic_check_result <- bind_rows(
   lc_tool1.school_operationality_other,
   lc_tool2,
   lc_tool3,
-  lc_tool4
+  lc_tool4,
   # lc_tool5,
-  # lc_tool6,
+  lc_tool6,
   # lc_tool7,
   # lc_tool8,
   # lc_tool9

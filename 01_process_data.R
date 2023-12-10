@@ -235,7 +235,7 @@ source("R/missing_qa.R")
 
 
 # update select multiple binary variables --------- ----------------------- On-going
-# source("R/fix_select_multiple_questions.R")
+source("R/fix_select_multiple_questions.R")
 
 
 # Check select multiple variables ----------------------------------------- DONE

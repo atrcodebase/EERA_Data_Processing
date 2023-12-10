@@ -114,7 +114,32 @@ check_relevancy_rules <- function(data, tool_relevancy){
   return(relevancy_log)
 }
 
+## old version -- issue : fill binary columns with 0 if parent question was NA
+# update_series_cols <- function(data, multi_vars, question_separator){
+#   for(question in multi_vars){
+#     print(paste0("Updating: ", question))
+#     # Get all series columns
+#     series_cols <- names(select(data, starts_with(paste0(question, question_separator))))
+#     series_cols <- series_cols[!grepl("_other", series_cols, ignore.case = T)] # exclude the Other questions
+#     
+#     # Make all series cols numeric
+#     data <- data %>% mutate(across(all_of(series_cols), as.numeric))
+#     # Get rows with non-NA values
+#     rows <- which(!is.na(data[[question]]))
+#     
+#     # Loop each series column
+#     for(column in series_cols){
+#       # Add word boundary for str_detect (differentiate 1 from 13)
+#       response <- paste0("\\b", gsub(paste0(question, question_separator), "", column),"\\b")
+#       # Assign 1 if value exists in main question, else 0
+#       data[rows, column] <- ifelse(str_detect(data[[question]][rows], response), 1, 0)
+#     }
+#   }
+#   return(data)
+# }
+
 update_series_cols <- function(data, multi_vars, question_separator){
+  # question= "E2"
   for(question in multi_vars){
     print(paste0("Updating: ", question))
     # Get all series columns
@@ -124,14 +149,18 @@ update_series_cols <- function(data, multi_vars, question_separator){
     # Make all series cols numeric
     data <- data %>% mutate(across(all_of(series_cols), as.numeric))
     # Get rows with non-NA values
-    rows <- which(!is.na(data[[question]]))
+    rows <- which(!is.na(data[[question]]) & data[[question]] != "")
+    na_rows <- which(is.na(data[[question]]) | data[[question]] == "")
     
     # Loop each series column
+    # column = "E2_1"
     for(column in series_cols){
       # Add word boundary for str_detect (differentiate 1 from 13)
       response <- paste0("\\b", gsub(paste0(question, question_separator), "", column),"\\b")
       # Assign 1 if value exists in main question, else 0
       data[rows, column] <- ifelse(str_detect(data[[question]][rows], response), 1, 0)
+      # Make the rest of the rows na
+      data[na_rows, column] <- NA_integer_
     }
   }
   return(data)

@@ -63,10 +63,10 @@ clean_data.tool3$data <- update_series_cols(data = clean_data.tool3$data,
                                             question_separator = "_")
 
 
-# Tool 4 ---------------------------------------------------------------------- Error in Data
-# # clean_data.tool4$data <- update_series_cols(data = clean_data.tool4$data, 
-#                                             multi_vars = tool4.sm_vars[which(tool4.sm_vars %in% names(clean_data.tool4$data))], 
-#                                             question_separator = "_")
+# Tool 4 ---------------------------------------------------------------------- 
+clean_data.tool4$data <- update_series_cols(data = clean_data.tool4$data,
+                                            multi_vars = tool4.sm_vars[which(tool4.sm_vars %in% names(clean_data.tool4$data))],
+                                            question_separator = "_")
 
 clean_data.tool4$Subjects_Not_Being_Taught <- update_series_cols(data = clean_data.tool4$Subjects_Not_Being_Taught, 
                                             multi_vars = tool4.sm_vars[which(tool4.sm_vars %in% names(clean_data.tool4$Subjects_Not_Being_Taught))], 
