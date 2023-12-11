@@ -231,11 +231,13 @@ relevancy_issues <- rbind(
       mutate(sheet = "data") |>
       left_join(select(clean_data.tool7_joined$data, KEY, Sample_type = Sample_Type), by = "KEY"),
     
+    if(nrow(check_relevancy_rules(clean_data.tool7_joined$C6_list_members, relevancy_file.tool7 %>% filter(sheet == "C6_list_members"))) > 0){
     check_relevancy_rules(clean_data.tool7_joined$C6_list_members, relevancy_file.tool7 %>% filter(sheet == "C6_list_members")) |> 
       mutate(sheet = "C6_list_members") |>
       left_join(select(clean_data.tool7_joined$C6_list_members, KEY, Sample_type = Sample_Type), by = "KEY")
+    }
     # uncomment for every run
-    # check_relevancy_rules(clean_data.tool7_joined$Subjects_Added, relevancy_file.tool7 %>% filter(sheet == "Subjects_Added")) |> 
+    # check_relevancy_rules(clean_data.tool7_joined$Subjects_Added, relevancy_file.tool7 %>% filter(sheet == "Subjects_Added")) |>
     #   mutate(sheet = "Subjects_Added") |>
     #   left_join(select(clean_data.tool7_joined$Subjects_Added, KEY, Sample_type = Sample_Type), by = "KEY"),
     

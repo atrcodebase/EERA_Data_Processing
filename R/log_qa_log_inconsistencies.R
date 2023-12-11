@@ -5,7 +5,12 @@ qaed_ints_key_ps <- qa_sheet_ps |>
   unique()
 
 qaed_pending_key_ps <- qa_sheet_ps |>
-  filter(qa_status %in% c("PENDING", "NOT QA'ED")) |>
+  filter(qa_status %in% c("PENDING")) |>
+  pull(KEY) |>
+  unique()
+
+not_qaed_approved_key_ps <- qa_sheet_ps |>
+  filter(qa_status %in% c("NOT QA'ED")) |>
   pull(KEY) |>
   unique()
 
@@ -24,6 +29,7 @@ not_qaed_ints_ps <- rbind(
   mutate(
     issue = case_when(
       KEY %in% qaed_pending_key_ps ~ "The interview is in Pending Status (Either not QA'ED or being QA'ED).",
+      KEY %in% not_qaed_approved_key_ps ~ "The interview is approved (Not QA'ED category)",
       TRUE ~ "The interview is missing from QA_Log sheet."
     ),
     component = "Public School"
@@ -46,12 +52,18 @@ inconsistent_qa_status_ps <- rbind(
       TRUE ~ review_status.data
     )
   ) |> 
-  left_join(select(qa_sheet_ps, KEY, review_status.qa_logs = qa_status)) |>
+  left_join(select(qa_sheet_ps, KEY, review_status.qa_logs = qa_status) |>
+              mutate(
+                review_status.qa_logs = case_when(
+                  review_status.qa_logs == "NOT QA'ED" ~ "APPROVED",
+                  TRUE ~ review_status.qa_logs
+                )
+              )) |>
   mutate(
     issue = glue::glue("The review status in data ({review_status.data}) and QA Logs sheet ({review_status.qa_logs}) are inconssitent."),
     component = "Public School"
   ) |>
-  filter(review_status.data != review_status.qa_logs & starttime > data_collection_start_date_ps)
+  filter(review_status.data != review_status.qa_logs)
 
 print(count(inconsistent_qa_status_ps, review_status.data))
 print(count(inconsistent_qa_status_ps, review_status.qa_logs))
@@ -95,7 +107,12 @@ qaed_ints_key_cbe <- qa_sheet_cbe |>
   unique()
 
 qaed_pending_key_cbe <- qa_sheet_cbe |>
-  filter(qa_status %in% c("PENDING", "NOT QA'ED")) |>
+  filter(qa_status %in% c("PENDING")) |>
+  pull(KEY) |>
+  unique()
+
+not_qaed_approved_key_cbe <- qa_sheet_ps |>
+  filter(qa_status %in% c("NOT QA'ED")) |>
   pull(KEY) |>
   unique()
 
@@ -110,6 +127,7 @@ not_qaed_ints_cbe <- rbind(
   mutate(
     issue = case_when(
       KEY %in% qaed_pending_key_cbe ~ "The interview is in Pending Status (Either not QA'ED or being QA'ED).",
+      KEY %in% not_qaed_approved_key_cbe ~ "The interview is approved (Not QA'ED category)",
       TRUE ~ "The interview is missing from QA_Log sheet."
     ),
     component = "CBE"
@@ -129,12 +147,19 @@ inconsistent_qa_status_cbe <- rbind(
       TRUE ~ review_status.data
     )
   ) |> 
-  left_join(select(qa_sheet_cbe, KEY, review_status.qa_logs = qa_status)) |>
+  left_join(select(qa_sheet_cbe, KEY, review_status.qa_logs = qa_status) |>
+              mutate(
+                review_status.qa_logs = case_when(
+                  review_status.qa_logs == "NOT QA'ED" ~ "APPROVED",
+                  TRUE ~ review_status.qa_logs
+                )
+              )
+            ) |>
   mutate(
     issue = glue::glue("The review status in data ({review_status.data}) and QA Logs sheet ({review_status.qa_logs}) are inconssitent."),
     component = "Public School"
   ) |>
-  filter(review_status.data != review_status.qa_logs & starttime > data_collection_start_date_cbe)
+  filter(review_status.data != review_status.qa_logs)
 
 print(count(inconsistent_qa_status_cbe, review_status.data))
 print(count(inconsistent_qa_status_cbe, review_status.qa_logs))

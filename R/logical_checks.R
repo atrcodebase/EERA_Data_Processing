@@ -581,7 +581,7 @@ lc_tool1.school_operationality <- rbind(
       Issue
     )
   
-) |> mutate(tool = "Tool 1 - Headmaster", sheet = "School_Operationality")
+) |> mutate(tool = "Tool 1 - Headmaster", sheet = "School_Operationality", Old_value = as.character(Old_value))
 
 
 lc_tool1.school_operationality_other <- rbind(
@@ -645,7 +645,7 @@ lc_tool1.school_operationality_other <- rbind(
       Issue
     )
   
-) |> mutate(tool = "Tool 1 - Headmaster", sheet = "School_Operationality_Other_...")
+) |> mutate(tool = "Tool 1 - Headmaster", sheet = "School_Operationality_Other_...", Old_value = as.character(Old_value))
 
 
 # Logging issues in Tool 2 ------------------------------------------------
@@ -925,7 +925,7 @@ lc_tool2 <- rbind(
   #     Issue
   #   )
   ) |> 
-  mutate(tool = "Tool 2 - Light", sheet = "data")
+  mutate(tool = "Tool 2 - Light", sheet = "data", Old_value = as.character(Old_value))
 
 # Logging issues in Tool 3 ------------------------------------------------
 lc_tool3 <- rbind(
@@ -937,7 +937,8 @@ lc_tool3 <- rbind(
       Question = "starttime",
       Old_value = starttime,
       Related_question = "data_collection_start_date_ps",
-      Related_value = as.character(janitor::convert_to_date(data_collection_start_date_ps))
+      Related_value = as.character(janitor::convert_to_date(data_collection_start_date_ps)),
+      sheet = "data"
     ) |> 
     select(
       all_of(meta_cols),
@@ -1260,7 +1261,7 @@ lc_tool3 <- rbind(
       sheet
     )
   ) |> 
-  mutate(tool = "Tool 3 - Headcount")
+  mutate(tool = "Tool 3 - Headcount", Old_value = as.character(Old_value))
 
 
 # Logging issues in Tool 4 ------------------------------------------------
@@ -1371,7 +1372,149 @@ lc_tool4 <- rbind(
   #     Issue
   #   )
 ) |> 
-  mutate(tool = "Tool 4 - Teacher", sheet = "data")
+  mutate(tool = "Tool 4 - Teacher", sheet = "data", Old_value = as.character(Old_value))
+
+
+# Logging issues in Tool 5 ------------------------------------------------
+lc_tool5 <- rbind(
+  # Flagging interview conducted before the first day of data collection
+  clean_data.tool5$data |>
+    filter(starttime < janitor::convert_to_date(data_collection_start_date_cbe)) |> 
+    mutate(
+      Issue = "The interview is conducted before first day of data collection!",
+      Question = "starttime",
+      Old_value = starttime,
+      Related_question = "data_collection_start_date_cbe",
+      Related_value = as.character(janitor::convert_to_date(data_collection_start_date_cbe))
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  # Flagging duplicated site visit ID
+  clean_data.tool5$data |>
+    filter(duplicated(Site_Visit_ID, fromLast = T) | duplicated(Site_Visit_ID, fromLast = F)) |> 
+    mutate(
+      Issue = "The site visit ID is duplicated!",
+      Question = "Site_Visit_ID",
+      Old_value = Site_Visit_ID,
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ) |>
+    arrange(Old_value),
+  
+  # Flagging if all type of Toilets (Male, Female, Unisex) is reported 0 but also reported Toilets are under construction
+  clean_data.tool5$data |>
+    filter(C5 == "The toilets are under construction" & (C6_Male + C6_Female + C6_Unisex) <= 0) |> 
+    mutate(
+      Issue = "All type of Toilets (Male, Female, Unisex) is reported 0 but also reported Toilets are under construction",
+      Question = "C5",
+      Old_value = C5,
+      Related_question = "C6_Male + C6_Female + C6_Unisex",
+      Related_value = as.character(C6_Male + C6_Female + C6_Unisex)
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  # Flagging if all type of Usable and non-usable Toilets (Male, Female, Unisex) is reported 0
+  clean_data.tool5$data |>
+    filter((C9_1 + C9_2 + C9_3) <= 0) |> 
+    mutate(
+      Issue = "All type of Usable and non-Usable Toilets (Male, Female, Unisex) is reported 0",
+      Question = "C9_1 + C9_2 + C9_3",
+      Old_value = as.character(C9_1 + C9_2 + C9_3),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  # Flagging if A Usable toilet is reported but no photo taken for it in repeat sheet Useable_Toilets
+  clean_data.tool5$data |>
+    left_join(
+      clean_data.tool5$Useable_Toilets |>
+        group_by(KEY = PARENT_KEY) |>
+        summarise(total_photo = n()) |>
+        ungroup(), by = "KEY") |>
+    mutate(
+      total_usable_toilets = rowSums(across(c(C9_4, C9_5, C9_6)), na.rm = T)
+    ) |>
+    filter(total_usable_toilets > 0 & (total_photo < 2 | is.na(total_photo)) ) |>
+    mutate(
+      Issue = "Usable toilet is reported but no photo taken for it in repeat sheet Useable_Toilets",
+      Question = "total_usable_toilets(Calculated)",
+      Old_value = total_usable_toilets,
+      Related_question = "total_photo(Calculated)",
+      Related_value = total_photo
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  # Flagging if A Non-Usable toilet is reported but no photo taken for it in repeat sheet Non_Useable_Toilets
+  clean_data.tool5$data |>
+    left_join(
+      clean_data.tool5$Non_Useable_Toilets |>
+        group_by(KEY = PARENT_KEY) |>
+        summarise(total_photo = n()) |>
+        ungroup(), by = "KEY") |>
+    mutate(
+      total_nonusable_toilets = rowSums(across(c(C9_7, C9_8, C9_9)), na.rm = T)
+    ) |>
+    filter(total_nonusable_toilets > 0 & (total_photo < 2 | is.na(total_photo)) ) |>
+    mutate(
+      Issue = "Non-Usable toilet is reported but no photo taken for it in repeat sheet Non_Useable_Toilets",
+      Question = "total_nonusable_toilets(Calculated)",
+      Old_value = total_nonusable_toilets,
+      Related_question = "total_photo(Calculated)",
+      Related_value = total_photo
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    )
+) |> 
+  mutate(tool = "Tool 5 - WASH", sheet = "data", Old_value = as.character(Old_value))
 
 # Logging issues in Tool 6 ------------------------------------------------
 lc_tool6 <- rbind(
@@ -1796,7 +1939,7 @@ lc_tool6 <- rbind(
       Issue
     )
 ) |> 
-  mutate(tool = "Tool 6 - Parent", sheet = "data")
+  mutate(tool = "Tool 6 - Parent", sheet = "data", Old_value = as.character(Old_value))
 
 
 # Logging issues in Tool 7 ------------------------------------------------
@@ -2061,7 +2204,7 @@ lc_tool7 <- rbind(
       Issue
     )
 ) |> 
-  mutate(tool = "Tool 7 - Shura", sheet = "data")
+  mutate(tool = "Tool 7 - Shura", sheet = "data", Old_value = as.character(Old_value))
 
 
 lc_tool7.list_members <- rbind(
@@ -2085,7 +2228,7 @@ lc_tool7.list_members <- rbind(
       Issue
     )
 ) |> 
-  mutate(tool = "Tool 7 - Shura", sheet = "C6_list_members")
+  mutate(tool = "Tool 7 - Shura", sheet = "C6_list_members", Old_value = as.character(Old_value))
 
 
 # Logging issues in Tool 8 ------------------------------------------------
@@ -2286,7 +2429,7 @@ lc_tool8 <- rbind(
     mutate(
       Issue = "The number of classes is reported 0 or less.",
       Question = "E2",
-      Old_value = E2,
+      Old_value = as.character(E2),
       Related_question = "",
       Related_value = ""
     ) |> 
@@ -2298,51 +2441,431 @@ lc_tool8 <- rbind(
       Related_value,
       KEY,
       Issue
+    ),
+  
+  # Flagging if The Number of Male teacher is reported less than 0.
+  clean_data.tool8$data |>
+    filter(E7 < 0) |>
+    mutate(
+      Issue = "The Number of Male teacher is reported less than 0.",
+      Question = "E7",
+      Old_value = E7,
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  # Flagging if The Number of Female teacher is reported less than 0.
+  clean_data.tool8$data |>
+    filter(E8 < 0) |>
+    mutate(
+      Issue = "The number of Female teacher is reported less than 0.",
+      Question = "E8",
+      Old_value = as.character(E8),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  # Flagging if the number of number of absent teacher is equal to 0
+  clean_data.tool8$data |>
+    filter(E11 == "Yes" & (E12 + E13) <= 0) |>
+    mutate(
+      Issue = "It is reported that there are other teacher at the CBE other than who are present but the sum male and female other teachers are reported 0.",
+      Question = "E11",
+      Old_value = E11,
+      Related_question = "E12 - E13",
+      Related_value = paste0(E12,"-",E13)
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  # Flagging if there are other adult present during the observation but the number is reported 0
+  clean_data.tool8$data |>
+    filter(E16 == "Yes" & E17 <= 0) |>
+    mutate(
+      Issue = "It is reported that there are other adult present during the observation but the number is reported 0.",
+      Question = "E16",
+      Old_value = E16,
+      Related_question = "E17",
+      Related_value = E17
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+
+  # Flagging if The school gender is female based on sample but total male students enrolled at this CBE is reported more than 0
+  clean_data.tool8$data |>
+    filter(J2 > 0 & School_CBE_Gender_Based_On_The_Sample == "Girls") |>
+    mutate(
+      Issue = "The school gender is female based on sample but total male students enrolled at this CBE is reported more than 0.",
+      Question = "J2",
+      Old_value = as.character(J2),
+      Related_question = "School_CBE_Gender_Based_On_The_Sample",
+      Related_value = School_CBE_Gender_Based_On_The_Sample
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  # Flagging if The school gender is male based on sample but total female students enrolled at this CBE is reported more than 0
+  clean_data.tool8$data |>
+    filter(J3 > 0 & School_CBE_Gender_Based_On_The_Sample == "Boys") |>
+    mutate(
+      Issue = "The school gender is male based on sample but total female students enrolled at this CBE is reported more than 0.",
+      Question = "J3",
+      Old_value = as.character(J3),
+      Related_question = "School_CBE_Gender_Based_On_The_Sample",
+      Related_value = School_CBE_Gender_Based_On_The_Sample
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  #Flag if The total number of male and female students enrolled at this CBE is less than that CBE's headcount of male and female students
+  clean_data.tool8$data |>
+    left_join(
+      clean_data.tool8$Section_2_2_4_Headcount |>
+        mutate(
+          total_headcount_m_f = Headcount_Male_Students + Headcount_Female_Students
+        ) |>
+        group_by(KEY = PARENT_KEY) |>
+        summarise(
+          total_headcount_student = sum(total_headcount_m_f, na.rm = T)
+        ) |> select(KEY, total_headcount_student) , by = "KEY") |>
+    filter((J2 + J3) < total_headcount_student) |>
+    mutate(
+      Issue = "The total number of male and female students enrolled at this CBE is less than that CBE's headcount of male and female students.",
+      Question = "J2 + J3",
+      Old_value = as.character(J2+J3),
+      Related_question = "total_headcount_student",
+      Related_value = total_headcount_student
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
     )
-  
 ) |> 
-  mutate(tool = "Tool 8 - Class", sheet = "data")
+  mutate(tool = "Tool 8 - Class", sheet = "data", Old_value = as.character(Old_value))
 
-# lc_tool8.classes <- rbind(
-#   # Flagging if Selected Class Type does not match with Class Type in the main Sheet
-#   clean_data.tool8$Classes |>
-#     left_join( select(clean_data.tool8$data, D7.main_sheet = D7, KEY), by = c("PARENT_KEY" = "KEY")) |>
-#     filter(E2 <= 0) |>
-#     mutate(
-#       Issue = "The number of classes is reported 0 or less.",
-#       Question = "E2",
-#       Old_value = E2,
-#       Related_question = "",
-#       Related_value = ""
-#     ) |> 
-#     select(
-#       all_of(meta_cols),
-#       Question,
-#       Old_value,
-#       Related_question,
-#       Related_value,
-#       KEY,
-#       Issue
-#     )
-#   
-# )
+lc_tool8.classes <- rbind(
+  # Flagging if Selected Class Type does not match with Class Type in the main Sheet
+  clean_data.tool8$Classes |>
+    left_join( select(clean_data.tool8$data, D7.main_sheet = D7, KEY), by = c("PARENT_KEY" = "KEY")) |>
+    filter(Class_Type == "CBC and ALC" & D7.main_sheet %in% c("ALC (covering more than one grade in one academic year)","CBC (covering one grade in one academic year)")) |>
+    mutate(
+      Issue = "The Class type is selected Both CBC and ALC for the Class, but the they type of CBE is reported either ALC or CBC (Not both) in the question D7.",
+      Question = "Class_Type",
+      Old_value = Class_Type,
+      Related_question = "D7.main_sheet",
+      Related_value = D7.main_sheet
+    ) |>
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  # Flagging if Selected Class Type does not match with Class Type in the main Sheet
+  clean_data.tool8$Classes |>
+    left_join(select(clean_data.tool8$data, D7.main_sheet = D7, KEY), by = c("PARENT_KEY" = "KEY")) |>
+    filter(Class_Type == "ALC (covering more than one grade in one academic year)" & D7.main_sheet == "CBC (covering one grade in one academic year)" | 
+           Class_Type == "CBC (covering one grade in one academic year)" & D7.main_sheet == "ALC (covering more than one grade in one academic year)") |>
+    mutate(
+      Issue = "The Class type for the class does not match with Type of CBE in question D7.",
+      Question = "Class_Type",
+      Old_value = Class_Type,
+      Related_question = "D7.main_sheet",
+      Related_value = D7.main_sheet
+    ) |>
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    )
+) |> 
+  mutate(tool = "Tool 8 - Class", sheet = "Classes", Old_value = as.character(Old_value))
 
+lc_tool8.attendance_record <- rbind(
+  # Flagging if The date for the attendance sheet equal to the interview date is confirmed, but also there is a difference between those dates
+  clean_data.tool8$Section_2_2_3_Attendance_Rec... |>
+    filter(E21 == "Yes" & janitor::convert_to_date(E20) != janitor::convert_to_date(starttime)) |>
+    mutate(
+      Issue = "The date for the attendance sheet equal to the interview date is confirmed, but also there is a difference between those dates.",
+      Question = "E20",
+      Old_value = E20,
+      Related_question = "starttime",
+      Related_value = as.character(janitor::convert_to_date(starttime))
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    )
+) |> 
+  mutate(tool = "Tool 8 - Class", sheet = "Section_2_2_3_Attendance_Rec...", Old_value = as.character(Old_value))
+
+lc_tool8.headcount <- rbind(
+  #Flag if The school gender is female based on sample but headcount male students is reported more than 0
+  clean_data.tool8$Section_2_2_4_Headcount |>
+    filter(Headcount_Male_Students > 0 & School_CBE_Gender_Based_On_The_Sample == "Girls") |>
+    mutate(
+      Issue = "The school gender is female based on sample but headcount male students is reported more than 0.",
+      Question = "Headcount_Male_Students",
+      Old_value = Headcount_Male_Students,
+      Related_question = "School_CBE_Gender_Based_On_The_Sample",
+      Related_value = School_CBE_Gender_Based_On_The_Sample
+    ) |>
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  #Flag if The school gender is male based on sample but headcount female students is reported more than 0
+  clean_data.tool8$Section_2_2_4_Headcount |>
+    filter(Headcount_Female_Students > 0 & School_CBE_Gender_Based_On_The_Sample == "Boys") |>
+    mutate(
+      Issue = "The school gender is male based on sample but headcount female students is reported more than 0.",
+      Question = "Headcount_Female_Students",
+      Old_value = Headcount_Female_Students,
+      Related_question = "School_CBE_Gender_Based_On_The_Sample",
+      Related_value = School_CBE_Gender_Based_On_The_Sample
+    ) |>
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  #Flag if The school gender is female based on sample but headcount female students is reported 0 (No students for class)
+  clean_data.tool8$Section_2_2_4_Headcount |>
+    filter(Headcount_Female_Students == 0 & School_CBE_Gender_Based_On_The_Sample == "Girls") |>
+    mutate(
+      Issue = "The school gender is female based on sample but headcount female students is reported 0 (No students for class).",
+      Question = "Headcount_Female_Students",
+      Old_value = Headcount_Female_Students,
+      Related_question = "School_CBE_Gender_Based_On_The_Sample",
+      Related_value = School_CBE_Gender_Based_On_The_Sample
+    ) |>
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  #Flag if The school gender is male based on sample but headcount female students is reported 0 (No students for class)
+  clean_data.tool8$Section_2_2_4_Headcount |>
+    filter(Headcount_Male_Students == 0 & School_CBE_Gender_Based_On_The_Sample == "Boys") |>
+    mutate(
+      Issue = "The school gender is male based on sample but headcount female students is reported 0 (No students for class).",
+      Question = "Headcount_Male_Students",
+      Old_value = Headcount_Male_Students,
+      Related_question = "School_CBE_Gender_Based_On_The_Sample",
+      Related_value = School_CBE_Gender_Based_On_The_Sample
+    ) |>
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    )
+) |>
+  mutate(tool = "Tool 8 - Class", sheet = "Section_2_2_4_Headcount", Old_value = as.character(Old_value))
+
+
+lc_tool8.v_list_member <- rbind(
+  # Flagging if the sum of both Male and Female members is reported 0
+  clean_data.tool8$V_list_of_all_members |>
+    filter((V_Male_Member + V_Female_Member) <= 0) |>
+    mutate(
+      Issue = "The sum of both Male and Female members is reported 0.",
+      Question = "V_Male_Member",
+      Old_value = V_Male_Member,
+      Related_question = "V_Female_Member",
+      Related_value = V_Female_Member
+    ) |>
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    )
+) |>
+  mutate(tool = "Tool 8 - Class", sheet = "V_list_of_all_members", Old_value = as.character(Old_value))
+
+
+
+# Logging issues in Tool 9 ------------------------------------------------
+lc_tool9 <- rbind(
+  # Flagging interview conducted before the first day of data collection
+  clean_data.tool9$data |>
+    filter(starttime < janitor::convert_to_date(data_collection_start_date_cbe)) |> 
+    mutate(
+      Issue = "The interview is conducted before first day of data collection!",
+      Question = "starttime",
+      Old_value = starttime,
+      Related_question = "data_collection_start_date_cbe",
+      Related_value = as.character(janitor::convert_to_date(data_collection_start_date_cbe))
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
   
+  # Flagging duplicated site visit ID
+  clean_data.tool9$data |>
+    filter(duplicated(Site_Visit_ID, fromLast = T) | duplicated(Site_Visit_ID, fromLast = F)) |> 
+    mutate(
+      Issue = "The site visit ID is duplicated!",
+      Question = "Site_Visit_ID",
+      Old_value = Site_Visit_ID,
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ) |>
+    arrange(Old_value),
+  
+  # Flagging if Sum of Female and Male of GRC is reported 0
+  clean_data.tool9$data |>
+    filter((A12_Female_Numbers + A12_Male_Numbers) <= 0) |>
+    mutate(
+      Issue = "Sum of Female and Male of GRC is reported 0!",
+      Question = "A12_Female_Numbers",
+      Old_value = A12_Female_Numbers,
+      Related_question = "A12_Male_Numbers",
+      Related_value = A12_Male_Numbers
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  # Flagging if Sum of Female and Male of GRC for women is reported 0
+  clean_data.tool9$data |>
+    filter((A14_Female_Numbers + A14_Male_Numbers) <= 0) |>
+    mutate(
+      Issue = "Sum of Female and Male of GRC for women is reported 0!",
+      Question = "A14_Female_Numbers",
+      Old_value = A14_Female_Numbers,
+      Related_question = "A14_Male_Numbers",
+      Related_value = A14_Male_Numbers
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    )
+) |> 
+  mutate(tool = "Tool 9 - IP", sheet = "data", Old_value = as.character(Old_value))
 
-Logic_check_result <- bind_rows(
+# Combination of all tools logic checks --------------------------------------
+Logic_check_result <- rbind(
   lc_tool1,
   lc_tool1.school_operationality,
   lc_tool1.school_operationality_other,
   lc_tool2,
   lc_tool3,
   lc_tool4,
-  # lc_tool5,
+  lc_tool5,
   lc_tool6,
   lc_tool7,
   lc_tool7.list_members,
-  lc_tool8
-  # lc_tool8.classes
-  # lc_tool9
+  lc_tool8,
+  lc_tool8.classes,
+  lc_tool8.attendance_record,
+  lc_tool8.headcount,
+  lc_tool8.v_list_member,
+  lc_tool9
 )
 
 rm(list = ls(pattern = "lc_tool.*"))

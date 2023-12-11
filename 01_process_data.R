@@ -129,9 +129,10 @@ qa_sheet_ps <- qa_sheet_ps |>
   )
 
 table(qa_sheet_ps$qa_status, useNA = "always")
-# Extract Approved Interviews' uuids
+# Extract Approved Interviews' uuids 
+# TS : Including NOT QA'ED QA category into approved interviews as informed by QA team on DEC 11 
 approved_keys_ps = qa_sheet_ps |> 
-  filter(qa_status %in% c("APPROVED")) |> 
+  filter(qa_status %in% c("APPROVED", "NOT QA'ED")) |> 
   pull(KEY) |> unique()
 
 # deleted_keys = c()
@@ -173,8 +174,9 @@ qa_sheet_cbe <- qa_sheet_cbe |>
 table(qa_sheet_cbe$qa_status, useNA = "always")
 
 # Extract Approved Interviews' uuids
+# TS : Including NOT QA'ED QA category into approved interviews as informed by QA team on DEC 11 
 approved_keys_cbe = qa_sheet_cbe |> 
-  filter(qa_status %in% c("APPROVED")) |> 
+  filter(qa_status %in% c("APPROVED", "NOT QA'ED")) |> 
   pull(KEY) |> unique()
 
 # deleted_keys = c()
@@ -234,7 +236,7 @@ source("R/create_translation_log.R")
 source("R/missing_qa.R")
 
 
-# update select multiple binary variables --------- ----------------------- On-going
+# update select multiple binary variables --------- ----------------------- DONE
 source("R/fix_select_multiple_questions.R")
 
 
