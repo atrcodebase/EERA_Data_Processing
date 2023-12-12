@@ -778,7 +778,7 @@ lc_tool2 <- rbind(
     mutate(
       Issue = "The interview is conducted before first day of data collection!",
       Question = "starttime",
-      Old_value = starttime,
+      Old_value = as.character(starttime),
       Related_question = "data_collection_start_date_ps",
       Related_value = as.character(janitor::convert_to_date(data_collection_start_date_ps))
     ) |> 
@@ -1057,7 +1057,7 @@ lc_tool3 <- rbind(
     mutate(
       Issue = "The interview is conducted before first day of data collection!",
       Question = "starttime",
-      Old_value = starttime,
+      Old_value = as.character(starttime),
       Related_question = "data_collection_start_date_ps",
       Related_value = as.character(janitor::convert_to_date(data_collection_start_date_ps)),
       sheet = "data"
@@ -1419,7 +1419,7 @@ lc_tool4 <- rbind(
       Old_value = Site_Visit_ID,
       Related_question = "n_site_visit_ids",
       Related_value = as.character(n_site_visit_ids),
-      starttime = NA_POSIXct_,
+      starttime =as.character( NA_POSIXct_),
       KEY = ""
     ) |> 
     select(
@@ -1505,7 +1505,7 @@ lc_tool5 <- rbind(
     mutate(
       Issue = "The interview is conducted before first day of data collection!",
       Question = "starttime",
-      Old_value = starttime,
+      Old_value = as.character(starttime),
       Related_question = "data_collection_start_date_cbe",
       Related_value = as.character(janitor::convert_to_date(data_collection_start_date_cbe))
     ) |> 
@@ -1692,7 +1692,7 @@ lc_tool6 <- rbind(
       Old_value = Site_Visit_ID,
       Related_question = "n_site_visit_ids",
       Related_value = as.character(n_site_visit_ids),
-      starttime = NA_POSIXct_,
+      starttime = as.character(NA_POSIXct_),
       KEY = ""
     ) |> 
     select(
@@ -1716,7 +1716,7 @@ lc_tool6 <- rbind(
       Old_value = Site_Visit_ID,
       Related_question = "n_site_visit_ids",
       Related_value = as.character(n_site_visit_ids),
-      starttime = NA_POSIXct_,
+      starttime = as.character(NA_POSIXct_),
       KEY = ""
     ) |> 
     select(
@@ -2118,7 +2118,7 @@ lc_tool7 <- rbind(
       Old_value = Site_Visit_ID,
       Related_question = "n_site_visit_ids",
       Related_value = as.character(n_site_visit_ids),
-      starttime = NA_POSIXct_,
+      starttime = as.character(NA_POSIXct_),
       KEY = ""
     ) |> 
     select(
@@ -2142,7 +2142,7 @@ lc_tool7 <- rbind(
       Old_value = Site_Visit_ID,
       Related_question = "n_site_visit_ids",
       Related_value = as.character(n_site_visit_ids),
-      starttime = NA_POSIXct_,
+      starttime = as.character(NA_POSIXct_),
       KEY = ""
     ) |> 
     select(
@@ -2362,7 +2362,7 @@ lc_tool8 <- rbind(
     mutate(
       Issue = "The interview is conducted before first day of data collection!",
       Question = "starttime",
-      Old_value = starttime,
+      Old_value = as.character(starttime),
       Related_question = "data_collection_start_date_cbe",
       Related_value = as.character(janitor::convert_to_date(data_collection_start_date_cbe))
     ) |> 
@@ -2893,7 +2893,7 @@ lc_tool9 <- rbind(
     mutate(
       Issue = "The interview is conducted before first day of data collection!",
       Question = "starttime",
-      Old_value = starttime,
+      Old_value = as.character(starttime),
       Related_question = "data_collection_start_date_cbe",
       Related_value = as.character(janitor::convert_to_date(data_collection_start_date_cbe))
     ) |> 
