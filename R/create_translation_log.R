@@ -4,73 +4,73 @@ source("R/functions/missing_translation_function.R")
 missing_translations <- bind_rows(
   ## Tool 1
   bind_rows(
-    missing_translation_func(clean_data.tool1$data),
-    missing_translation_func(clean_data.tool1$Support_Respondents),
-    missing_translation_func(clean_data.tool1$School_Operationality),
-    missing_translation_func(clean_data.tool1$School_Operationality_Other_...),
-    missing_translation_func(clean_data.tool1$Shifts_Detail),
-    missing_translation_func(clean_data.tool1$Other_Shifts_Detail),
-    missing_translation_func(clean_data.tool1$Headmasters),
-    missing_translation_func(clean_data.tool1$Curriculum_Changes),
-    missing_translation_func(clean_data.tool1$Weekly_Class_Schedule),
-    missing_translation_func(clean_data.tool1$Grades_Curriculum),
-    missing_translation_func(clean_data.tool1$Subjects_Detail),
-    missing_translation_func(clean_data.tool1$Education_Quality),
-    missing_translation_func(clean_data.tool1$Relevant_photos),
+    missing_translation_func(clean_data.tool1$data) |> mutate(Tab_Name = "data"),
+    missing_translation_func(clean_data.tool1$Support_Respondents) |> mutate(Tab_Name = "Support_Respondents"),
+    missing_translation_func(clean_data.tool1$School_Operationality) |> mutate(Tab_Name = "School_Operationality"),
+    missing_translation_func(clean_data.tool1$School_Operationality_Other_...) |> mutate(Tab_Name = "School_Operationality_Other_..."),
+    missing_translation_func(clean_data.tool1$Shifts_Detail) |> mutate(Tab_Name = "Shifts_Detail"),
+    missing_translation_func(clean_data.tool1$Other_Shifts_Detail) |> mutate(Tab_Name = "Other_Shifts_Detail"),
+    missing_translation_func(clean_data.tool1$Headmasters) |> mutate(Tab_Name = "Headmasters"),
+    missing_translation_func(clean_data.tool1$Curriculum_Changes) |> mutate(Tab_Name = "Curriculum_Changes"),
+    missing_translation_func(clean_data.tool1$Weekly_Class_Schedule) |> mutate(Tab_Name = "Weekly_Class_Schedule"),
+    missing_translation_func(clean_data.tool1$Grades_Curriculum) |> mutate(Tab_Name = "Grades_Curriculum"),
+    missing_translation_func(clean_data.tool1$Subjects_Detail) |> mutate(Tab_Name = "Subjects_Detail"),
+    missing_translation_func(clean_data.tool1$Education_Quality) |> mutate(Tab_Name = "Education_Quality"),
+    missing_translation_func(clean_data.tool1$Relevant_photos) |> mutate(Tab_Name = "Relevant_photos"),
   ) |>
     mutate(tool = "Tool 1 - Headmaster", Sample_Type = "Public School", .before = question_name),
   
   ## Tool 2
   bind_rows(
-    missing_translation_func(clean_data.tool2$data),
-    missing_translation_func(clean_data.tool2$Support_Respondents),
-    missing_translation_func(clean_data.tool2$Attendance_Sheet_Photos),
-    missing_translation_func(clean_data.tool2$Public_Stationary_Kit_Group),
-    missing_translation_func(clean_data.tool2$Teachers_Pack_Group),
-    missing_translation_func(clean_data.tool2$Students_Pack_Group),
-    missing_translation_func(clean_data.tool2$Relevant_photos)
+    missing_translation_func(clean_data.tool2$data) |> mutate(Tab_Name = "data"),
+    missing_translation_func(clean_data.tool2$Support_Respondents) |> mutate(Tab_Name = "Support_Respondents"),
+    missing_translation_func(clean_data.tool2$Attendance_Sheet_Photos) |> mutate(Tab_Name = "Attendance_Sheet_Photos"),
+    missing_translation_func(clean_data.tool2$Public_Stationary_Kit_Group) |> mutate(Tab_Name = "Public_Stationary_Kit_Group"),
+    missing_translation_func(clean_data.tool2$Teachers_Pack_Group) |> mutate(Tab_Name = "Teachers_Pack_Group"),
+    missing_translation_func(clean_data.tool2$Students_Pack_Group) |> mutate(Tab_Name = "Students_Pack_Group"),
+    missing_translation_func(clean_data.tool2$Relevant_photos) |> mutate(Tab_Name = "Relevant_photos")
   ) |>
     mutate(tool = "Tool 2 - Light", Sample_Type = "Public School", .before = question_name),
   
   ## Tool 3
   bind_rows(
-    missing_translation_func(clean_data.tool3$data),
-    missing_translation_func(clean_data.tool3$Support_Respondents),
-    missing_translation_func(clean_data.tool3$Enrollement_Attendance_Summary),
-    missing_translation_func(clean_data.tool3$Grade_Details),
-    missing_translation_func(clean_data.tool3$Todays_Attendance_Detail),
-    missing_translation_func(clean_data.tool3$LastWeek_Attendance_Detail),
-    missing_translation_func(clean_data.tool3$Student_Headcount),
-    missing_translation_func(clean_data.tool3$Relevant_photos)
+    missing_translation_func(clean_data.tool3$data) |> mutate(Tab_Name = "data"),
+    missing_translation_func(clean_data.tool3$Support_Respondents) |> mutate(Tab_Name = "Support_Respondents"),
+    missing_translation_func(clean_data.tool3$Enrollement_Attendance_Summary) |> mutate(Tab_Name = "Enrollement_Attendance_Summary"),
+    missing_translation_func(clean_data.tool3$Grade_Details) |> mutate(Tab_Name = "Grade_Details"),
+    missing_translation_func(clean_data.tool3$Todays_Attendance_Detail) |> mutate(Tab_Name = "Todays_Attendance_Detail"),
+    missing_translation_func(clean_data.tool3$LastWeek_Attendance_Detail) |> mutate(Tab_Name = "LastWeek_Attendance_Detail"),
+    missing_translation_func(clean_data.tool3$Student_Headcount) |> mutate(Tab_Name = "Student_Headcount"),
+    missing_translation_func(clean_data.tool3$Relevant_photos) |> mutate(Tab_Name = "Relevant_photos")
   ) |>
     mutate(tool = "Tool 3 - Headcount", Sample_Type = "Public School", .before = question_name),
   
   ## Tool 4
   bind_rows(
-    missing_translation_func(clean_data.tool4$data),
-    missing_translation_func(clean_data.tool4$Additional_Subjects),
-    missing_translation_func(clean_data.tool4$Subjects_taught_by_this_teacher),
-    missing_translation_func(clean_data.tool4$Subjects_Not_Being_Taught),
-    missing_translation_func(clean_data.tool4$Relevant_photos)
+    missing_translation_func(clean_data.tool4$data) |> mutate(Tab_Name = "data"),
+    missing_translation_func(clean_data.tool4$Additional_Subjects) |> mutate(Tab_Name = "Additional_Subjects"),
+    missing_translation_func(clean_data.tool4$Subjects_taught_by_this_teacher) |> mutate(Tab_Name = "Subjects_taught_by_this_teacher"),
+    missing_translation_func(clean_data.tool4$Subjects_Not_Being_Taught) |> mutate(Tab_Name = "Subjects_Not_Being_Taught"),
+    missing_translation_func(clean_data.tool4$Relevant_photos) |> mutate(Tab_Name = "Relevant_photos")
   ) |>
     mutate(tool = "Tool 4 - Teacher", Sample_Type = "Public School", .before = question_name),
 
   ## Tool 5
   bind_rows(
-    missing_translation_func(clean_data.tool5$data),
-    missing_translation_func(clean_data.tool5$Under_Construction_Toilets),
-    missing_translation_func(clean_data.tool5$Useable_Toilets),
-    missing_translation_func(clean_data.tool5$Non_Useable_Toilets),
-    missing_translation_func(clean_data.tool5$Relevant_photos)
+    missing_translation_func(clean_data.tool5$data) |> mutate(Tab_Name = "data"),
+    missing_translation_func(clean_data.tool5$Under_Construction_Toilets) |> mutate(Tab_Name = "Under_Construction_Toilets"),
+    missing_translation_func(clean_data.tool5$Useable_Toilets) |> mutate(Tab_Name = "Useable_Toilets"),
+    missing_translation_func(clean_data.tool5$Non_Useable_Toilets) |> mutate(Tab_Name = "Non_Useable_Toilets"),
+    missing_translation_func(clean_data.tool5$Relevant_photos) |> mutate(Tab_Name = "Relevant_photos")
   ) |>
     mutate(tool = "Tool 5 - WASH", Sample_Type = "Public School", .before = question_name),
 
   ## Tool 6
   bind_rows(
-    missing_translation_func(clean_data.tool6$data) |> 
+    missing_translation_func(clean_data.tool6$data) |> mutate(Tab_Name = "data") |> 
       left_join(clean_data.tool6$data |> select(KEY, Sample_Type), by = "KEY"),
     
-    missing_translation_func(clean_data.tool6$Subjects_Added) |>
+    missing_translation_func(clean_data.tool6$Subjects_Added) |> mutate(Tab_Name = "Subjects_Added") |>
       mutate(
         PARENT_KEY = str_sub(KEY, 1, 41)
       ) |> left_join(clean_data.tool6$data |> select(KEY, Sample_Type), by = c("PARENT_KEY" = "KEY")) |>
@@ -81,16 +81,16 @@ missing_translations <- bind_rows(
 
   ## Tool 7
   bind_rows(
-    missing_translation_func(clean_data.tool7$data) |> 
+    missing_translation_func(clean_data.tool7$data) |> mutate(Tab_Name = "data") |> 
       left_join(clean_data.tool7$data |> select(KEY, Sample_Type), by = "KEY"),
     
-    missing_translation_func(clean_data.tool7$C6_list_members) |>
+    missing_translation_func(clean_data.tool7$C6_list_members) |> mutate(Tab_Name = "C6_list_members") |>
       mutate(
         PARENT_KEY = str_sub(KEY, 1, 41)
       ) |> left_join(clean_data.tool7$data |> select(KEY, Sample_Type), by = c("PARENT_KEY" = "KEY")) |>
       select(-PARENT_KEY),
     
-    missing_translation_func(clean_data.tool7$Subjects_Added) |>
+    missing_translation_func(clean_data.tool7$Subjects_Added) |> mutate(Tab_Name = "Subjects_Added") |>
       mutate(
         PARENT_KEY = str_sub(KEY, 1, 41)
       ) |> left_join(clean_data.tool7$data |> select(KEY, Sample_Type), by = c("PARENT_KEY" = "KEY")) |>
@@ -101,26 +101,26 @@ missing_translations <- bind_rows(
 
   ## Tool 8
   bind_rows(
-    missing_translation_func(clean_data.tool8$data),
-    missing_translation_func(clean_data.tool8$Classes),
-    missing_translation_func(clean_data.tool8$Adults_At_The_CBE),
-    missing_translation_func(clean_data.tool8$Section_2_2_3_Attendance_Rec...),
-    missing_translation_func(clean_data.tool8$Section_2_2_4_Headcount),
-    missing_translation_func(clean_data.tool8$Students_Enrolment_Book),
-    missing_translation_func(clean_data.tool8$Section_2_4_Student_Ages),
-    missing_translation_func(clean_data.tool8$Classroom_Materials),
-    missing_translation_func(clean_data.tool8$Teacher_Kit),
-    missing_translation_func(clean_data.tool8$Student_Kit),
-    missing_translation_func(clean_data.tool8$V_list_of_all_members),
-    missing_translation_func(clean_data.tool8$Subjects_Added),
-    missing_translation_func(clean_data.tool8$Relevant_photos)
+    missing_translation_func(clean_data.tool8$data) |> mutate(Tab_Name = "data"),
+    missing_translation_func(clean_data.tool8$Classes) |> mutate(Tab_Name = "Classes"),
+    missing_translation_func(clean_data.tool8$Adults_At_The_CBE) |> mutate(Tab_Name = "Adults_At_The_CBE"),
+    missing_translation_func(clean_data.tool8$Section_2_2_3_Attendance_Rec...) |> mutate(Tab_Name = "Section_2_2_3_Attendance_Rec..."),
+    missing_translation_func(clean_data.tool8$Section_2_2_4_Headcount) |> mutate(Tab_Name = "Section_2_2_4_Headcount"),
+    missing_translation_func(clean_data.tool8$Students_Enrolment_Book) |> mutate(Tab_Name = "Students_Enrolment_Book"),
+    missing_translation_func(clean_data.tool8$Section_2_4_Student_Ages) |> mutate(Tab_Name = "Section_2_4_Student_Ages"),
+    missing_translation_func(clean_data.tool8$Classroom_Materials) |> mutate(Tab_Name = "Classroom_Materials"),
+    missing_translation_func(clean_data.tool8$Teacher_Kit) |> mutate(Tab_Name = "Teacher_Kit"),
+    missing_translation_func(clean_data.tool8$Student_Kit) |> mutate(Tab_Name = "Student_Kit"),
+    missing_translation_func(clean_data.tool8$V_list_of_all_members) |> mutate(Tab_Name = "V_list_of_all_members"),
+    missing_translation_func(clean_data.tool8$Subjects_Added) |> mutate(Tab_Name = "Subjects_Added"),
+    missing_translation_func(clean_data.tool8$Relevant_photos) |> mutate(Tab_Name = "Relevant_photos")
   ) |>
     mutate(tool = "Tool 8 - Class", Sample_Type = "CBE", .before = question_name),
   
   ## Tool 9
   bind_rows(
-    missing_translation_func(clean_data.tool9$data),
-    missing_translation_func(clean_data.tool9$Relevant_photos)
+    missing_translation_func(clean_data.tool9$data) |> mutate(Tab_Name = "data"),
+    missing_translation_func(clean_data.tool9$Relevant_photos) |> mutate(Tab_Name = "Relevant_photos")
   ) |>
     mutate(tool = "Tool 9 - IP", Sample_Type = "CBE", .before = question_name)
 )
@@ -187,38 +187,38 @@ missing_translations <- missing_translations |>
 un_logged_values <- bind_rows(
   ## Tool 1
   bind_rows(
-    log_translation_cols(clean_data.tool1$data, need_translation),
-    log_translation_cols(clean_data.tool1$Support_Respondents, need_translation),
-    log_translation_cols(clean_data.tool1$School_Operationality, need_translation),
-    log_translation_cols(clean_data.tool1$School_Operationality_Other_..., need_translation),
+    log_translation_cols(clean_data.tool1$data, need_translation) |> mutate(Tab_Name = "data"),
+    log_translation_cols(clean_data.tool1$Support_Respondents, need_translation) |> mutate(Tab_Name = "Support_Respondents"),
+    log_translation_cols(clean_data.tool1$School_Operationality, need_translation) |> mutate(Tab_Name = "School_Operationality"),
+    log_translation_cols(clean_data.tool1$School_Operationality_Other_..., need_translation) |> mutate(Tab_Name = "School_Operationality_Other_..."),
     log_translation_cols(clean_data.tool1$Shifts_Detail, need_translation),
     log_translation_cols(clean_data.tool1$Other_Shifts_Detail, need_translation),
     log_translation_cols(clean_data.tool1$Headmasters, need_translation),
     log_translation_cols(clean_data.tool1$Curriculum_Changes, need_translation),
     log_translation_cols(clean_data.tool1$Weekly_Class_Schedule, need_translation),
     log_translation_cols(clean_data.tool1$Grades_Curriculum, need_translation),
-    log_translation_cols(clean_data.tool1$Subjects_Detail, need_translation),
-    log_translation_cols(clean_data.tool1$Education_Quality, need_translation),
+    log_translation_cols(clean_data.tool1$Subjects_Detail, need_translation) |> mutate(Tab_Name = "Subjects_Detail"),
+    log_translation_cols(clean_data.tool1$Education_Quality, need_translation) |> mutate(Tab_Name = "Education_Quality"),
     log_translation_cols(clean_data.tool1$Relevant_photos, need_translation)
   ) |>
     mutate(tool = "Tool 1 - Headmaster", .before = question_name),
   
   ## Tool 2
   bind_rows(
-    log_translation_cols(clean_data.tool2$data, need_translation),
-    log_translation_cols(clean_data.tool2$Support_Respondents, need_translation),
+    log_translation_cols(clean_data.tool2$data, need_translation) |> mutate(Tab_Name = "data"),
+    log_translation_cols(clean_data.tool2$Support_Respondents, need_translation) |> mutate(Tab_Name = "Support_Respondents"),
     log_translation_cols(clean_data.tool2$Attendance_Sheet_Photos, need_translation),
-    log_translation_cols(clean_data.tool2$Public_Stationary_Kit_Group, need_translation),
-    log_translation_cols(clean_data.tool2$Teachers_Pack_Group, need_translation),
-    log_translation_cols(clean_data.tool2$Students_Pack_Group, need_translation),
+    log_translation_cols(clean_data.tool2$Public_Stationary_Kit_Group, need_translation) |> mutate(Tab_Name = "Public_Stationary_Kit_Group"),
+    log_translation_cols(clean_data.tool2$Teachers_Pack_Group, need_translation) |> mutate(Tab_Name = "Teachers_Pack_Group"),
+    log_translation_cols(clean_data.tool2$Students_Pack_Group, need_translation) |> mutate(Tab_Name = "Students_Pack_Group"),
     log_translation_cols(clean_data.tool2$Relevant_photos, need_translation)
   ) |>
     mutate(tool = "Tool 2 - Light", .before = question_name),
   
   ## Tool 3
   bind_rows(
-    log_translation_cols(clean_data.tool3$data, need_translation),
-    log_translation_cols(clean_data.tool3$Support_Respondents, need_translation),
+    log_translation_cols(clean_data.tool3$data, need_translation) |> mutate(Tab_Name = "data"),
+    log_translation_cols(clean_data.tool3$Support_Respondents, need_translation) |> mutate(Tab_Name = "Support_Respondents"),
     log_translation_cols(clean_data.tool3$Grade_Details, need_translation),
     log_translation_cols(clean_data.tool3$Enrollement_Attendance_Summary, need_translation),
     log_translation_cols(clean_data.tool3$Todays_Attendance_Detail, need_translation),
@@ -230,17 +230,17 @@ un_logged_values <- bind_rows(
   
   ## Tool 4
   bind_rows(
-    log_translation_cols(clean_data.tool4$data, need_translation),
+    log_translation_cols(clean_data.tool4$data, need_translation) |> mutate(Tab_Name = "data"),
     log_translation_cols(clean_data.tool4$Additional_Subjects, need_translation),
-    log_translation_cols(clean_data.tool4$Subjects_taught_by_this_teacher, need_translation),
-    log_translation_cols(clean_data.tool4$Subjects_Not_Being_Taught, need_translation),
+    log_translation_cols(clean_data.tool4$Subjects_taught_by_this_teacher, need_translation) |> mutate(Tab_Name = "Subjects_taught_by_this_teacher"),
+    log_translation_cols(clean_data.tool4$Subjects_Not_Being_Taught, need_translation) |> mutate(Tab_Name = "Subjects_Not_Being_Taught"),
     log_translation_cols(clean_data.tool4$Relevant_photos, need_translation)
   ) |>
     mutate(tool = "Tool 4 - Teacher", .before = question_name),
 
   ## Tool 5
   bind_rows(
-    log_translation_cols(clean_data.tool5$data, need_translation),
+    log_translation_cols(clean_data.tool5$data, need_translation) |> mutate(Tab_Name = "data"),
     log_translation_cols(clean_data.tool5$Under_Construction_Toilets, need_translation),
     log_translation_cols(clean_data.tool5$Useable_Toilets, need_translation),
     log_translation_cols(clean_data.tool5$Non_Useable_Toilets, need_translation),
@@ -250,7 +250,7 @@ un_logged_values <- bind_rows(
   
   ## Tool 6
   bind_rows(
-    log_translation_cols(clean_data.tool6$data, need_translation),
+    log_translation_cols(clean_data.tool6$data, need_translation) |> mutate(Tab_Name = "data"),
     log_translation_cols(clean_data.tool6$Subjects_Added, need_translation),
     log_translation_cols(clean_data.tool6$Relevant_photos, need_translation)
   ) |>
@@ -258,7 +258,7 @@ un_logged_values <- bind_rows(
   
   ## Tool 7
   bind_rows(
-    log_translation_cols(clean_data.tool7$data |> mutate(E10_Other = as.character(E10_Other)), need_translation),
+    log_translation_cols(clean_data.tool7$data |> mutate(E10_Other = as.character(E10_Other)), need_translation) |> mutate(Tab_Name = "data"),
     log_translation_cols(clean_data.tool7$C6_list_members, need_translation),
     log_translation_cols(clean_data.tool7$Subjects_Added, need_translation),
     log_translation_cols(clean_data.tool7$Relevant_photos, need_translation)
@@ -267,16 +267,16 @@ un_logged_values <- bind_rows(
   
   ## Tool 8
   bind_rows(
-    log_translation_cols(clean_data.tool8$data, need_translation),
+    log_translation_cols(clean_data.tool8$data, need_translation) |> mutate(Tab_Name = "data"),
     log_translation_cols(clean_data.tool8$Classes, need_translation),
-    log_translation_cols(clean_data.tool8$Adults_At_The_CBE, need_translation),
+    log_translation_cols(clean_data.tool8$Adults_At_The_CBE, need_translation) |> mutate(Tab_Name = "Adults_At_The_CBE"),
     log_translation_cols(clean_data.tool8$Section_2_2_3_Attendance_Rec..., need_translation),
     log_translation_cols(clean_data.tool8$Section_2_2_4_Headcount, need_translation),
     log_translation_cols(clean_data.tool8$Students_Enrolment_Book, need_translation),
     log_translation_cols(clean_data.tool8$Section_2_4_Student_Ages, need_translation),
-    log_translation_cols(clean_data.tool8$Classroom_Materials, need_translation),
-    log_translation_cols(clean_data.tool8$Teacher_Kit, need_translation),
-    log_translation_cols(clean_data.tool8$Student_Kit, need_translation),
+    log_translation_cols(clean_data.tool8$Classroom_Materials, need_translation) |> mutate(Tab_Name = "Classroom_Materials"),
+    log_translation_cols(clean_data.tool8$Teacher_Kit, need_translation) |> mutate(Tab_Name = "Teacher_Kit"),
+    log_translation_cols(clean_data.tool8$Student_Kit, need_translation) |> mutate(Tab_Name = "Student_Kit"),
     log_translation_cols(clean_data.tool8$V_list_of_all_members, need_translation),
     log_translation_cols(clean_data.tool8$Subjects_Added, need_translation),
     log_translation_cols(clean_data.tool8$Relevant_photos, need_translation)
@@ -285,7 +285,7 @@ un_logged_values <- bind_rows(
   
   ## Tool 9
   bind_rows(
-    log_translation_cols(clean_data.tool9$data, need_translation),
+    log_translation_cols(clean_data.tool9$data, need_translation) |> mutate(Tab_Name = "data"),
     log_translation_cols(clean_data.tool9$Relevant_photos, need_translation)
   ) |>
     mutate(tool = "Tool 9 - IP", .before = question_name)
