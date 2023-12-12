@@ -21,7 +21,7 @@ lc_tool1 <- rbind(
     mutate(
       Issue = "The interview is conducted before first day of data collection!",
       Question = "starttime",
-      Old_value = starttime,
+      Old_value = as.character(starttime),
       Related_question = "data_collection_start_date_ps",
       Related_value = as.character(janitor::convert_to_date(data_collection_start_date_ps))
     ) |> 
