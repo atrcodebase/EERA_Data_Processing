@@ -521,6 +521,66 @@ lc_tool1 <- rbind(
 
 
 lc_tool1.school_operationality <- rbind(
+  # Flagging if Grade ID is blank
+  clean_data.tool1$School_Operationality |>
+    filter(is.na(Grade_ID) | Grade_ID == "") |> 
+    mutate(
+      Issue = "The Grade ID is reported BLANK for this Site Visit ID!",
+      Question = "Grade_ID",
+      Old_value = Grade_ID,
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  # Flagging if Grade_Name_Eng is blank
+  clean_data.tool1$School_Operationality |>
+    filter(is.na(Grade_Name_Eng) | Grade_Name_Eng == "") |> 
+    mutate(
+      Issue = "The Grade_Name_Eng is reported BLANK for this Site Visit ID!",
+      Question = "Grade_Name_Eng",
+      Old_value = Grade_Name_Eng,
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  # Flagging duplicated Grade ID
+  clean_data.tool1$School_Operationality |>
+    filter(duplicated(Grade_ID, fromLast = T) | duplicated(Grade_ID, fromLast = F)) |> 
+    mutate(
+      Issue = "The Grade ID is duplicated for this Site Visit ID!",
+      Question = "Grade_ID",
+      Old_value = Grade_ID,
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
   # Flagging if It is reported that Grade's classes are running for both Girls and Boys which is differed with Sampling information.
   clean_data.tool1$School_Operationality |>
     filter(C13A2 == "Both" & School_CBE_Gender_Based_On_The_Sample != "Mixed") |>
@@ -647,6 +707,68 @@ lc_tool1.school_operationality_other <- rbind(
   
 ) |> mutate(tool = "Tool 1 - Headmaster", sheet = "School_Operationality_Other_...", Old_value = as.character(Old_value))
 
+
+lc_tool1.shift <- rbind(
+  # Flagging if Grade ID is blank
+  clean_data.tool1$Shifts_Detail |>
+    filter(is.na(Shift_ID) | Shift_ID == "") |> 
+    mutate(
+      Issue = "The Shift ID is reported BLANK for this Site Visit ID!",
+      Question = "Shift_ID",
+      Old_value = Shift_ID,
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  # Flagging if Shift_Name_Eng is blank
+  clean_data.tool1$Shifts_Detail |>
+    filter(is.na(Shift_Name_Eng) | Shift_Name_Eng == "") |> 
+    mutate(
+      Issue = "The Shift English Name is reported BLANK for this Site Visit ID!",
+      Question = "Shift_Name_Eng",
+      Old_value = Shift_Name_Eng,
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  # Flagging duplicated Grade ID
+  clean_data.tool1$Shifts_Detail |>
+    filter(duplicated(Shift_ID, fromLast = T) | duplicated(Shift_ID, fromLast = F)) |> 
+    mutate(
+      Issue = "The Shift_ID is duplicated for this Site Visit ID!",
+      Question = "Shift_ID",
+      Old_value = Shift_ID,
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    )
+)  |> mutate(tool = "Tool 1 - Headmaster", sheet = "Shifts_Detail", Old_value = as.character(Old_value))
 
 # Logging issues in Tool 2 ------------------------------------------------
 lc_tool2 <- rbind(
@@ -2853,6 +2975,7 @@ Logic_check_result <- rbind(
   lc_tool1,
   lc_tool1.school_operationality,
   lc_tool1.school_operationality_other,
+  lc_tool1.shift,
   lc_tool2,
   lc_tool3,
   lc_tool4,

@@ -80,9 +80,9 @@ relevancy_file.tool9 = read_xlsx_sheets(relevancy_files_path$tool9)
 
 
 # read the sample file
-sample_file.ps = read.xlsx(sample_files_path[5])
+sample_file.ps = read.xlsx(sample_files_path[6])
 sample_file.cbe = read.xlsx(sample_files_path[2])
-sample_file.mined = read.xlsx(sample_files_path[4])
+sample_file.cencus = read.csv(sample_files_path[5])
 sample_file.ip = read.csv(sample_files_path[3])
 
 # read QA log from Google sheet - Public School -------------------------------
