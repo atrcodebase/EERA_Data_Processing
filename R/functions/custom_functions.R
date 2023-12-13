@@ -114,46 +114,24 @@ check_relevancy_rules <- function(data, tool_relevancy){
   return(relevancy_log)
 }
 
-## old version -- issue : fill binary columns with 0 if parent question was NA
-# update_series_cols <- function(data, multi_vars, question_separator){
-#   for(question in multi_vars){
-#     print(paste0("Updating: ", question))
-#     # Get all series columns
-#     series_cols <- names(select(data, starts_with(paste0(question, question_separator))))
-#     series_cols <- series_cols[!grepl("_other", series_cols, ignore.case = T)] # exclude the Other questions
-#     
-#     # Make all series cols numeric
-#     data <- data %>% mutate(across(all_of(series_cols), as.numeric))
-#     # Get rows with non-NA values
-#     rows <- which(!is.na(data[[question]]))
-#     
-#     # Loop each series column
-#     for(column in series_cols){
-#       # Add word boundary for str_detect (differentiate 1 from 13)
-#       response <- paste0("\\b", gsub(paste0(question, question_separator), "", column),"\\b")
-#       # Assign 1 if value exists in main question, else 0
-#       data[rows, column] <- ifelse(str_detect(data[[question]][rows], response), 1, 0)
-#     }
-#   }
-#   return(data)
-# }
-
-update_series_cols <- function(data, multi_vars, question_separator){
-  # question= "E2"
-  for(question in multi_vars){
-    print(paste0("Updating: ", question))
-    # Get all series columns
-    series_cols <- names(select(data, starts_with(paste0(question, question_separator))))
-    series_cols <- series_cols[!grepl("_other", series_cols, ignore.case = T)] # exclude the Other questions
-    
+## Update Series cols
+update_series_cols <- function(data, tool, question_separator){
+  # Read & Filter tool
+  # tool <- read_excel(tool_path, "survey", guess_max = 100000)
+  sm_cols <- tool$name[grepl("select_multiple", tool$type) & tool$name %in% names(data)]
+  
+  for(question in sm_cols){
+    # print(paste0("Updating: ", question)) # Print
+    ## Get all series columns
+    series_cols <- names(data)[grepl(paste0("^",question, question_separator, "[0-9]{1,2}$"), names(data))] # Regex: detect the question ended by 1 to 4 numbers followed by nothing else
     # Make all series cols numeric
     data <- data %>% mutate(across(all_of(series_cols), as.numeric))
+    
     # Get rows with non-NA values
-    rows <- which(!is.na(data[[question]]) & data[[question]] != "")
-    na_rows <- which(is.na(data[[question]]) | data[[question]] == "")
+    rows <- which(!is.na(data[[question]]))
+    na_rows <- which(is.na(data[[question]]))
     
     # Loop each series column
-    # column = "E2_1"
     for(column in series_cols){
       # Add word boundary for str_detect (differentiate 1 from 13)
       response <- paste0("\\b", gsub(paste0(question, question_separator), "", column),"\\b")
@@ -165,7 +143,6 @@ update_series_cols <- function(data, multi_vars, question_separator){
   }
   return(data)
 }
-
 check_select_multiple <- function(data, multi_vars, question_separator, choice_seprator, KEY="KEY"){
   
   series_log <- data.frame(KEY=NA,question=NA,value=NA,series_columns=NA,

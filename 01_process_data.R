@@ -11,7 +11,7 @@ if(!require(openxlsx)) install.packages("openxlsx")
 if(!require(readxl)) install.packages("readxl")
 if(!require(readxl)) install.packages("lubridate")
 if(!require(readxl)) install.packages("janitor")
-
+`%notin%` <- Negate(`%in%`)
 
 source("R/functions/read_xlsx_all_sheets.R")
 source("R/functions/convert_numbers_to_date.R")
@@ -25,17 +25,20 @@ data_collection_start_date_ps = as.Date("11.11.2023", format("%d.%m.%Y"))
 
 qa_sheet_url_cbe = "https://docs.google.com/spreadsheets/d/1xV_1CI13j-td2eaCWtU_1ffdscqshOalaI_MTXB0_zo/edit#gid=1005923888"
 qa_sheet_url_ps = "https://docs.google.com/spreadsheets/d/1VZF0KCZ__Ulp6N6Nx2VIcXZNwM50wpTPjZu3ewrDyrI/edit#gid=1005923888"
+data_entry_url = "https://docs.google.com/spreadsheets/d/1vM9YUQW5UkehLQmGhlf-nWLuh3keHg_lc0hW_MFNl3E/edit#gid=1568445961"
 
 output_data_path = "output/"
 sample_files_path = list.files("input/sample_files/", full.names = T)
-raw_data_path = list.files("input/raw_data/", full.names = T) |> as.list() %>% setNames(gsub(".*Tool (\\d).*", "tool\\1", .))
-kobo_tools_path = list.files("input/tools/", full.names = T) |> as.list() %>% setNames(gsub(".*Tool (\\d).*", "tool\\1", .))
-relevancy_files_path = list.files("input/relevancy_files/", full.names = T) |> as.list() %>% setNames(gsub(".*tool(\\d).*", "tool\\1", .))
+raw_data_path = list.files("input/raw_data/", full.names = T) %>% .[!grepl("/\\~\\$", .)] |> as.list() %>% setNames(gsub(".*Tool (\\d).*", "tool\\1", .))
+kobo_tools_path = list.files("input/tools/", full.names = T) %>% .[!grepl("/\\~\\$", .)] |> as.list() %>% setNames(gsub(".*Tool (\\d).*", "tool\\1", .))
+relevancy_files_path = list.files("input/relevancy_files/", full.names = T) %>% .[!grepl("/\\~\\$", .)] |> as.list() %>% setNames(gsub(".*tool(\\d).*", "tool\\1", .))
 meta_cols <- c("Site_Visit_ID", "starttime", "Region", "Province", "District", "Area_Type", "Sample_Type")
 meta_cols.qa_sheet <- c(Visit_ID = "Site_Visit_ID", "School Code", "Sample_Type", Survey_Date = "SubmissionDate", Region = "Region", "KEY")
 
 # Read inputs --------------------------------------------------------------
 # reading the datasets
+raw_data.tool0 = read_xlsx_sheets(raw_data_path$tool0)
+# raw_data.tool0$data <- raw_data.tool0$data |> mutate(Sample_Type = "Public School") # Double-check
 raw_data.tool1 = read_xlsx_sheets(raw_data_path$tool1)
 raw_data.tool1$data <- raw_data.tool1$data |> mutate(Sample_Type = "Public School")
 raw_data.tool2 = read_xlsx_sheets(raw_data_path$tool2)
@@ -54,8 +57,11 @@ raw_data.tool8$data <- raw_data.tool8$data |> mutate(Sample_Type = "CBE")
 raw_data.tool9 = read_xlsx_sheets(raw_data_path$tool9)
 raw_data.tool9$data <- raw_data.tool9$data |> mutate(Sample_Type = "CBE")
 
+# Rename: Duplicate column name
+names(raw_data.tool7$data)[which(names(raw_data.tool7$data) %in% "C14_1")[2]] <- "C14_A"
 
 # read the kobo Tools
+kobo_tool.tool0 = read_xlsx_sheets(kobo_tools_path$tool0)
 kobo_tool.tool1 = read_xlsx_sheets(kobo_tools_path$tool1)
 kobo_tool.tool2 = read_xlsx_sheets(kobo_tools_path$tool2)
 kobo_tool.tool3 = read_xlsx_sheets(kobo_tools_path$tool3)
@@ -66,8 +72,14 @@ kobo_tool.tool7 = read_xlsx_sheets(kobo_tools_path$tool7)
 kobo_tool.tool8 = read_xlsx_sheets(kobo_tools_path$tool8)
 kobo_tool.tool9 = read_xlsx_sheets(kobo_tools_path$tool9)
 
+# Rename
+kobo_tool.tool7$survey <- kobo_tool.tool7$survey %>% 
+  mutate(name = case_when(
+    name == "C14_1" ~ "C14_A", 
+    TRUE ~ name))
 
 # read the relevancy files
+relevancy_file.tool0 = read_xlsx_sheets(relevancy_files_path$tool0)
 relevancy_file.tool1 = read_xlsx_sheets(relevancy_files_path$tool1)
 relevancy_file.tool2 = read_xlsx_sheets(relevancy_files_path$tool2)
 relevancy_file.tool3 = read_xlsx_sheets(relevancy_files_path$tool3)
@@ -77,7 +89,6 @@ relevancy_file.tool6 = read_xlsx_sheets(relevancy_files_path$tool6)
 relevancy_file.tool7 = read_xlsx_sheets(relevancy_files_path$tool7)
 relevancy_file.tool8 = read_xlsx_sheets(relevancy_files_path$tool8)
 relevancy_file.tool9 = read_xlsx_sheets(relevancy_files_path$tool9)
-
 
 # read the sample file
 sample_file.ps = read.xlsx(sample_files_path[6])
@@ -97,7 +108,8 @@ correction_log_ps = bind_rows(
   read_sheet(qa_sheet_url_ps, sheet = "Correction_Log Teacher") |> mutate(Tool = "Tool 4 - Teacher", Index = as.character(Index), old_value = as.character(old_value), New_Value = as.character(New_Value)),
   read_sheet(qa_sheet_url_ps, sheet = "Correction_Log WASH") |> mutate(Tool = "Tool 5 - WASH", Index = as.character(Index), old_value = as.character(old_value), New_Value = as.character(New_Value)),
   read_sheet(qa_sheet_url_ps, sheet = "Correction_Log Parent ") |> rename(Key = KEY) |> mutate(Tool = "Tool 6 - Parent", Index = as.character(Index), old_value = as.character(old_value), New_Value = as.character(New_Value), Remarks = as.character(Remarks)),
-  read_sheet(qa_sheet_url_ps, sheet = "Correction _Log Shura ") |> mutate(Tool = "Tool 7 - Shura", Index = as.character(Index), old_value = as.character(old_value), New_Value = as.character(New_Value))
+  read_sheet(qa_sheet_url_ps, sheet = "Correction _Log Shura ") |> mutate(Tool = "Tool 7 - Shura", Index = as.character(Index), old_value = as.character(old_value), New_Value = as.character(New_Value)),
+  read_sheet(data_entry_url, sheet = "Correction_Log") |> mutate(Tool = "Data_entry", old_value = as.character(old_value), New_Value = as.character(New_Value), KEY_Unique=Key)
 )
 
 deletion_log_ps <- read_sheet(qa_sheet_url_ps, sheet = "To be removed from dataset")
@@ -200,20 +212,19 @@ correction_log_cbe <- correction_log_cbe %>%
   )
 
 
-# convert numeric dates to date and time formats -------------------------- DONE 
+# convert numeric dates to date and time formats -------------------------- DONE
 source("R/convert_numbers_to_date_time.R")
 
 
 # looking for interviews that are not QAed -------------------------------- DONE
 source("R/log_qa_log_inconsistencies.R")
 
+# Apply correction log ---------------------------------------------------- DONE
+if(nrow(correction_log_ps) > 0 | nrow(correction_log_cbe)) source("R/apply_correction_log.R")
+
 
 # remove the rejected and pilot interviews -------------------------------- DONE
 source("R/remove_rejected_interviews.R")
-
-
-# Apply correction log ---------------------------------------------------- DONE
-if(nrow(correction_log_ps) > 0 | nrow(correction_log_cbe)) source("R/apply_correction_log.R")
 
 
 # merge meta data from main sheet to repeating groups --------------------- DONE
@@ -221,7 +232,7 @@ source("R/main_sheet_to_repeat_sheets.R")
 
 
 # double - check repeat sheet count --------------------------------------- DONE
-source("R/check_repeat_sheet_counts.R")
+source("R/check_repeat_sheet_counts.R") ## Double-check
 
 
 # apply translation log --------------------------------------------------- PENDING
@@ -229,39 +240,39 @@ source("R/check_repeat_sheet_counts.R")
 
 
 # missing translations (for QA)-------------------------------------------- DONE
-source("R/create_translation_log.R")
+source("R/create_translation_log.R") ## Double-check
 
 
 # missing qa (for QA)------------------------------------------------------ DONE
-source("R/missing_qa.R")
+source("R/missing_qa.R") ## Double-check
 
 
 # update select multiple binary variables --------- ----------------------- DONE
-source("R/fix_select_multiple_questions.R")
+source("R/fix_select_multiple_questions.R") 
 
 
 # Check select multiple variables ----------------------------------------- DONE
-source("R/check_select_multiple_questions.R")
+source("R/check_select_multiple_questions.R") ## Double-check
 
 
 # re-calculate the calculated variables and compare any changes not applied - DONE
-source("R/calculate_cols_check.R")
+source("R/calculate_cols_check.R") ## Double-check
 
 
 # Outlier Check ----------------------------------------------------------- DONE
-source("R/check_outliers.R")
+source("R/check_outliers.R") ## Double-check
 
 
 # Compare Number of Interviews with Sample -------------------------------- DONE
-source("R/compare_sample_vs_df.R")
+source("R/compare_sample_vs_df.R") ## Double-check
 
 
 # Relevancy Check --------------------------------------------------------- DONE
-source("R/check_relevancies.R")
+source("R/check_relevancies.R") # Add relevancies for Tool 0
 
 
 # Check the responses with the tool --------------------------------------- DONE
-source("R/compare_df_values_with_tool.R")
+source("R/compare_df_values_with_tool.R") ## Double-check
 
 
 # GPS Check --------------------------------------------------------------- Omitted
@@ -269,11 +280,11 @@ source("R/compare_df_values_with_tool.R")
 
 
 # attach value labels  ---------------------------------------------------- DONE
-source("R/attach_labels.R")
+source("R/attach_labels.R") ## Double-check onward
 
 
 # re-code variables ------------------------------------------------------- PENDING - On-going
-source("R/recoded_vars.R")
+source("R/recoded_vars.R") 
 
 
 # Logical inconsistencies ------------------------------------------------- PENDING - On-going
