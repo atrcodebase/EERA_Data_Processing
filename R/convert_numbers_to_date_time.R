@@ -2,6 +2,7 @@ date_time_cols <- c("SubmissionDate", "starttime", "endtime")
 date_time_cols_tool8 <- c("E20")
 
 # Tool 1
+raw_data.tool0$data <- convert_to_date_time(raw_data.tool0$data, date_time_cols)
 raw_data.tool1$data <- convert_to_date_time(raw_data.tool1$data, date_time_cols)
 raw_data.tool2$data <- convert_to_date_time(raw_data.tool2$data, date_time_cols)
 raw_data.tool3$data <- convert_to_date_time(raw_data.tool3$data, date_time_cols)

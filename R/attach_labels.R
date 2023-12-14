@@ -1,6 +1,28 @@
 ### attach value labels
 source("R/functions/labeler_function.R")
 
+# Cloning df
+clean_data.tool0_ulabeled <- clean_data.tool0
+clean_data.tool1_ulabeled <- clean_data.tool1
+clean_data.tool2_ulabeled <- clean_data.tool2
+clean_data.tool3_ulabeled <- clean_data.tool3
+clean_data.tool4_ulabeled <- clean_data.tool4
+clean_data.tool5_ulabeled <- clean_data.tool5
+clean_data.tool6_ulabeled <- clean_data.tool6
+clean_data.tool7_ulabeled <- clean_data.tool7
+clean_data.tool8_ulabeled <- clean_data.tool8
+clean_data.tool9_ulabeled <- clean_data.tool9
+
+# Tool 0 ------------------------------------------------------------------
+for(sheet in names(clean_data.tool0)){
+  # Label
+  clean_data.tool0[[sheet]] <- labeler(
+    data = clean_data.tool0[[sheet]], 
+    tool.survey = kobo_tool.tool0$survey,
+    tool.choices = kobo_tool.tool0$choices,
+    survey_label = "label",
+    choice_lable = "label")
+}
 
 # Tool 1 ------------------------------------------------------------------
 clean_data.tool1$data <- labeler(

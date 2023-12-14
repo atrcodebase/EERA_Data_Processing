@@ -1,4 +1,13 @@
 ### merge information from main sheet to child-sheets  --------------------------------------------------------------------
+## Tool 0: -----
+for(sheet in names(clean_data.tool0)[-1]){
+  # Join
+  clean_data.tool0[[sheet]] <- clean_data.tool0[[sheet]] %>%
+    mutate(KEY_join=str_split_fixed(PARENT_KEY, "/", 2)[,1]) %>% 
+    left_join(select(clean_data.tool0$data, any_of(meta_cols), KEY), by = c("KEY_join" = "KEY")) |>
+    select(any_of(meta_cols), everything(), -KEY_join)
+}
+
 ## Tool 1: -----
 clean_data.tool1$Support_Respondents <- clean_data.tool1$Support_Respondents |>
   left_join(select(clean_data.tool1$data, any_of(meta_cols), KEY), by = c("PARENT_KEY" = "KEY")) |>
