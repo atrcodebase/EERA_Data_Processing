@@ -1,6 +1,5 @@
 *only_me.R
 *.Rproj
-*.bat
 
 *.xlsx
 *.xls
@@ -66,4 +65,8 @@ test.R
 *.prj
 *.dbf
 *.cpg
+
+# Batch file
+rename_data.bat
+rename_tool.bat
 
