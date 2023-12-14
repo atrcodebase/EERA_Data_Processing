@@ -1,5 +1,6 @@
 *only_me.R
 *.Rproj
+*.bat
 
 *.xlsx
 *.xls
@@ -66,5 +67,3 @@ test.R
 *.dbf
 *.cpg
 
-# Batch files
-*.bat
