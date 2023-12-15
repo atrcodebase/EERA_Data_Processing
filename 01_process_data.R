@@ -118,7 +118,7 @@ deletion_log_ps <- read_sheet(qa_sheet_url_ps, sheet = "To be removed from datas
 qa_sheet_cbe = read_sheet(qa_sheet_url_cbe, sheet = "QA_Log")
 
 correction_log_cbe = bind_rows(
-  read_sheet(qa_sheet_url_cbe, sheet = "Correction_Log Parent Interview") |> mutate(Tool = "Tool 6 - Parent", old_value = as.character(old_value)),
+  read_sheet(qa_sheet_url_cbe, sheet = "Correction_Log Parent Interview") |> mutate(Tool = "Tool 6 - Parent", old_value = as.character(old_value), new_value = as.character(new_value)),
   read_sheet(qa_sheet_url_cbe, sheet = "Correction_Log Shura Interview") |>
     rename(KEY = KEY_Unique, question = Question, new_value = New_Value) |> mutate(Tool = "Tool 7 - Shura", old_value = as.character(old_value)),
   read_sheet(qa_sheet_url_cbe, sheet = "Correction_Log Class Level") |> mutate(Tool = "Tool 8 - Class", old_value = as.character(old_value)),
@@ -173,7 +173,7 @@ correction_log_ps <- correction_log_ps %>%
 # Prepare Datasets - CBE ------------------------------------------------
 qa_sheet_cbe <- qa_sheet_cbe |>
   rename(
-    qa_status = "Final QA Status",
+    qa_status = "QA Status",
     tool = `Tools`) |>
   mutate(
     qa_status = toupper(qa_status), 
