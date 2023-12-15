@@ -859,13 +859,13 @@ lc_tool1.shift <- rbind(
   # Flagging if any Shift from census sampling were not included in the data for the Site Visit ID
   left_join(
     sample_file.cencus |>
-      group_by(Visit_ID,Shift_ID) |>
+      group_by(Shift_ID) |>
       summarise(
         total_shift_sample = n()
       ) |> ungroup(),
     
     clean_data.tool1$Shifts_Detail |>
-      group_by(Site_Visit_ID,Shift_ID) |>
+      group_by(Shift_ID) |>
       summarise(
         total_shifts_data = n()
       ) |> ungroup()
@@ -883,7 +883,8 @@ lc_tool1.shift <- rbind(
       District = "",
       Area_Type = "",
       Sample_Type = "Public School",
-      KEY = ""
+      KEY = "",
+      Site_Visit_ID = Shift_ID
     ) |> 
     select(
       all_of(meta_cols),
@@ -1919,7 +1920,8 @@ lc_tool3 <- rbind(
       Related_question,
       Related_value,
       KEY,
-      Issue
+      Issue,
+      sheet
     ),
   
   # Flagging duplicated site visit ID
@@ -2233,7 +2235,7 @@ lc_tool3 <- rbind(
       sheet
     )
   ) |> 
-  mutate(tool = "Tool 3 - Headcount", Old_value = as.character(Old_value))
+  mutate(tool = "Tool 3 - Headcount", sheet = "Student_Headcount", Old_value = as.character(Old_value))
 
 
 # Logging issues in Tool 4 ------------------------------------------------
