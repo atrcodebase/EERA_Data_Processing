@@ -162,7 +162,7 @@ need_translation <- c(
   # Tool 7:
   "B6_Other", "C0_Other", "C2_1_Other", "C2_2_Other", "C3_Other", "C4_Other", "C5_Other", "C8_Other", "C9_Other", "C11_Other", "C12_Other", "C14_Other", "C19_Other", "C21_Other", "C23_Other", "C25_Other",
   "C27_Other", "D6_Other", "D7_Other", "D9_Other", "D10_Other", "E2_Other", "E3_Other", "E9_Other", "E10_Other", "E12_Other", "E13_Other", "F2_Other", "F4_Other", "G2_Other", "G4_Other", "G6_Other", "G8_Other",
-  "Survey_Language_Other",
+  "Survey_Language_Other", "C14_A",
   # "C14_1", "E4_Subject_Name",
 
   # Tool 8:
