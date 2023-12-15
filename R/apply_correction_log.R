@@ -553,5 +553,4 @@ correction_log_discrep <- rbind(
 # Removing extra objects -------------------------------------------------------
 rm(list = c("correction_log_issues_ps", "correction_log_issues_cbe",
             "correction_log_ready_ps", "correction_log_ready_cbe", 
-            "tool_name", "form_names_ps", "form_names_cbe", "check_logs_for_df",  "get_keys", 
-            "get_col_names", "compare_dt", "apply_log"))
+            "tool_name", "form_names_ps", "form_names_cbe", "check_logs_for_df", "compare_dt", "apply_log"))
