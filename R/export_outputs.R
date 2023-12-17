@@ -85,6 +85,10 @@ if (nrow(over_sampled_extra_ints) > 0){
   write.xlsx(over_sampled_extra_ints, paste0(output_data_path, "issues/over_sampled/over_sampled_extra_ints_", Sys.Date(),".xlsx"))
 }
 
+if (nrow(missing_not_interviewed_site) > 0){
+  write.xlsx(missing_not_interviewed_site, paste0(output_data_path, "issues/interview_missing/missing_not_interviewed_Sites_", Sys.Date(),".xlsx"))
+}
+
 if (nrow(wrong_choices_result) > 0){
   write.xlsx(wrong_choices_result, paste0(output_data_path, "issues/wrong_choices/wrong_choices_result_", Sys.Date(),".xlsx"))
 }
