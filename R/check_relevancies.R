@@ -118,7 +118,7 @@ tool9.notrequired_questions <- kobo_tool.tool9$survey %>% filter((required %in% 
 
 
 # checking the relevancy issues ------------------------------------------------
-relevancy_issues <- bind_rows(
+relevancy_issues <- plyr::rbind.fill(
   # Tool 1
   rbind(
     check_relevancy_rules(data = clean_data.tool1_joined$data, tool_relevancy =  relevancy_file.tool1, sheet_name="data"),
