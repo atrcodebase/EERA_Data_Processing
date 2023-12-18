@@ -8,7 +8,7 @@ clean_data.tool1$Shifts_Detail <- clean_data.tool1$Shifts_Detail %>% filter(PARE
 clean_data.tool1$Other_Shifts_Detail <- clean_data.tool1$Other_Shifts_Detail %>% filter(PARENT_KEY %in% clean_data.tool1$data$KEY & !KEY %in% deleted_keys_ps)
 clean_data.tool1$Headmasters <- clean_data.tool1$Headmasters %>% filter(PARENT_KEY %in% clean_data.tool1$data$KEY & !KEY %in% deleted_keys_ps)
 clean_data.tool1$Curriculum_Changes <- clean_data.tool1$Curriculum_Changes %>% filter(PARENT_KEY %in% clean_data.tool1$data$KEY & !KEY %in% deleted_keys_ps)
-clean_data.tool1$Weekly_Class_Schedule <- clean_data.tool1$Weekly_Class_Schedule %>% filter(PARENT_KEY %in% clean_data.tool1$data$KEY & !KEY %in% deleted_keys_ps)
+clean_data.tool1$Weekly_Class_Schedule <- clean_data.tool1$Weekly_Class_Schedule %>% filter(PARENT_KEY %in% clean_data.tool1$Curriculum_Changes$KEY & !KEY %in% deleted_keys_ps)
 clean_data.tool1$Grades_Curriculum <- clean_data.tool1$Grades_Curriculum %>% filter(PARENT_KEY %in% clean_data.tool1$data$KEY & !KEY %in% deleted_keys_ps)
 clean_data.tool1$Subjects_Detail <- clean_data.tool1$Subjects_Detail %>% filter(PARENT_KEY %in% clean_data.tool1$data$KEY & !KEY %in% deleted_keys_ps)
 clean_data.tool1$Education_Quality <- clean_data.tool1$Education_Quality %>% filter(PARENT_KEY %in% clean_data.tool1$data$KEY & !KEY %in% deleted_keys_ps)
