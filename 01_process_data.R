@@ -228,6 +228,7 @@ source("R/remove_rejected_interviews.R")
 
 
 # merge meta data from main sheet to repeating groups --------------------- DONE
+source("R/main_sheet_to_repeat_sheets.R")
 
 
 # double - check repeat sheet count --------------------------------------- DONE
