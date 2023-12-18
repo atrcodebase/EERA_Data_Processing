@@ -3850,3 +3850,5 @@ Logic_check_result <- rbind(
 )
 
 rm(list = ls(pattern = "lc_tool.*"))
+
+source("R/data_entry_logic_checks.R")

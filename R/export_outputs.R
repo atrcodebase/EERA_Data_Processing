@@ -64,6 +64,11 @@ if (nrow(Logic_check_result) > 0){
   write.xlsx(Logic_check_result, paste0(output_data_path, "issues/logic_checks/logic_checks_", Sys.Date(),".xlsx"))
 }
 
+# Logic Check Data Entry
+if(nrow(logic_check_data_entry_final) > 0){
+  write.xlsx(logic_check_data_entry_final, paste0(output_data_path, "issues/logic_checks/logic_checks_Data_Entry_Tool_", Sys.Date(),".xlsx"))
+}
+
 if (nrow(calculate_issues) > 0){
   write.xlsx(calculate_issues, paste0(output_data_path, "issues/calculate_issues/calculate_issues_", Sys.Date(),".xlsx"))
 }
