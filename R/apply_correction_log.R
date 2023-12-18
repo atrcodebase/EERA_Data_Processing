@@ -1,6 +1,7 @@
 # importing the apply correction log module
 source("R/functions/apply_log_function.R")
 source("R/functions/custom_functions.R")
+sm_variables <- read_excel("input/select_multiple_questions.xlsx") %>% pull(name)
 options(scipen = 999)
 
 check_logs_for_df <- function(cleaning_log, df, tool_name, deleted_keys) {
@@ -46,8 +47,11 @@ correction_log_issues_ps <- correction_log_ps |>
       duplicated(paste0(KEY, question), fromLast = T) | duplicated(paste0(KEY, question), fromLast = F) ~ "Duplicate log records, please solve the duplication.",
       TRUE ~ NA_character_
     ),
-    new_value = str_squish(new_value),
-    Sample_Type = "Public School",
+    new_value = case_when(
+      question %in% sm_variables ~ str_replace_all(new_value, "-|,|  | - ", " ") %>% str_squish(), # Unify the separator in SM questions
+      TRUE ~ str_squish(new_value)
+    ),
+    Sample_Type = "Public School"
   ) |> 
   select(KEY, question, old_value, new_value, issue, tool, Tab_Name, Sample_Type)
 
@@ -90,7 +94,9 @@ correction_log_issues_cbe <- correction_log_cbe |>
       duplicated(paste0(KEY, question), fromLast = T) | duplicated(paste0(KEY, question), fromLast = F) ~ "Duplicate log records, please solve the duplication.",
       TRUE ~ NA_character_
     ),
-    new_value = str_squish(new_value),
+    new_value = case_when(
+      question %in% sm_variables ~ str_replace_all(new_value, "-|,|  | - ", " ") %>% str_squish(), # Unify the separator in SM questions
+      TRUE ~ str_squish(new_value)),
     Sample_Type = "CBE", 
   ) |> 
   select(KEY, question, old_value, new_value, issue, tool, Tab_Name, Sample_Type)

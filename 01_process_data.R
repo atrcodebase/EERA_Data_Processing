@@ -120,9 +120,9 @@ qa_sheet_cbe = read_sheet(qa_sheet_url_cbe, sheet = "QA_Log")
 correction_log_cbe = bind_rows(
   read_sheet(qa_sheet_url_cbe, sheet = "Correction_Log Parent Interview") |> mutate(Tool = "Tool 6 - Parent", old_value = as.character(old_value), new_value = as.character(new_value)),
   read_sheet(qa_sheet_url_cbe, sheet = "Correction_Log Shura Interview") |>
-    rename(KEY = KEY_Unique, question = Question, new_value = New_Value) |> mutate(Tool = "Tool 7 - Shura", old_value = as.character(old_value)),
-  read_sheet(qa_sheet_url_cbe, sheet = "Correction_Log Class Level") |> mutate(Tool = "Tool 8 - Class", old_value = as.character(old_value)),
-  read_sheet(qa_sheet_url_cbe, sheet = "Correction_Log IP Level") |> mutate(Tool = "Tool 9 - IP", old_value = as.character(old_value))
+    rename(KEY = KEY_Unique, question = Question, new_value = New_Value) |> mutate(Tool = "Tool 7 - Shura", old_value = as.character(old_value), new_value = as.character(new_value)),
+  read_sheet(qa_sheet_url_cbe, sheet = "Correction_Log Class Level") |> mutate(Tool = "Tool 8 - Class", old_value = as.character(old_value), new_value = as.character(new_value)),
+  read_sheet(qa_sheet_url_cbe, sheet = "Correction_Log IP Level") |> mutate(Tool = "Tool 9 - IP", old_value = as.character(old_value), new_value = as.character(new_value))
 )
 
 deletion_log_cbe <- read_sheet(qa_sheet_url_cbe, sheet = "To be removed from dataset")
@@ -251,7 +251,7 @@ source("R/fix_select_multiple_questions.R")
 
 
 # Check select multiple variables ----------------------------------------- DONE
-source("R/check_select_multiple_questions.R") ## Double-check
+source("R/check_select_multiple_questions.R")
 
 
 # re-calculate the calculated variables and compare any changes not applied - DONE
