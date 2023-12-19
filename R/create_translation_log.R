@@ -16,7 +16,7 @@ missing_translations <- bind_rows(
     missing_translation_func(clean_data.tool1$Grades_Curriculum) |> mutate(Tab_Name = "Grades_Curriculum"),
     missing_translation_func(clean_data.tool1$Subjects_Detail) |> mutate(Tab_Name = "Subjects_Detail"),
     missing_translation_func(clean_data.tool1$Education_Quality) |> mutate(Tab_Name = "Education_Quality"),
-    missing_translation_func(clean_data.tool1$Relevant_photos) |> mutate(Tab_Name = "Relevant_photos"),
+    missing_translation_func(clean_data.tool1$Relevant_photos) |> mutate(Tab_Name = "Relevant_photos")
   ) |>
     mutate(tool = "Tool 1 - Headmaster", Sample_Type = "Public School", .before = question_name),
   
@@ -233,7 +233,7 @@ un_logged_values <- bind_rows(
     log_translation_cols(clean_data.tool4$data, need_translation) |> mutate(Tab_Name = "data"),
     log_translation_cols(clean_data.tool4$Additional_Subjects, need_translation),
     log_translation_cols(clean_data.tool4$Subjects_taught_by_this_teacher, need_translation) |> mutate(Tab_Name = "Subjects_taught_by_this_teacher"),
-    log_translation_cols(clean_data.tool4$Subjects_Not_Being_Taught, need_translation) |> mutate(Tab_Name = "Subjects_Not_Being_Taught"),
+    log_translation_cols(clean_data.tool4$Subjects_Not_Being_Taught |> select(-F14), need_translation) |> mutate(Tab_Name = "Subjects_Not_Being_Taught"),
     log_translation_cols(clean_data.tool4$Relevant_photos, need_translation)
   ) |>
     mutate(tool = "Tool 4 - Teacher", .before = question_name),
