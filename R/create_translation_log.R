@@ -131,7 +131,7 @@ need_translation <- c(
   "C13A8_Other", "Other_Shifts_Detail", "D3_Other", "D4_Other", "D7_Other", "D8_Other", "E3_Other", "E4_Other", "E7_Other", "E8_Other", "E11_Other", "E12_Other", "E15_Other", "E16_Other", "E19_Other", "E20_Other",
   "E23_Other", "E24_Other", "E26_Other", "E27_Other", "F10_Other", "F15_Other", "F16_Other", "F17_Other", "H2_Other", "H3_Other", "I7_Other", "I8_Other", "J2_Other", "J3_Other", "J4_Other",
   "J5_Other", "J7_Other", "J9_Other", "J10_Other", "J13_Other", "J15_Other", "J17_Other", "J19_Other", "J21_Other", "J22_Other", "K3_Other", "K4_Other", "Survey_Language_Other",
-  # "B7_1", "B7_2", "F14",
+  "B7_1", "B7_2", "F14",
   
   # Tool 2:
   "B4_Other", "Interviewee_Respondent_Type_Other", "C7_Other", "C8_Other", "C11_Other", "C12_Other", "D2_Other", "D4_Other", "D4_1_Other", "D59_Other", "D10_2_Other", "H5_Other", "H8_Other", "H11_Other",

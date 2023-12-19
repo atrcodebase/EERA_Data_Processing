@@ -6,6 +6,42 @@ url_vars.tool1 <- c(
   "text_audit_full"
 )
 
+captions <- c(
+  # Tool1 
+  "B19_Caption", "B20_Caption", "F2_Caption", "J24_Caption", "L2_Caption", "Please_Add_Any_Relevant_Photo_caption",
+  
+  # Tool2
+  
+)
+
+notes <- c(
+  # Tool1
+  "interview_to_be_conducted_with_English", "interview_to_be_conducted_with_Dari", "interview_to_be_conducted_with_Pashto", "Surveyor_Comments",
+  "Surveyor_Comments_Translation",	"join_Grade_Name_Eng",	"join_Shift_Name_Eng", "Sample_Type",
+  
+  # Tool2
+  
+
+  
+  
+)
+
+counters_set_of <- c(
+  # Tool1 
+  "Support_Respondents_count", "SET-OF-Support_Respondents", "School_Operationality_count", "SET-OF-School_Operationality",
+  "School_Operationality_Other_Grades_count",	"SET-OF-School_Operationality_Other_Grades",	"Shifts_Detail_count",	"SET-OF-Shifts_Detail",
+  "Other_Shifts_Detail_count",	"SET-OF-Other_Shifts_Detail", "Headmasters_count",	"SET-OF-Headmasters", "Curriculum_Changes_count",	"SET-OF-Curriculum_Changes", 
+  "SET-OF-Weekly_Class_Schedule",	"Count_Weekly_Class_Schedule_Photo",	"Grades_Curriculum_count", "SET-OF-Grades_Curriculum", "Count_Weekly_Class_Schedule_Photo.re_calc",
+  "Subjects_Detail_count", "SET-OF-Subjects_Detail", "Education_Quality_count",	"SET-OF-Education_Quality", "SET-OF-Relevant_photos",
+  
+  # Tool2
+
+  
+
+
+  
+)
+
 extra_cols <- c(
   "Passcode", "deviceid", "subscriberid", "simid", "devicephonenum", "username", "duration", "device_info", "comments", "Surveyor_Name", "Surveyor_Id", "Surveyor_Gender", "Province_filter",
   "Province_DariPashto", "District_DariPashto", "Village_DariPashto", "Date_And_Time", "CBE_KEY", "School_CBE_Name",	"School_CBE_Name_DariPashto",	"EMIS_School_ID_CBE_KEY",
@@ -13,14 +49,19 @@ extra_cols <- c(
   "Line_Ministry_Sub_Project_Name_And_Description",	"Type_Of_Implementing_Partner",	"IP_Name",	"Type_Of_Site_Visit",	"Type_Of_Visit",	"If_not_a_first_Site_Visit_state_Original_Site_Visit_ID",
   "Reporting_Period",	"tpma_location_id",	"Class1_N_Sample",	"Class2_N_Sample",	"Class3_N_Sample",	"Class4_N_Sample",	"Class5_N_Sample",	"Class6_N_Sample",	"Class7_N_Sample",	"Class8_N_Sample",
   "Class9_N_Sample",	"Class10_N_Sample",	"Class11_N_Sample",	"Class12_N_Sample",	"n_shifts_census",	"n_grades_census", "A27", "A28", "B2", "Gender_Of_Interviewee", "Interviewee_Respondent_Type",
-  "Interviewee_Respondent_Type_Other", "B5A1", "B5A2", "C4", "C5", "C5_Gender", "C6A1", "C6A2", "C12A1", "C12A2", "C12A3", "C12A3_Other", "C12A4", "C15A1", "B1", "C4_Respondent_name", "C6_Respondent_phone_number1",
-  "C6_Respondent_phone_number2", "Respondent1_Phone_Number", "D5", "Respondent2_Phone_Number", "D10", "D11", "B3", "B4A1","B4A2", "B10A1", "B10A4", 
+  "Interviewee_Respondent_Type_Other", "B5A1", "B5A2", "C4", # It is also an important variable in tool 1 -- need to be fixed
+  "C5", "C5_Gender", # Double check if the variable need to be included in client version
+  "C6A1", "C6A2", "C12A1", "C12A2", "C12A3", "C12A3_Other", "C12A4", "C15A1", "B1", "C4_Respondent_name", "C6_Respondent_phone_number1",
+  "C6_Respondent_phone_number2", "Respondent1_Phone_Number", "D5", # It is also an important variable in tool 1 -- need to be fixed 
+  "Respondent2_Phone_Number", "D10", "D11", "B3", "B4A1","B4A2", "B10A1", "B10A4", 
   # "C10",
   # "Respondent_Designation",
-  "Respondent_Full_Name","E18",
+  
+  "Respondent_Full_Name","E18", # It is also an important variable in tool 1 -- need to be fixed
   "Respondent1_Phone_Number","Respondent2_Phone_Number","A2","Respondent_Name", "Respondent1_Phone_Number", "Respondent2_Phone_Number", "B2","B5", "Respondent1_Phone_Number", "Respondent2_Phone_Number",
-  "C2", "Respondent_Phone_Number1", "Respondent_Phone_Number2", "Respondent_Full_Name", "Respondent1_Phone_Number", "Respondent2_Phone_Number", "B2", "Respondent_Full_Name", "Respondent1_Phone_Number",
-  "Respondent2_Phone_Number",geopoint_vars, qa_cols, url_vars.tool1
+  "C2", # It is also an important variable in tool 1 -- need to be fixed
+  "Respondent_Phone_Number1", "Respondent_Phone_Number2", "Respondent_Full_Name", "Respondent1_Phone_Number", "Respondent2_Phone_Number", "B2", "Respondent_Full_Name", "Respondent1_Phone_Number",
+  "Respondent2_Phone_Number",geopoint_vars, qa_cols, url_vars.tool1, captions
 )
 
 
