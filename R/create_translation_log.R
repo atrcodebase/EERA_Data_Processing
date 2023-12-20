@@ -168,9 +168,9 @@ need_translation <- c(
   # Tool 8:
   "B6_Other", "B7_Other", "C4_Other", "C6_Other", "C9_Other", "C10_Other", "Interviewee_Respondent_Type_Other", "D11_Other", "E18_1_Other", "N5_Other", "O3_Other", "O6_Other", "O9_Other", "P5_Other", "Q3_Other",
   "Q6_Other", "Q9_Other", "R5_Other", "S3_Other", "S6_Other", "S9_Other", "T2_Other", "T3_Other", "U2_Other", "U3_Other", "U5_Other", "V1_Other", "V2_Other", "V3_Other", "V4_Other", "V6_Other", "V7_Other", "V9_Other",
-  "V10_Other", "V13_Other", "V15_Other", "V17_Other", "V19_Other", "V21_Other", "V23_Other", "V25_Other", "W2_Other", "W4_Other", "W5_Other", "Y3_Other", "Y4_Other", "Y10_Other", "Y11_Other", "Y13_Other",
+  "V10_Other", "V13_Other", "V15_Other", "V17_Other", "V19_Other", "V21_Other", "V23_Other", "V25_Other", "W2_Other", "W4_Other", "W5_Other", "X4_Response", "Y3_Other", "Y4_Other", "Y10_Other", "Y11_Other", "Y13_Other",
   "Y14_Other", "Survey_Language_Other",
-  "Class_Name", "W3", "Y5_Subject_Name", "B2",
+  "Class_Name", "W3", "Y5_Subject_Name", "B2", "Class_Name_CBE", "Class_Name_CBE_Headcount", "Class_Name_CBE_Student_Ages",
   
   
   # Tool 9:
