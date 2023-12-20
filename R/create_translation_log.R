@@ -157,25 +157,25 @@ need_translation <- c(
   # Tool 6:
   "B5_Other", "C7_Other", "C8_Other", "C10_Other", "C11_Other", "D3_Other", "D4_Other", "D10_Other", "D11_Other", "D13_Other", "D14_Other", "E3_Other", "E5_Other", "F2_Other", "F4_Other", "F5_Other",
   "F7_Other", "F8_Other", "F13_2_Other", "F13_3_Other", "Survey_Language_Other",
-  # "D5_Subject_Name",
+  "D5_Subject_Name",
   
   # Tool 7:
   "B6_Other", "C0_Other", "C2_1_Other", "C2_2_Other", "C3_Other", "C4_Other", "C5_Other", "C8_Other", "C9_Other", "C11_Other", "C12_Other", "C14_Other", "C19_Other", "C21_Other", "C23_Other", "C25_Other",
   "C27_Other", "D6_Other", "D7_Other", "D9_Other", "D10_Other", "E2_Other", "E3_Other", "E9_Other", "E10_Other", "E12_Other", "E13_Other", "F2_Other", "F4_Other", "G2_Other", "G4_Other", "G6_Other", "G8_Other",
   "Survey_Language_Other", "C14_A",
-  # "C14_1", "E4_Subject_Name",
+  "C14_A", "E4_Subject_Name",
 
   # Tool 8:
   "B6_Other", "B7_Other", "C4_Other", "C6_Other", "C9_Other", "C10_Other", "Interviewee_Respondent_Type_Other", "D11_Other", "E18_1_Other", "N5_Other", "O3_Other", "O6_Other", "O9_Other", "P5_Other", "Q3_Other",
   "Q6_Other", "Q9_Other", "R5_Other", "S3_Other", "S6_Other", "S9_Other", "T2_Other", "T3_Other", "U2_Other", "U3_Other", "U5_Other", "V1_Other", "V2_Other", "V3_Other", "V4_Other", "V6_Other", "V7_Other", "V9_Other",
   "V10_Other", "V13_Other", "V15_Other", "V17_Other", "V19_Other", "V21_Other", "V23_Other", "V25_Other", "W2_Other", "W4_Other", "W5_Other", "Y3_Other", "Y4_Other", "Y10_Other", "Y11_Other", "Y13_Other",
   "Y14_Other", "Survey_Language_Other",
-  # "Class_Name", "W3", "Y5_Subject_Name",
+  "Class_Name", "W3", "Y5_Subject_Name",
   
   
   # Tool 9:
-  "A2_Other", "A3_Other", "A4_Other", "A8_Other", "Survey_Language_Other"
-  # Respondent_Designation,
+  "A2_Other", "A3_Other", "A4_Other", "A8_Other", "Survey_Language_Other", 
+  "Respondent_Designation"
   
 )
 
