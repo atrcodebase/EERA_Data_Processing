@@ -211,6 +211,9 @@ correction_log_cbe <- correction_log_cbe %>%
     tool = "Tool"
   )
 
+# add missing data from CBE Tool 8 Class Level ---------------------------- ON-GOING
+# file.edit("R/add_missing_tool8.R")
+source("R/add_missing_tool8.R")
 
 # convert numeric dates to date and time formats -------------------------- DONE
 source("R/convert_numbers_to_date_time.R")
@@ -235,7 +238,7 @@ source("R/main_sheet_to_repeat_sheets.R")
 source("R/check_repeat_sheet_counts.R") ## Double-check
 
 
-# apply translation log --------------------------------------------------- PENDING
+# apply translation log --------------------------------------------------- APPLIED WITH CORRECTION LOG
 # file.edit("R/apply_translation_log.R")
 
 
@@ -244,7 +247,7 @@ source("R/create_translation_log.R") ## Double-check
 
 
 # missing qa (for QA)------------------------------------------------------ DONE
-source("R/missing_qa.R") ## Double-check
+source("R/missing_qa.R") ## Double-check -- TS
 
 
 # update select multiple binary variables --------- ----------------------- DONE
