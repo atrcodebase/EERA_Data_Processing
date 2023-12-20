@@ -170,7 +170,7 @@ need_translation <- c(
   "Q6_Other", "Q9_Other", "R5_Other", "S3_Other", "S6_Other", "S9_Other", "T2_Other", "T3_Other", "U2_Other", "U3_Other", "U5_Other", "V1_Other", "V2_Other", "V3_Other", "V4_Other", "V6_Other", "V7_Other", "V9_Other",
   "V10_Other", "V13_Other", "V15_Other", "V17_Other", "V19_Other", "V21_Other", "V23_Other", "V25_Other", "W2_Other", "W4_Other", "W5_Other", "Y3_Other", "Y4_Other", "Y10_Other", "Y11_Other", "Y13_Other",
   "Y14_Other", "Survey_Language_Other",
-  "Class_Name", "W3", "Y5_Subject_Name",
+  "Class_Name", "W3", "Y5_Subject_Name", "B2",
   
   
   # Tool 9:
@@ -217,7 +217,7 @@ un_logged_values <- bind_rows(
   
   ## Tool 3
   bind_rows(
-    log_translation_cols(clean_data.tool3$data, need_translation) |> mutate(Tab_Name = "data"),
+    log_translation_cols(clean_data.tool3$data |> select(-B2), need_translation) |> mutate(Tab_Name = "data"),
     log_translation_cols(clean_data.tool3$Support_Respondents, need_translation) |> mutate(Tab_Name = "Support_Respondents"),
     log_translation_cols(clean_data.tool3$Grade_Details, need_translation),
     log_translation_cols(clean_data.tool3$Enrollement_Attendance_Summary, need_translation),
@@ -285,7 +285,7 @@ un_logged_values <- bind_rows(
   
   ## Tool 9
   bind_rows(
-    log_translation_cols(clean_data.tool9$data, need_translation) |> mutate(Tab_Name = "data"),
+    log_translation_cols(clean_data.tool9$data |> select(-B2), need_translation) |> mutate(Tab_Name = "data"),
     log_translation_cols(clean_data.tool9$Relevant_photos, need_translation)
   ) |>
     mutate(tool = "Tool 9 - IP", .before = question_name)
@@ -301,3 +301,4 @@ un_logged_values <- un_logged_values |>
 remove(missing_translation_func)
 remove(log_translation_cols)
 remove(need_translation)
+
