@@ -140,30 +140,32 @@ need_translation <- c(
   
   # Tool 3:
   "Interviewee_Respondent_Type_Other", "B2_Other", "B7_Other", "B10A3_Other", "C2_Other", "C5_Other", "C6_Other", "C7_Other", "Survey_Language_Other", 
-  # "C10", 
+  "C10",
+  "Grade_Class_1",	"Grade_Class_2",	"Grade_Class_3",	"Grade_Class_4",	"Grade_Class_5",	"Grade_Class_6",	"Grade_Class_7",	"Grade_Class_8",	"Grade_Class_9",	"Grade_Class_10", "Classes", # Confirm with QA
+  
 
   # Tool 4:
   "D1_Other", "D3_Other", "D5_Other", "D6_Other", "D9_Other", "E4_Primary_Other", "E4_Secondary_Other", "E7_Primary_Other", "E7_Secondary_Other", "E8_Primary_Other", "E8_Secondary_Other", "E11_Primary_Other",
   "E11_Secondary_Other", "E12_Primary_Other", "E12_Secondary_Other", "E15_Primary_Other", "E15_Secondary_Other", "E16_Primary_Other", "E16_Secondary_Other", "E19_Primary_Other", "E19_Secondary_Other",
   "E20_Primary_Other", "E20_Secondary_Other", "E23_Primary_Other", "E23_Secondary_Other", "E24_Primary_Other", "E24_Secondary_Other", "E26_Other", "E27_Other", "F5_Other", "F10_Other", "F13_Other",
-  "F14_Other", "F16_Other", "F17_Other", "G2_Other", "G3_Other", "G6_Other", "H5_Other", "H7_Other", "Survey_Language_Other",
-  # "D6_IP_Name", "F2_Subject_Name", "F9",
+  "F14_Other", "F16_Other", "F17_Other", "G2_Other", "G3_Other", "G6_Other", "H5_Other", "H7_Other", "Survey_Language_Other", "B2", # School name other
+  "D6_IP_Name", "F2_Subject_Name", "F9",
   
   
   # Tool 5:
   "Interviewee_Respondent_Type_Other", "C7_Other", "Survey_Language_Other",
-  # "B2",
+  "B2",
 
   # Tool 6:
   "B5_Other", "C7_Other", "C8_Other", "C10_Other", "C11_Other", "D3_Other", "D4_Other", "D10_Other", "D11_Other", "D13_Other", "D14_Other", "E3_Other", "E5_Other", "F2_Other", "F4_Other", "F5_Other",
   "F7_Other", "F8_Other", "F13_2_Other", "F13_3_Other", "Survey_Language_Other",
   "D5_Subject_Name",
+  "A2", # school name other
   
   # Tool 7:
   "B6_Other", "C0_Other", "C2_1_Other", "C2_2_Other", "C3_Other", "C4_Other", "C5_Other", "C8_Other", "C9_Other", "C11_Other", "C12_Other", "C14_Other", "C19_Other", "C21_Other", "C23_Other", "C25_Other",
   "C27_Other", "D6_Other", "D7_Other", "D9_Other", "D10_Other", "E2_Other", "E3_Other", "E9_Other", "E10_Other", "E12_Other", "E13_Other", "F2_Other", "F4_Other", "G2_Other", "G4_Other", "G6_Other", "G8_Other",
-  "Survey_Language_Other", "C14_A",
-  "C14_A", "E4_Subject_Name",
+  "Survey_Language_Other", "C14_A", "E4_Subject_Name",
 
   # Tool 8:
   "B6_Other", "B7_Other", "C4_Other", "C6_Other", "C9_Other", "C10_Other", "Interviewee_Respondent_Type_Other", "D11_Other", "E18_1_Other", "N5_Other", "O3_Other", "O6_Other", "O9_Other", "P5_Other", "Q3_Other",
@@ -187,7 +189,7 @@ missing_translations <- missing_translations |>
 un_logged_values <- bind_rows(
   ## Tool 1
   bind_rows(
-    log_translation_cols(clean_data.tool1$data, need_translation) |> mutate(Tab_Name = "data"),
+    log_translation_cols(clean_data.tool1$data |> select(-C10), need_translation) |> mutate(Tab_Name = "data"),
     log_translation_cols(clean_data.tool1$Support_Respondents, need_translation) |> mutate(Tab_Name = "Support_Respondents"),
     log_translation_cols(clean_data.tool1$School_Operationality, need_translation) |> mutate(Tab_Name = "School_Operationality"),
     log_translation_cols(clean_data.tool1$School_Operationality_Other_..., need_translation) |> mutate(Tab_Name = "School_Operationality_Other_..."),
@@ -197,7 +199,7 @@ un_logged_values <- bind_rows(
     log_translation_cols(clean_data.tool1$Curriculum_Changes, need_translation),
     log_translation_cols(clean_data.tool1$Weekly_Class_Schedule, need_translation),
     log_translation_cols(clean_data.tool1$Grades_Curriculum, need_translation),
-    log_translation_cols(clean_data.tool1$Subjects_Detail, need_translation) |> mutate(Tab_Name = "Subjects_Detail"),
+    log_translation_cols(clean_data.tool1$Subjects_Detail |> select(-F9), need_translation) |> mutate(Tab_Name = "Subjects_Detail"),
     log_translation_cols(clean_data.tool1$Education_Quality, need_translation) |> mutate(Tab_Name = "Education_Quality"),
     log_translation_cols(clean_data.tool1$Relevant_photos, need_translation)
   ) |>
@@ -205,7 +207,7 @@ un_logged_values <- bind_rows(
   
   ## Tool 2
   bind_rows(
-    log_translation_cols(clean_data.tool2$data, need_translation) |> mutate(Tab_Name = "data"),
+    log_translation_cols(clean_data.tool2$data |> select(-C10), need_translation) |> mutate(Tab_Name = "data"),
     log_translation_cols(clean_data.tool2$Support_Respondents, need_translation) |> mutate(Tab_Name = "Support_Respondents"),
     log_translation_cols(clean_data.tool2$Attendance_Sheet_Photos, need_translation),
     log_translation_cols(clean_data.tool2$Public_Stationary_Kit_Group, need_translation) |> mutate(Tab_Name = "Public_Stationary_Kit_Group"),
@@ -240,7 +242,7 @@ un_logged_values <- bind_rows(
 
   ## Tool 5
   bind_rows(
-    log_translation_cols(clean_data.tool5$data, need_translation) |> mutate(Tab_Name = "data"),
+    log_translation_cols(clean_data.tool5$data |> select(-C10), need_translation) |> mutate(Tab_Name = "data"),
     log_translation_cols(clean_data.tool5$Under_Construction_Toilets, need_translation),
     log_translation_cols(clean_data.tool5$Useable_Toilets, need_translation),
     log_translation_cols(clean_data.tool5$Non_Useable_Toilets, need_translation),
@@ -250,7 +252,7 @@ un_logged_values <- bind_rows(
   
   ## Tool 6
   bind_rows(
-    log_translation_cols(clean_data.tool6$data, need_translation) |> mutate(Tab_Name = "data"),
+    log_translation_cols(clean_data.tool6$data |> select(-F9), need_translation) |> mutate(Tab_Name = "data"),
     log_translation_cols(clean_data.tool6$Subjects_Added, need_translation),
     log_translation_cols(clean_data.tool6$Relevant_photos, need_translation)
   ) |>
@@ -258,7 +260,7 @@ un_logged_values <- bind_rows(
   
   ## Tool 7
   bind_rows(
-    log_translation_cols(clean_data.tool7$data |> mutate(E10_Other = as.character(E10_Other)), need_translation) |> mutate(Tab_Name = "data"),
+    log_translation_cols(clean_data.tool7$data |> mutate(E10_Other = as.character(E10_Other)) |> select(-C10), need_translation) |> mutate(Tab_Name = "data"),
     log_translation_cols(clean_data.tool7$C6_list_members, need_translation),
     log_translation_cols(clean_data.tool7$Subjects_Added, need_translation),
     log_translation_cols(clean_data.tool7$Relevant_photos, need_translation)
@@ -267,7 +269,7 @@ un_logged_values <- bind_rows(
   
   ## Tool 8
   bind_rows(
-    log_translation_cols(clean_data.tool8$data, need_translation) |> mutate(Tab_Name = "data"),
+    log_translation_cols(clean_data.tool8$data |> select(-C10), need_translation) |> mutate(Tab_Name = "data"),
     log_translation_cols(clean_data.tool8$Classes, need_translation),
     log_translation_cols(clean_data.tool8$Adults_At_The_CBE, need_translation) |> mutate(Tab_Name = "Adults_At_The_CBE"),
     log_translation_cols(clean_data.tool8$Section_2_2_3_Attendance_Rec..., need_translation),
@@ -285,7 +287,7 @@ un_logged_values <- bind_rows(
   
   ## Tool 9
   bind_rows(
-    log_translation_cols(clean_data.tool9$data |> select(-B2), need_translation) |> mutate(Tab_Name = "data"),
+    log_translation_cols(clean_data.tool9$data |> select(-B2, -A2), need_translation) |> mutate(Tab_Name = "data"),
     log_translation_cols(clean_data.tool9$Relevant_photos, need_translation)
   ) |>
     mutate(tool = "Tool 9 - IP", .before = question_name)
