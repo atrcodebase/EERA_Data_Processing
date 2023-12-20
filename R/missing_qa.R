@@ -482,7 +482,7 @@ missing_audio_description <- rbind(
     mutate(tool = "Tool 9 - IP", Sample_Type = "CBE")
 ) |>
   mutate(Type = "Audio") |>
-  filter(old_value == "-")
+  filter(old_value == "" | is.na(old_value))
 
 
 missing_qa <-  rbind(
