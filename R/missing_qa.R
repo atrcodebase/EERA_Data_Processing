@@ -13,28 +13,28 @@ tool1_image_vars = c(
   # "L2_Caption" = "L2",
   "L2_QA" = "L2",
   # "Please_Add_Any_Relevant_Photo_caption" = "Please_Add_Any_Relevant_Photo",
-  "Please_Add_Any_Relevant_Photo_QA" = "Please_Add_Any_Relevant_Photo",
-  "FDE_Dari_Hours" = "FDE_Dari_Hours",
-  "FDE_Mathematics_Hours" = "FDE_Mathematics_Hours",
-  "FDE_Drawing_Hours" = "FDE_Drawing_Hours",
-  "FDE_Life_Skills_Hours" = "FDE_Life_Skills_Hours",
-  "FDE_Calligraphy_Hours" = "FDE_Calligraphy_Hours",
-  "FDE_English_Hours" = "FDE_English_Hours",
-  "FDE_Pashto_Hours" = "FDE_Pashto_Hours",
-  "FDE_Social_Studies_Hours" = "FDE_Social_Studies_Hours",
-  "FDE_Arabic_Hours" = "FDE_Arabic_Hours",
-  "FDE_Civics_Hours" = "FDE_Civics_Hours",
-  "FDE_Professional_Skills_Hours" = "FDE_Professional_Skills_Hours",
-  "FDE_Biology_Hours" = "FDE_Biology_Hours",
-  "FDE_Geography_Hours" = "FDE_Geography_Hours",
-  "FDE_History_Hours" = "FDE_History_Hours",
-  "FDE_Physics_Hours" = "FDE_Physics_Hours",
-  "FDE_Chemistry_Hours" = "FDE_Chemistry_Hours",
-  "FDE_Islamic_Studies_Hours" = "FDE_Islamic_Studies_Hours",
-  "FDE_Holy_Quran_Hours" = "FDE_Holy_Quran_Hours",
-  "FDE_Tajweed_Hours" = "FDE_Tajweed_Hours",
-  "FDE_Patriotism_Hours" = "FDE_Patriotism_Hours",
-  "FDE_Other_Hours" = "FDE_Other_Hours"
+  "Please_Add_Any_Relevant_Photo_QA" = "Please_Add_Any_Relevant_Photo"
+  # "FDE_Dari_Hours" = "FDE_Dari_Hours",
+  # "FDE_Mathematics_Hours" = "FDE_Mathematics_Hours",
+  # "FDE_Drawing_Hours" = "FDE_Drawing_Hours",
+  # "FDE_Life_Skills_Hours" = "FDE_Life_Skills_Hours",
+  # "FDE_Calligraphy_Hours" = "FDE_Calligraphy_Hours",
+  # "FDE_English_Hours" = "FDE_English_Hours",
+  # "FDE_Pashto_Hours" = "FDE_Pashto_Hours",
+  # "FDE_Social_Studies_Hours" = "FDE_Social_Studies_Hours",
+  # "FDE_Arabic_Hours" = "FDE_Arabic_Hours",
+  # "FDE_Civics_Hours" = "FDE_Civics_Hours",
+  # "FDE_Professional_Skills_Hours" = "FDE_Professional_Skills_Hours",
+  # "FDE_Biology_Hours" = "FDE_Biology_Hours",
+  # "FDE_Geography_Hours" = "FDE_Geography_Hours",
+  # "FDE_History_Hours" = "FDE_History_Hours",
+  # "FDE_Physics_Hours" = "FDE_Physics_Hours",
+  # "FDE_Chemistry_Hours" = "FDE_Chemistry_Hours",
+  # "FDE_Islamic_Studies_Hours" = "FDE_Islamic_Studies_Hours",
+  # "FDE_Holy_Quran_Hours" = "FDE_Holy_Quran_Hours",
+  # "FDE_Tajweed_Hours" = "FDE_Tajweed_Hours",
+  # "FDE_Patriotism_Hours" = "FDE_Patriotism_Hours",
+  # "FDE_Other_Hours" = "FDE_Other_Hours"
 )
 
 tool2_image_vars = c(
@@ -59,13 +59,13 @@ tool2_image_vars = c(
   # "J15_Caption" = "J15",
   "J15_QA" = "J15",
   # "Please_Add_Any_Relevant_Photo_caption" = "Please_Add_Any_Relevant_Photo",
-  "Please_Add_Any_Relevant_Photo_QA" = "Please_Add_Any_Relevant_Photo",
-  "FDE_Present_Teachers_Male" = "FDE_Present_Teachers_Male",
-  "FDE_Absent_Teachers_Male" = "FDE_Absent_Teachers_Male",
-  "FDE_Total_Teachers_Male" = "FDE_Total_Teachers_Male",
-  "FDE_Present_Teachers_Female" = "FDE_Present_Teachers_Female",
-  "FDE_Absent_Teachers_Female" = "FDE_Absent_Teachers_Female",
-  "FDE_Total_Teachers_Female" = "FDE_Total_Teachers_Female"
+  "Please_Add_Any_Relevant_Photo_QA" = "Please_Add_Any_Relevant_Photo"
+  # "FDE_Present_Teachers_Male" = "FDE_Present_Teachers_Male",
+  # "FDE_Absent_Teachers_Male" = "FDE_Absent_Teachers_Male",
+  # "FDE_Total_Teachers_Male" = "FDE_Total_Teachers_Male",
+  # "FDE_Present_Teachers_Female" = "FDE_Present_Teachers_Female",
+  # "FDE_Absent_Teachers_Female" = "FDE_Absent_Teachers_Female",
+  # "FDE_Total_Teachers_Female" = "FDE_Total_Teachers_Female"
 )
 
 tool3_image_vars = c(
@@ -86,28 +86,28 @@ tool3_image_vars = c(
   # "E2_2_Caption" = "E2_2",
   "E2_2_QA" = "E2_2",
   # "Please_Add_Any_Relevant_Photo_caption" = "Please_Add_Any_Relevant_Photo",
-  "Please_Add_Any_Relevant_Photo_QA" = "Please_Add_Any_Relevant_Photo",
-  "FDE_C1A3" = "FDE_C1A3",
-  "FDE_C1A4_Male" = "FDE_C1A4_Male",
-  "FDE_C1A4_Female" = "FDE_C1A4_Female",
-  "FDE_C1A5_Male" = "FDE_C1A5_Male",
-  "FDE_C1A5_Female" = "FDE_C1A5_Female",
-  "FDE_C1A6_Male" = "FDE_C1A6_Male",
-  "FDE_C1A6_Female" = "FDE_C1A6_Female",
-  "FDE_Overall_Present_Male_Students_Today" = "FDE_Overall_Present_Male_Students_Today",
-  "FDE_Number_Of_Absent_Male_Students_Today" = "FDE_Number_Of_Absent_Male_Students_Today",
-  "FDE_Overall_Present_Female_Students_Today" = "FDE_Overall_Present_Female_Students_Today",
-  "FDE_Number_Of_Absent_Female_Students_Today" = "FDE_Number_Of_Absent_Female_Students_Today",
-  "FDE_Overall_Present_Male_Students_LastWeek" = "FDE_Overall_Present_Male_Students_LastWeek",
-  "FDE_Number_Of_Absent_Male_Students_LastWeek" = "FDE_Number_Of_Absent_Male_Students_LastWeek",
-  "FDE_Overall_Present_Female_Students_LastWeek" = "FDE_Overall_Present_Female_Students_LastWeek",
-  "FDE_Number_Of_Absent_Female_Students_LastWeek" = "FDE_Number_Of_Absent_Female_Students_LastWeek",
-  "FDE_E6A11" = "FDE_E6A11",
-  "FDE_E6A12" = "FDE_E6A12",
-  "FDE_E6A21" = "FDE_E6A21",
-  "FDE_E6A22" = "FDE_E6A22",
-  "FDE_E6A31" = "FDE_E6A31",
-  "FDE_E6A32" = "FDE_E6A32"
+  "Please_Add_Any_Relevant_Photo_QA" = "Please_Add_Any_Relevant_Photo"
+  # "FDE_C1A3" = "FDE_C1A3",
+  # "FDE_C1A4_Male" = "FDE_C1A4_Male",
+  # "FDE_C1A4_Female" = "FDE_C1A4_Female",
+  # "FDE_C1A5_Male" = "FDE_C1A5_Male",
+  # "FDE_C1A5_Female" = "FDE_C1A5_Female",
+  # "FDE_C1A6_Male" = "FDE_C1A6_Male",
+  # "FDE_C1A6_Female" = "FDE_C1A6_Female",
+  # "FDE_Overall_Present_Male_Students_Today" = "FDE_Overall_Present_Male_Students_Today",
+  # "FDE_Number_Of_Absent_Male_Students_Today" = "FDE_Number_Of_Absent_Male_Students_Today",
+  # "FDE_Overall_Present_Female_Students_Today" = "FDE_Overall_Present_Female_Students_Today",
+  # "FDE_Number_Of_Absent_Female_Students_Today" = "FDE_Number_Of_Absent_Female_Students_Today",
+  # "FDE_Overall_Present_Male_Students_LastWeek" = "FDE_Overall_Present_Male_Students_LastWeek",
+  # "FDE_Number_Of_Absent_Male_Students_LastWeek" = "FDE_Number_Of_Absent_Male_Students_LastWeek",
+  # "FDE_Overall_Present_Female_Students_LastWeek" = "FDE_Overall_Present_Female_Students_LastWeek",
+  # "FDE_Number_Of_Absent_Female_Students_LastWeek" = "FDE_Number_Of_Absent_Female_Students_LastWeek",
+  # "FDE_E6A11" = "FDE_E6A11",
+  # "FDE_E6A12" = "FDE_E6A12",
+  # "FDE_E6A21" = "FDE_E6A21",
+  # "FDE_E6A22" = "FDE_E6A22",
+  # "FDE_E6A31" = "FDE_E6A31",
+  # "FDE_E6A32" = "FDE_E6A32"
   
 )
 
@@ -160,47 +160,47 @@ tool8_image_vars = c(
   "E22_Photo4_QA" = "E22_Photo4",
   # "E22_Photo5_Caption" = "E22_Photo5",
   "E22_Photo5_QA" = "E22_Photo5",
-  "FDE_Confirm_The_Date_of_Visit_With_Attendance" = "FDE_Confirm_The_Date_of_Visit_With_Attendance",
-  "FDE_Overall_Present_Students_Male" = "FDE_Overall_Present_Students_Male",
-  "FDE_Overall_Present_Students_Female" = "FDE_Overall_Present_Students_Female",
-  "FDE_Overall_Absent_Students_Male" = "FDE_Overall_Absent_Students_Male",
-  "FDE_Overall_Absent_Students_Female" = "FDE_Overall_Absent_Students_Female",
+  # "FDE_Confirm_The_Date_of_Visit_With_Attendance" = "FDE_Confirm_The_Date_of_Visit_With_Attendance",
+  # "FDE_Overall_Present_Students_Male" = "FDE_Overall_Present_Students_Male",
+  # "FDE_Overall_Present_Students_Female" = "FDE_Overall_Present_Students_Female",
+  # "FDE_Overall_Absent_Students_Male" = "FDE_Overall_Absent_Students_Male",
+  # "FDE_Overall_Absent_Students_Female" = "FDE_Overall_Absent_Students_Female",
   # "J4_Students_Enrolment_Book_Photo_Caption" = "J4_Students_Enrolment_Book_Photo",
   "J4_Students_Enrolment_Book_Photo_QA" = "J4_Students_Enrolment_Book_Photo",
   
-  "FDE_Grade1_Male" = "FDE_Grade1_Male",
-  "FDE_Grade1_Female" = "FDE_Grade1_Female",
-  "FDE_Grade1_Total" = "FDE_Grade1_Total",
-  "FDE_Grade2_Male" = "FDE_Grade2_Male",
-  "FDE_Grade2_Female" = "FDE_Grade2_Female",
-  "FDE_Grade2_Total" = "FDE_Grade2_Total",
-  "FDE_Grade3_Male" = "FDE_Grade3_Male",
-  "FDE_Grade3_Female" = "FDE_Grade3_Female",
-  "FDE_Grade3_Total" = "FDE_Grade3_Total",
-  "FDE_Grade4_Male" = "FDE_Grade4_Male",
-  "FDE_Grade4_Female" = "FDE_Grade4_Female",
-  "FDE_Grade4_Total" = "FDE_Grade4_Total",
-  "FDE_Grade5_Male" = "FDE_Grade5_Male",
-  "FDE_Grade5_Female" = "FDE_Grade5_Female",
-  "FDE_Grade5_Total" = "FDE_Grade5_Total",
-  "FDE_Grade6_Male" = "FDE_Grade6_Male",
-  "FDE_Grade6_Female" = "FDE_Grade6_Female",
-  "FDE_Grade6_Total" = "FDE_Grade6_Total",
-  "FDE_Grade_Other_Male" = "FDE_Grade_Other_Male",
-  "FDE_Grade_Other_Female" = "FDE_Grade_Other_Female",
-  "FDE_Grade_Other_Total" = "FDE_Grade_Other_Total",
-  "FDE_Total_Male" = "FDE_Total_Male",
-  "FDE_Total_Female" = "FDE_Total_Female",
-  "FDE_Total" = "FDE_Total",
-  "FDE_Level_1_1_2_Male" = "FDE_Level_1_1_2_Male",
-  "FDE_Level_1_1_2_Female" = "FDE_Level_1_1_2_Female",
-  "FDE_Total_Level_1_1_2" = "FDE_Total_Level_1_1_2",
-  "FDE_Level_2_3_4_Male" = "FDE_Level_2_3_4_Male",
-  "FDE_Level_2_3_4_Female" = "FDE_Level_2_3_4_Female",
-  "FDE_Total_Level_2_3_4" = "FDE_Total_Level_2_3_4",
-  "FDE_Level_3_5_6_Male" = "FDE_Level_3_5_6_Male",
-  "FDE_Level_3_5_6_Female" = "FDE_Level_3_5_6_Female",
-  "FDE_Total_Level_3_5_6" = "FDE_Total_Level_3_5_6",
+  # "FDE_Grade1_Male" = "FDE_Grade1_Male",
+  # "FDE_Grade1_Female" = "FDE_Grade1_Female",
+  # "FDE_Grade1_Total" = "FDE_Grade1_Total",
+  # "FDE_Grade2_Male" = "FDE_Grade2_Male",
+  # "FDE_Grade2_Female" = "FDE_Grade2_Female",
+  # "FDE_Grade2_Total" = "FDE_Grade2_Total",
+  # "FDE_Grade3_Male" = "FDE_Grade3_Male",
+  # "FDE_Grade3_Female" = "FDE_Grade3_Female",
+  # "FDE_Grade3_Total" = "FDE_Grade3_Total",
+  # "FDE_Grade4_Male" = "FDE_Grade4_Male",
+  # "FDE_Grade4_Female" = "FDE_Grade4_Female",
+  # "FDE_Grade4_Total" = "FDE_Grade4_Total",
+  # "FDE_Grade5_Male" = "FDE_Grade5_Male",
+  # "FDE_Grade5_Female" = "FDE_Grade5_Female",
+  # "FDE_Grade5_Total" = "FDE_Grade5_Total",
+  # "FDE_Grade6_Male" = "FDE_Grade6_Male",
+  # "FDE_Grade6_Female" = "FDE_Grade6_Female",
+  # "FDE_Grade6_Total" = "FDE_Grade6_Total",
+  # "FDE_Grade_Other_Male" = "FDE_Grade_Other_Male",
+  # "FDE_Grade_Other_Female" = "FDE_Grade_Other_Female",
+  # "FDE_Grade_Other_Total" = "FDE_Grade_Other_Total",
+  # "FDE_Total_Male" = "FDE_Total_Male",
+  # "FDE_Total_Female" = "FDE_Total_Female",
+  # "FDE_Total" = "FDE_Total",
+  # "FDE_Level_1_1_2_Male" = "FDE_Level_1_1_2_Male",
+  # "FDE_Level_1_1_2_Female" = "FDE_Level_1_1_2_Female",
+  # "FDE_Total_Level_1_1_2" = "FDE_Total_Level_1_1_2",
+  # "FDE_Level_2_3_4_Male" = "FDE_Level_2_3_4_Male",
+  # "FDE_Level_2_3_4_Female" = "FDE_Level_2_3_4_Female",
+  # "FDE_Total_Level_2_3_4" = "FDE_Total_Level_2_3_4",
+  # "FDE_Level_3_5_6_Male" = "FDE_Level_3_5_6_Male",
+  # "FDE_Level_3_5_6_Female" = "FDE_Level_3_5_6_Female",
+  # "FDE_Total_Level_3_5_6" = "FDE_Total_Level_3_5_6",
   
   # "O7_Caption" = "O7",
   "O7_QA" = "O7",
@@ -237,14 +237,19 @@ tool9_image_vars = c(
   "Please_Add_Any_Relevant_Photo_QA" = 'Please_Add_Any_Relevant_Photo'
 )
 
-photo_qaed_values = c("Checked & Verified", "Checked &amp; Verified", "Checked &amp; Verified-", "Checked - Blur/Not Visible Photo", "Checked - Irrelevant Photo", "Checked &amp; verified", "Checked and Verified", 
-                      "Checked and Verified", "-Checked &amp; Verified", "-Checked - Irrelevant Photo", "Checked - Irrelevant Phot", "Checked and Irrelevant photo", "Checked and verified", "Checked - Incomplete Information",
-                      "Checked - Date Not Specified In The Photo", "Checked - Incomplete Information;Checked - Schedule Not Available For Some Grades", "Relevant Photo", "Checked - Blur/Not Visible Phot",
-                      "Checked - Date Not Specified In The Photo;Checked - Incomplete Information", "Checked &amp; VerifiedChecked &amp; Verified", "Check &amp; Verified", "-checked &amp; verified", "-checked and no relevant",
-                      "-checked and not verified", "checked &amp; Verified", "-Checked & Verified", "checked &amp; relevant", "-aChecked &amp; Verified", "-checked $ not relevant", "-checked $ verified",
-                      "-checked and verified", "Checked &amp; Verified]", "checked and relevant","Irrelevant Photo", "-checked and relevant", "-checked &amp; relevant", "-checked &amp; Relevant", "-checked &amp; Verified"
-                      ,as.character(seq(0, 150))
-                    )
+# photo_qaed_values = c("Checked & Verified", "Checked &amp; Verified", "Checked &amp; Verified-", "Checked - Blur/Not Visible Photo", "Checked - Irrelevant Photo", "Checked &amp; verified", "Checked and Verified", 
+#                       "Checked and Verified", "-Checked &amp; Verified", "-Checked - Irrelevant Photo", "Checked - Irrelevant Phot", "Checked and Irrelevant photo", "Checked and verified", "Checked - Incomplete Information",
+#                       "Checked - Date Not Specified In The Photo", "Checked - Incomplete Information;Checked - Schedule Not Available For Some Grades", "Relevant Photo", "Checked - Blur/Not Visible Phot",
+#                       "Checked - Date Not Specified In The Photo;Checked - Incomplete Information", "Checked &amp; VerifiedChecked &amp; Verified", "Check &amp; Verified", "-checked &amp; verified", "-checked and no relevant",
+#                       "-checked and not verified", "checked &amp; Verified", "-Checked & Verified", "checked &amp; relevant", "-aChecked &amp; Verified", "-checked $ not relevant", "-checked $ verified",
+#                       "-checked and verified", "Checked &amp; Verified]", "checked and relevant","Irrelevant Photo", "-checked and relevant", "-checked &amp; relevant", "-checked &amp; Relevant", "-checked &amp; Verified"
+#                       ,as.character(seq(0, 150))
+#                     )
+
+photo_qaed_values <- c("Checked & Verified", "Checked - Irrelevant Photo", "Checked - Blur/Not Visible Photo", "Checked - Date Not Specified In The Photo", "Checked - Incomplete Information",
+                       "Checked - Date Not Specified In The Photo;Checked - Incomplete Information", "Checked - Incomplete Information;Checked - Schedule Not Available For Some Grades",
+                       "Checked - Date Not Specified In The Photo;Checked - Schedule Not Available For Some Grades", "Checked - Different Date In The Photo", "Checked - Document With No Signature"
+                       )
 
 # Checking QA's comments --------------------------------------------------
 missing_qa <- rbind(
@@ -482,7 +487,7 @@ missing_audio_description <- rbind(
     mutate(tool = "Tool 9 - IP", Sample_Type = "CBE")
 ) |>
   mutate(Type = "Audio") |>
-  filter(old_value == "" | is.na(old_value))
+  filter(old_value == "" | is.na(old_value) | old_value == "NO CLEAR VOICE")
 
 
 missing_qa <-  rbind(
