@@ -241,7 +241,7 @@ un_logged_values <- bind_rows(
 
   ## Tool 5
   bind_rows(
-    log_translation_cols(clean_data.tool5$data |> select(-C10), need_translation) |> mutate(Tab_Name = "data"),
+    log_translation_cols(clean_data.tool5$data |> select(-C10, -C8_1, -C8_2), need_translation) |> mutate(Tab_Name = "data"),
     log_translation_cols(clean_data.tool5$Under_Construction_Toilets, need_translation),
     log_translation_cols(clean_data.tool5$Useable_Toilets, need_translation),
     log_translation_cols(clean_data.tool5$Non_Useable_Toilets, need_translation),
@@ -251,7 +251,7 @@ un_logged_values <- bind_rows(
   
   ## Tool 6
   bind_rows(
-    log_translation_cols(clean_data.tool6$data |> select(-F9), need_translation) |> mutate(Tab_Name = "data"),
+    log_translation_cols(clean_data.tool6$data |> select(-F9, -C8_1, -C8_2), need_translation) |> mutate(Tab_Name = "data"),
     log_translation_cols(clean_data.tool6$Subjects_Added, need_translation),
     log_translation_cols(clean_data.tool6$Relevant_photos, need_translation)
   ) |>
