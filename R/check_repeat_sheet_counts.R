@@ -451,7 +451,7 @@ repeat_sheet_issues <- rbind(
   rbind(
     # 1
     compare_row_counts(
-      supposed_count_df = select(clean_data.tool7$data |> mutate(C5_value_count = case_when(
+      supposed_count_df = select(clean_data.tool7$data |> filter(C5 != 8888 | C5 != "8888") |> mutate(C5_value_count = case_when(
         is.na(C5) | str_trim(C5) == "" ~ 0,
         TRUE ~ (str_count(C5, " ")+1)
       )), KEY, supposed_row_count = C5_value_count),
