@@ -127,11 +127,11 @@ missing_translations <- bind_rows(
 
 need_translation <- c(
   # Tool 1:
-  "A31_Other", "Interviewee_Respondent_Type_Other", "B6_Other", "B7_Other", "B9_Other", "B10_Other", "C2_Other", "C4_Other", "C4_1_Other", "C9_Other", "C12A3_Other", "C13A3_Other", "School_Operationality_Other_Grades",
-  "C13A8_Other", "Other_Shifts_Detail", "D3_Other", "D4_Other", "D7_Other", "D8_Other", "E3_Other", "E4_Other", "E7_Other", "E8_Other", "E11_Other", "E12_Other", "E15_Other", "E16_Other", "E19_Other", "E20_Other",
+  "A31_Other", "Interviewee_Respondent_Type_Other", "B6_Other", "B7_Other", "B9_Other", "B10_Other", "C2_Other", "C4_Other", "C4_1_Other", "C9_Other", "C12A3_Other", "C13A3_Other",
+  "C13A8_Other", "D3_Other", "D4_Other", "D7_Other", "D8_Other", "E3_Other", "E4_Other", "E7_Other", "E8_Other", "E11_Other", "E12_Other", "E15_Other", "E16_Other", "E19_Other", "E20_Other",
   "E23_Other", "E24_Other", "E26_Other", "E27_Other", "F10_Other", "F15_Other", "F16_Other", "F17_Other", "H2_Other", "H3_Other", "I7_Other", "I8_Other", "J2_Other", "J3_Other", "J4_Other",
   "J5_Other", "J7_Other", "J9_Other", "J10_Other", "J13_Other", "J15_Other", "J17_Other", "J19_Other", "J21_Other", "J22_Other", "K3_Other", "K4_Other", "Survey_Language_Other",
-  "B7_1", "B7_2", "F14",
+  "B7_1", "B7_2", "F14", "A28",
   
   # Tool 2:
   "B4_Other", "Interviewee_Respondent_Type_Other", "C7_Other", "C8_Other", "C11_Other", "C12_Other", "D2_Other", "D4_Other", "D4_1_Other", "D59_Other", "D10_2_Other", "H5_Other", "H8_Other", "H11_Other",
@@ -150,7 +150,6 @@ need_translation <- c(
   "E20_Primary_Other", "E20_Secondary_Other", "E23_Primary_Other", "E23_Secondary_Other", "E24_Primary_Other", "E24_Secondary_Other", "E26_Other", "E27_Other", "F5_Other", "F10_Other", "F13_Other",
   "F14_Other", "F16_Other", "F17_Other", "G2_Other", "G3_Other", "G6_Other", "H5_Other", "H7_Other", "Survey_Language_Other", "B2", # School name other
   "D6_IP_Name", "F2_Subject_Name", "F9",
-  
   
   # Tool 5:
   "Interviewee_Respondent_Type_Other", "C7_Other", "Survey_Language_Other",
