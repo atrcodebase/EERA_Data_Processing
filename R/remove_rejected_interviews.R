@@ -52,16 +52,16 @@ clean_data.tool5$Relevant_photos <- clean_data.tool5$Relevant_photos %>% filter(
 
 
 # Tool 6 - Parent
-clean_data.tool6$data <- clean_data.tool6$data %>% filter((KEY %in% approved_keys_ps | KEY %in% approved_keys_cbe) & (!KEY %in% deleted_keys_ps | !KEY %in% deleted_keys_cbe))
-clean_data.tool6$Subjects_Added <- clean_data.tool6$Subjects_Added %>% filter(PARENT_KEY %in% clean_data.tool6$data$KEY & (!KEY %in% deleted_keys_ps | !KEY %in% deleted_keys_cbe))
-clean_data.tool6$Relevant_photos <- clean_data.tool6$Relevant_photos %>% filter(PARENT_KEY %in% clean_data.tool6$data$KEY & (!KEY %in% deleted_keys_ps | !KEY %in% deleted_keys_cbe))
+clean_data.tool6$data <- clean_data.tool6$data %>% filter((KEY %in% approved_keys_ps | KEY %in% approved_keys_cbe) & !KEY %in% c(deleted_keys_ps,deleted_keys_cbe))
+clean_data.tool6$Subjects_Added <- clean_data.tool6$Subjects_Added %>% filter(PARENT_KEY %in% clean_data.tool6$data$KEY & !KEY %in% c(deleted_keys_ps,deleted_keys_cbe))
+clean_data.tool6$Relevant_photos <- clean_data.tool6$Relevant_photos %>% filter(PARENT_KEY %in% clean_data.tool6$data$KEY & !KEY %in% c(deleted_keys_ps,deleted_keys_cbe))
 
 
 # Tool 7 - SHURA
-clean_data.tool7$data <- clean_data.tool7$data %>% filter((KEY %in% approved_keys_ps | KEY %in% approved_keys_cbe) & (!KEY %in% deleted_keys_ps | !KEY %in% deleted_keys_cbe))
-clean_data.tool7$C6_list_members <- clean_data.tool7$C6_list_members %>% filter(PARENT_KEY %in% clean_data.tool7$data$KEY & (!KEY %in% deleted_keys_ps | !KEY %in% deleted_keys_cbe))
-clean_data.tool7$Subjects_Added <- clean_data.tool7$Subjects_Added %>% filter(PARENT_KEY %in% clean_data.tool7$data$KEY & (!KEY %in% deleted_keys_ps | !KEY %in% deleted_keys_cbe))
-clean_data.tool7$Relevant_photos <- clean_data.tool7$Relevant_photos %>% filter(PARENT_KEY %in% clean_data.tool7$data$KEY & (!KEY %in% deleted_keys_ps | !KEY %in% deleted_keys_cbe))
+clean_data.tool7$data <- clean_data.tool7$data %>% filter((KEY %in% approved_keys_ps | KEY %in% approved_keys_cbe) & !KEY %in% c(deleted_keys_ps,deleted_keys_cbe))
+clean_data.tool7$C6_list_members <- clean_data.tool7$C6_list_members %>% filter(PARENT_KEY %in% clean_data.tool7$data$KEY & !KEY %in% c(deleted_keys_ps,deleted_keys_cbe))
+clean_data.tool7$Subjects_Added <- clean_data.tool7$Subjects_Added %>% filter(PARENT_KEY %in% clean_data.tool7$data$KEY & !KEY %in% c(deleted_keys_ps,deleted_keys_cbe))
+clean_data.tool7$Relevant_photos <- clean_data.tool7$Relevant_photos %>% filter(PARENT_KEY %in% clean_data.tool7$data$KEY & !KEY %in% c(deleted_keys_ps,deleted_keys_cbe))
 
 
 # Tool 8 - Class
