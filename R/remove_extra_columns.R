@@ -5,17 +5,26 @@ qa_cols <- c("review_status", "review_quality", "review_comments", "review_corre
 extra_cols.tool1 <- c(
   # Meta cols
   "Passcode", "deviceid", "subscriberid", "simid", "devicephonenum", "username", "duration", "device_info", "comments", "Surveyor_Name", "Province_filter",
-  "Province_DariPashto", "District_DariPashto", "Village_DariPashto", "Date_And_Time", "CBE_KEY",	"School_CBE_Name_DariPashto",
-  "Line_Ministry_Sub_Project_Name_And_Description",	"If_not_a_first_Site_Visit_state_Original_Site_Visit_ID",
+  "Province_DariPashto", "District_DariPashto", "Village_DariPashto", "Date_And_Time", "CBE_KEY",	"School_CBE_Name_DariPashto","EMIS_School_ID_CBE_KEY", "Type_Of_School_CBE_Based_On_The_Sample",
+  "Sector",	"Line_Ministry_Name",	"Line_Ministry_Project_Id",	"Line_Ministry_SubProject_Id",	"Type_Of_Implementing_Partner",	"IP_Name",	"Type_Of_Site_Visit",	"Type_Of_Visit",
+  "If_not_a_first_Site_Visit_state_Original_Site_Visit_ID",	"tpma_location_id", "Line_Ministry_Sub_Project_Name_And_Description",	
   "Reporting_Period",	"Class1_N_Sample",	"Class2_N_Sample",	"Class3_N_Sample",	"Class4_N_Sample",	"Class5_N_Sample",	"Class6_N_Sample",	"Class7_N_Sample",	"Class8_N_Sample",
   "Class9_N_Sample",	"Class10_N_Sample",	"Class11_N_Sample",	"Class12_N_Sample", 
   
   # PII
+  "B2", "B5A1", "B5A2","C5", "C6A1", "C6A2", "C12A1", "C12A4", "C15A1",
   
+  
+  # GPS
+  "Geopoint1-Latitude",	"Geopoint1-Longitude",	"Geopoint1-Altitude",	"Geopoint1-Accuracy",
   
   # URLs
   "text_audit_full",
   
+  # Labels
+  "Grade_Name_Dari",	"Grade_Name_Pashto",'Shift_Name_Dari',"Shift_Name_Pashto", "Sub_name_Dari",	"Sub_name_Pashto", "Feature_Dari",	"Feature_Pashto",
+
+
   # Captions
   "B19_Caption", "B20_Caption", "F2_Caption", "J24_Caption", "L2_Caption", "Please_Add_Any_Relevant_Photo_caption",
   
@@ -24,11 +33,16 @@ extra_cols.tool1 <- c(
   "Surveyor_Comments_Translation",	"join_Grade_Name_Eng",	"join_Shift_Name_Eng", "Sample_Type",
   
   # Repeat counter and SET-OFF
-  "Support_Respondents_count", "SET-OF-Support_Respondents", "School_Operationality_count", "SET-OF-School_Operationality",
+  "Support_Respondents_count", "SET-OF-Support_Respondents", "School_Operationality_count", "SET-OF-School_Operationality", # Do find and search for SET-OF and count
   "School_Operationality_Other_Grades_count",	"SET-OF-School_Operationality_Other_Grades",	"Shifts_Detail_count",	"SET-OF-Shifts_Detail",
   "Other_Shifts_Detail_count",	"SET-OF-Other_Shifts_Detail", "Headmasters_count",	"SET-OF-Headmasters", "Curriculum_Changes_count",	"SET-OF-Curriculum_Changes", 
   "SET-OF-Weekly_Class_Schedule",	"Count_Weekly_Class_Schedule_Photo",	"Grades_Curriculum_count", "SET-OF-Grades_Curriculum", "Count_Weekly_Class_Schedule_Photo.re_calc",
-  "Subjects_Detail_count", "SET-OF-Subjects_Detail", "Education_Quality_count",	"SET-OF-Education_Quality", "SET-OF-Relevant_photos"
+  "Subjects_Detail_count", "SET-OF-Subjects_Detail", "Education_Quality_count",	"SET-OF-Education_Quality", "SET-OF-Relevant_photos",
+  
+  # FDE Cols
+  "FDE_Dari_Hours", "FDE_Mathematics_Hours", "FDE_Drawing_Hours", "FDE_Life_Skills_Hours", "FDE_Calligraphy_Hours", "FDE_English_Hours", "FDE_Pashto_Hours", "FDE_Social_Studies_Hours", "FDE_Arabic_Hours",
+  "FDE_Civics_Hours", "FDE_Professional_Skills_Hours", "FDE_Biology_Hours", "FDE_Geography_Hours", "FDE_History_Hours", "FDE_Physics_Hours", "FDE_Chemistry_Hours", "FDE_Islamic_Studies_Hours",
+  "FDE_Holy_Quran_Hours", "FDE_Tajweed_Hours", "FDE_Patriotism_Hours", "FDE_Other_Hours"
 )
 
 extra_cols.tool9 <- c(
@@ -92,7 +106,14 @@ extra_cols.tool8 <- c(
   "Subjects_Added_count",	"SET-OF-Subjects_Added", "SET-OF-Relevant_photos",
   
   # Surveyor Comments
-  "Surveyor_Comments",	"Surveyor_Comments_Translation" # Confirm with Shahim
+  "Surveyor_Comments",	"Surveyor_Comments_Translation",
+  
+  # FDE
+  "FDE_Confirm_The_Date_of_Visit_With_Attendance", "FDE_Overall_Present_Students_Male", "FDE_Overall_Present_Students_Female", "FDE_Overall_Absent_Students_Male", "FDE_Overall_Absent_Students_Female",
+  "J4_Students_Enrolment_Book_Photo_Caption",  "FDE_Grade1_Male", "FDE_Grade1_Female", "FDE_Grade1_Total", "FDE_Grade2_Male", "FDE_Grade2_Female", "FDE_Grade2_Total", "FDE_Grade3_Male", "FDE_Grade3_Female",
+  "FDE_Grade3_Total", "FDE_Grade4_Male", "FDE_Grade4_Female", "FDE_Grade4_Total", "FDE_Grade5_Male", "FDE_Grade5_Female", "FDE_Grade5_Total", "FDE_Grade6_Male", "FDE_Grade6_Female", "FDE_Grade6_Total",
+  "FDE_Grade_Other_Male", "FDE_Grade_Other_Female", "FDE_Grade_Other_Total", "FDE_Total_Male", "FDE_Total_Female", "FDE_Total", "FDE_Level_1_1_2_Male", "FDE_Level_1_1_2_Female", "FDE_Total_Level_1_1_2",
+  "FDE_Level_2_3_4_Male", "FDE_Level_2_3_4_Female", "FDE_Total_Level_2_3_4", "FDE_Level_3_5_6_Male", "FDE_Level_3_5_6_Female", "FDE_Total_Level_3_5_6",
 )
 
 
@@ -228,7 +249,7 @@ extra_cols.tool3 <- c(
   "Classes", # To be confirmed
   
   # PII 
-  "B3", "B4A1", "B4A2", "B10A1",
+  "B3", "B4A1", "B4A2", "B10A1", "B10A4",
   
   # GPS
   "Geopoint1-Latitude",	"Geopoint1-Longitude",	"Geopoint1-Altitude",	"Geopoint1-Accuracy",
@@ -248,22 +269,25 @@ extra_cols.tool3 <- c(
   "LastWeek_Attendance_Detail_count",	"SET-OF-LastWeek_Attendance_Detail",	"Count_LastWeek_Attendance_Detail", "Student_Headcount_count",	"SET-OF-Student_Headcount",	"SET-OF-Relevant_photos",
 
   # Surveyor Comments
-  "Surveyor_Comments",	"Surveyor_Comments_Translation" # Confirm with Shahim
+  "Surveyor_Comments",	"Surveyor_Comments_Translation",
+  
+  # FDE COLUMN
+  "FDE_C1A3", "FDE_C1A4_Male", "FDE_C1A4_Female", "FDE_C1A5_Male", "FDE_C1A5_Female", "FDE_C1A6_Male", "FDE_C1A6_Female", "FDE_Overall_Present_Male_Students_Today", "FDE_Number_Of_Absent_Male_Students_Today",
+  "FDE_Overall_Present_Female_Students_Today", "FDE_Number_Of_Absent_Female_Students_Today", "FDE_Overall_Present_Male_Students_LastWeek", "FDE_Number_Of_Absent_Male_Students_LastWeek",
+  "FDE_Overall_Present_Female_Students_LastWeek", "FDE_Number_Of_Absent_Female_Students_LastWeek", "FDE_E6A11", "FDE_E6A12", "FDE_E6A21", "FDE_E6A22", "FDE_E6A31", "FDE_E6A32"
 )
 
 
 extra_cols.tool2 <- c(
   # Meta Cols
   "Passcode", "deviceid", "subscriberid", "simid", "devicephonenum", "username", "duration", "device_info", "comments", "Surveyor_Name", "Province_filter", "CBE_KEY",
-  "Province_DariPashto", "District_DariPashto", "Region_Pcode", "Village_DariPashto", "Date_And_Time", "School_CBE_Name_DariPashto",	"EMIS_School_ID_CBE_KEY",	 "School_Program_Sample", "Type_Of_School_CBE_Based_On_The_Sample",
-  "Sector", "Line_Ministry_Name", "Line_Ministry_Project_Id", "Line_Ministry_SubProject_Id", "School_Property_Sample", "School_Shifts_Sample",
+  "Province_DariPashto", "District_DariPashto", "Region_Pcode", "Village_DariPashto", "Date_And_Time", "School_CBE_Name_DariPashto",	"EMIS_School_ID_CBE_KEY", "Type_Of_School_CBE_Based_On_The_Sample",
+  "Sector", "Line_Ministry_Name", "Line_Ministry_Project_Id", "Line_Ministry_SubProject_Id",
   "Line_Ministry_Sub_Project_Name_And_Description", "Type_Of_Implementing_Partner", "IP_Name", "Type_Of_Site_Visit", "Type_Of_Visit", "If_not_a_first_Site_Visit_state_Original_Site_Visit_ID",
-  "Reporting_Period", "tpma_location_id", "Class1_N_Sample", "Class2_N_Sample", "Class3_N_Sample", "Class4_N_Sample", "Class5_N_Sample", "Class6_N_Sample", "Class7_N_Sample", "Class8_N_Sample", "Class9_N_Sample",
-  "Class10_N_Sample", "Class11_N_Sample", "Class12_N_Sample", "School_Status_Sample", "School_Status_EMIS",
-  "Classes", # To be confirmed
+  "Reporting_Period", "tpma_location_id", "Province_Climate",
   
   # PII 
-  "", "", "", "",
+  "C4_Respondent_name", "C6_Respondent_phone_number1", "C6_Respondent_phone_number2", "D5", "Respondent1_Phone_Number", "Respondent2_Phone_Number", "D10", "D11",
   
   # GPS
   "Geopoint1-Latitude",	"Geopoint1-Longitude",	"Geopoint1-Altitude",	"Geopoint1-Accuracy",
@@ -272,12 +296,21 @@ extra_cols.tool2 <- c(
   "text_audit_full",
   
   # Captions
-  "", "", "", "", "", "", "", "", "",
+  "B5_Caption", "Photo_closure_1_Caption", "Photo_closure_2_Caption", "G6_Caption", "H12_Caption", "H15_Caption", "i12_Caption", "i15_Caption", "J12_Caption", "J15_Caption" ,
+  "Please_Add_Any_Relevant_Photo_caption",
   
   # Notes and Re-coded
-  "Sample_Type", "",
+  "Sample_Type",
   
   # repeat counter and SET-OFF 
+  "Support_Respondents_count",	"SET-OF-Support_Respondents", "SET-OF-Attendance_Sheet_Photos",	"Count_Attendance_Sheet_Photos", "Public_Stationary_Kit_Group_count",	"SET-OF-Public_Stationary_Kit_Group",
+  "Teachers_Pack_Group_count",	"SET-OF-Teachers_Pack_Group", "Students_Pack_Group_count",	"SET-OF-Students_Pack_Group",	"SET-OF-Relevant_photos",
+
+  # FDE
+  "FDE_Present_Teachers_Male", "FDE_Absent_Teachers_Male", "FDE_Total_Teachers_Male", "FDE_Present_Teachers_Female", "FDE_Absent_Teachers_Female", "FDE_Total_Teachers_Female",
+  
+  # Labels
+  
   
   # Surveyor Comments
   "Surveyor_Comments",	"Surveyor_Comments_Translation" # Confirm with Shahim
@@ -327,7 +360,7 @@ clean_data.tool9_for_client <- clean_data.tool9
 clean_data.tool1_for_client$data <- clean_data.tool1$data %>% select(-any_of(c(extra_cols.tool1, qa_cols)))
 clean_data.tool1_for_client$Support_Respondents <- clean_data.tool1$Support_Respondents %>% select(-any_of(c(extra_cols.tool1, qa_cols)))
 clean_data.tool1_for_client$School_Operationality <- clean_data.tool1$School_Operationality %>% select(-any_of(c(extra_cols.tool1, qa_cols)))
-clean_data.tool1_for_client$School_Operationality_Other_... <- clean_data.tool1$School_Operationality_Other_... %>% select(-any_of(c(extra_cols.tool1, qa_cols)))
+clean_data.tool1_for_client$School_Operationality_Other_... <- clean_data.tool1$School_Operationality_Other_... %>% select(-any_of(c(extra_cols.tool1, qa_cols,"School_CBE_Gender_Based_On_The_Sample")))
 clean_data.tool1_for_client$Shifts_Detail <- clean_data.tool1$Shifts_Detail %>% select(-any_of(c(extra_cols.tool1, qa_cols)))
 clean_data.tool1_for_client$Other_Shifts_Detail <- clean_data.tool1$Other_Shifts_Detail %>% select(-any_of(c(extra_cols.tool1, qa_cols)))
 clean_data.tool1_for_client$Headmasters <- clean_data.tool1$Headmasters %>% select(-any_of(c(extra_cols.tool1, qa_cols)))
