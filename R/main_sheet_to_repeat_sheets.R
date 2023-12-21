@@ -38,11 +38,11 @@ clean_data.tool1$Curriculum_Changes <- clean_data.tool1$Curriculum_Changes |>
   select(any_of(meta_cols), everything())
 
 clean_data.tool1$Weekly_Class_Schedule <- clean_data.tool1$Weekly_Class_Schedule |>
-  left_join(select(clean_data.tool1$data, any_of(meta_cols), KEY), by = c("PARENT_KEY" = "KEY")) |>
+  left_join(select(clean_data.tool1$Curriculum_Changes, any_of(meta_cols), KEY), by = c("PARENT_KEY" = "KEY")) |>
   select(any_of(meta_cols), everything())
 
 clean_data.tool1$Grades_Curriculum <- clean_data.tool1$Grades_Curriculum |>
-  left_join(select(clean_data.tool1$data, any_of(meta_cols), KEY), by = c("PARENT_KEY" = "KEY")) |>
+  left_join(select(clean_data.tool1$Curriculum_Changes, any_of(meta_cols), KEY), by = c("PARENT_KEY" = "KEY")) |>
   select(any_of(meta_cols), everything())
 
 clean_data.tool1$Subjects_Detail <- clean_data.tool1$Subjects_Detail |>
