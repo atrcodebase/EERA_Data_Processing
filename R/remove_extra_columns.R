@@ -9,7 +9,7 @@ extra_cols.tool1 <- c(
   "Sector",	"Line_Ministry_Name",	"Line_Ministry_Project_Id",	"Line_Ministry_SubProject_Id",	"Type_Of_Implementing_Partner",	"IP_Name",	"Type_Of_Site_Visit",	"Type_Of_Visit",
   "If_not_a_first_Site_Visit_state_Original_Site_Visit_ID",	"tpma_location_id", "Line_Ministry_Sub_Project_Name_And_Description",	
   "Reporting_Period",	"Class1_N_Sample",	"Class2_N_Sample",	"Class3_N_Sample",	"Class4_N_Sample",	"Class5_N_Sample",	"Class6_N_Sample",	"Class7_N_Sample",	"Class8_N_Sample",
-  "Class9_N_Sample",	"Class10_N_Sample",	"Class11_N_Sample",	"Class12_N_Sample", 
+  "Class9_N_Sample",	"Class10_N_Sample",	"Class11_N_Sample",	"Class12_N_Sample", "Province_Climate",
   
   # PII
   "B2", "B5A1", "B5A2","C5", "C6A1", "C6A2", "C12A1", "C12A4", "C15A1",
@@ -30,13 +30,13 @@ extra_cols.tool1 <- c(
   
   # Notes and Re-coded
   "interview_to_be_conducted_with_English", "interview_to_be_conducted_with_Dari", "interview_to_be_conducted_with_Pashto", "Surveyor_Comments",
-  "Surveyor_Comments_Translation",	"join_Grade_Name_Eng",	"join_Shift_Name_Eng", "Sample_Type",
+  "Surveyor_Comments_Translation",	"join_Grade_Name_Eng",	"join_Shift_Name_Eng", "Sample_Type",  "Count_Weekly_Class_Schedule_Photo.re_calc",
   
   # Repeat counter and SET-OFF
   "Support_Respondents_count", "SET-OF-Support_Respondents", "School_Operationality_count", "SET-OF-School_Operationality", # Do find and search for SET-OF and count
   "School_Operationality_Other_Grades_count",	"SET-OF-School_Operationality_Other_Grades",	"Shifts_Detail_count",	"SET-OF-Shifts_Detail",
   "Other_Shifts_Detail_count",	"SET-OF-Other_Shifts_Detail", "Headmasters_count",	"SET-OF-Headmasters", "Curriculum_Changes_count",	"SET-OF-Curriculum_Changes", 
-  "SET-OF-Weekly_Class_Schedule",	"Count_Weekly_Class_Schedule_Photo",	"Grades_Curriculum_count", "SET-OF-Grades_Curriculum", "Count_Weekly_Class_Schedule_Photo.re_calc",
+  "SET-OF-Weekly_Class_Schedule",	"Count_Weekly_Class_Schedule_Photo",	"Grades_Curriculum_count", "SET-OF-Grades_Curriculum",
   "Subjects_Detail_count", "SET-OF-Subjects_Detail", "Education_Quality_count",	"SET-OF-Education_Quality", "SET-OF-Relevant_photos",
   
   # FDE Cols
@@ -71,7 +71,7 @@ extra_cols.tool9 <- c(
   "SET-OF-Relevant_photos",
   
   # Surveyor Comments
-  "Surveyor_Comments",	"Surveyor_Comments_Translation" # Confirm with Shahim
+  "Surveyor_Comments",	"Surveyor_Comments_Translation"
 )
 
 
@@ -80,7 +80,7 @@ extra_cols.tool8 <- c(
   "Passcode", "deviceid", "subscriberid", "simid", "devicephonenum", "username", "duration", "device_info", "comments", "Date_And_Time", "Surveyor_Name", "CBE_KEY", "Province_filter",
   "Province_DariPashto", "District_DariPashto", "Village_DariPashto", "School_CBE_Name_DariPashto", "EMIS_School_ID_CBE_KEY", "Type_Of_School_CBE_Based_On_The_Sample", "Sector", "Line_Ministry_Name",
   "Line_Ministry_Project_Id", "Line_Ministry_SubProject_Id", "Line_Ministry_Sub_Project_Name_And_Description", "Type_Of_Implementing_Partner", "IP_Name", "Type_Of_Site_Visit", "Type_Of_Visit", "If_not_a_first_Site_Visit_state_Original_Site_Visit_ID",
-  "Reporting_Period", "tpma_location_id",
+  "Reporting_Period", "tpma_location_id",  "Province_Climate",
   
   # PII 
   "C2", "Respondent_Phone_Number1", "Respondent_Phone_Number2", "Respondent_Full_Name", "Respondent1_Phone_Number", "Respondent2_Phone_Number", "E18", 
@@ -113,7 +113,7 @@ extra_cols.tool8 <- c(
   "J4_Students_Enrolment_Book_Photo_Caption",  "FDE_Grade1_Male", "FDE_Grade1_Female", "FDE_Grade1_Total", "FDE_Grade2_Male", "FDE_Grade2_Female", "FDE_Grade2_Total", "FDE_Grade3_Male", "FDE_Grade3_Female",
   "FDE_Grade3_Total", "FDE_Grade4_Male", "FDE_Grade4_Female", "FDE_Grade4_Total", "FDE_Grade5_Male", "FDE_Grade5_Female", "FDE_Grade5_Total", "FDE_Grade6_Male", "FDE_Grade6_Female", "FDE_Grade6_Total",
   "FDE_Grade_Other_Male", "FDE_Grade_Other_Female", "FDE_Grade_Other_Total", "FDE_Total_Male", "FDE_Total_Female", "FDE_Total", "FDE_Level_1_1_2_Male", "FDE_Level_1_1_2_Female", "FDE_Total_Level_1_1_2",
-  "FDE_Level_2_3_4_Male", "FDE_Level_2_3_4_Female", "FDE_Total_Level_2_3_4", "FDE_Level_3_5_6_Male", "FDE_Level_3_5_6_Female", "FDE_Total_Level_3_5_6",
+  "FDE_Level_2_3_4_Male", "FDE_Level_2_3_4_Female", "FDE_Total_Level_2_3_4", "FDE_Level_3_5_6_Male", "FDE_Level_3_5_6_Female", "FDE_Total_Level_3_5_6"
 )
 
 
@@ -123,10 +123,10 @@ extra_cols.tool7 <- c(
   "Province_DariPashto", "District_DariPashto", "Village_DariPashto", "Date_And_Time", "School_CBE_Name_DariPashto",	"EMIS_School_ID_CBE_KEY",	"Type_Of_School_CBE_Based_On_The_Sample",
   "Sector", "Line_Ministry_Name", "Line_Ministry_Project_Id", "Line_Ministry_SubProject_Id",
   "Line_Ministry_Sub_Project_Name_And_Description", "Type_Of_Implementing_Partner", "IP_Name", "Type_Of_Site_Visit", "Type_Of_Visit", "If_not_a_first_Site_Visit_state_Original_Site_Visit_ID",
-  "Reporting_Period", "tpma_location_id",
+  "Reporting_Period", "tpma_location_id",  "Province_Climate",
   
   # PII 
-  "B5", "Respondent1_Phone_Number", "Respondent2_Phone_Number", "B6", # Confirm with Shahim to exclude this
+  "B5", "Respondent1_Phone_Number", "Respondent2_Phone_Number",
   
 
   # GPS
@@ -144,7 +144,7 @@ extra_cols.tool7 <- c(
 
   
   # Surveyor Comments
-  "Surveyor_Comments",	"Surveyor_Comments_Translation" # Confirm with Shahim
+  "Surveyor_Comments",	"Surveyor_Comments_Translation"
   
 )
 
@@ -154,10 +154,10 @@ extra_cols.tool6 <- c(
   "Province_DariPashto", "District_DariPashto", "Village_DariPashto", "Date_And_Time", "School_CBE_Name_DariPashto",	"EMIS_School_ID_CBE_KEY",	"Type_Of_School_CBE_Based_On_The_Sample",
   "Sector", "Line_Ministry_Name", "Line_Ministry_Project_Id", "Line_Ministry_SubProject_Id",
   "Line_Ministry_Sub_Project_Name_And_Description", "Type_Of_Implementing_Partner", "IP_Name", "Type_Of_Site_Visit", "Type_Of_Visit", "If_not_a_first_Site_Visit_state_Original_Site_Visit_ID",
-  "Reporting_Period", "tpma_location_id",
+  "Reporting_Period", "tpma_location_id",  "Province_Climate",
   
   # PII 
-  "Respondent_Name", "Respondent1_Phone_Number", "Respondent2_Phone_Number", "", # Confirm with Shahim to exclude this
+  "Respondent_Name", "Respondent1_Phone_Number", "Respondent2_Phone_Number",
   
   # GPS
   "Geopoint1-Latitude",	"Geopoint1-Longitude",	"Geopoint1-Altitude",	"Geopoint1-Accuracy",
@@ -172,7 +172,7 @@ extra_cols.tool6 <- c(
   "Subjects_Added_count",	"SET-OF-Subjects_Added", "SET-OF-Relevant_photos",
   	
   # Surveyor Comments
-  "Surveyor_Comments",	"Surveyor_Comments_Translation" # Confirm with Shahim
+  "Surveyor_Comments",	"Surveyor_Comments_Translation"
   
 )
 
@@ -182,7 +182,7 @@ extra_cols.tool5 <- c(
   "Province_DariPashto", "District_DariPashto", "Village_DariPashto", "Date_And_Time", "School_CBE_Name_DariPashto",	"EMIS_School_ID_CBE_KEY",	"Type_Of_School_CBE_Based_On_The_Sample",
   "Sector", "Line_Ministry_Name", "Line_Ministry_Project_Id", "Line_Ministry_SubProject_Id",
   "Line_Ministry_Sub_Project_Name_And_Description", "Type_Of_Implementing_Partner", "IP_Name", "Type_Of_Site_Visit", "Type_Of_Visit", "If_not_a_first_Site_Visit_state_Original_Site_Visit_ID",
-  "Reporting_Period", "tpma_location_id",
+  "Reporting_Period", "tpma_location_id",  "Province_Climate",
   
   # PII 
   "Respondent_Full_Name", "Respondent1_Phone_Number", "Respondent2_Phone_Number",
@@ -204,7 +204,7 @@ extra_cols.tool5 <- c(
   "SET-OF-Relevant_photos",
 
   # Surveyor Comments
-  "Surveyor_Comments",	"Surveyor_Comments_Translation" # Confirm with Shahim
+  "Surveyor_Comments",	"Surveyor_Comments_Translation"
 )
 
 extra_cols.tool4 <- c(
@@ -213,7 +213,7 @@ extra_cols.tool4 <- c(
   "Province_DariPashto", "District_DariPashto", "Village_DariPashto", "Date_And_Time", "School_CBE_Name_DariPashto",	"EMIS_School_ID_CBE_KEY",	"Type_Of_School_CBE_Based_On_The_Sample",
   "Sector", "Line_Ministry_Name", "Line_Ministry_Project_Id", "Line_Ministry_SubProject_Id",
   "Line_Ministry_Sub_Project_Name_And_Description", "Type_Of_Implementing_Partner", "IP_Name", "Type_Of_Site_Visit", "Type_Of_Visit", "If_not_a_first_Site_Visit_state_Original_Site_Visit_ID",
-  "Reporting_Period", "tpma_location_id",
+  "Reporting_Period", "tpma_location_id",  "Province_Climate",
   
   # PII 
   "Respondent_Full_Name", "Respondent1_Phone_Number", "Respondent2_Phone_Number",
@@ -235,7 +235,7 @@ extra_cols.tool4 <- c(
   "SET-OF-Relevant_photos",
   	
   # Surveyor Comments
-  "Surveyor_Comments",	"Surveyor_Comments_Translation" # Confirm with Shahim
+  "Surveyor_Comments",	"Surveyor_Comments_Translation"
 )
 
 extra_cols.tool3 <- c(
@@ -245,7 +245,7 @@ extra_cols.tool3 <- c(
   "Sector", "Line_Ministry_Name", "Line_Ministry_Project_Id", "Line_Ministry_SubProject_Id", "School_Property_Sample", "School_Shifts_Sample",
   "Line_Ministry_Sub_Project_Name_And_Description", "Type_Of_Implementing_Partner", "IP_Name", "Type_Of_Site_Visit", "Type_Of_Visit", "If_not_a_first_Site_Visit_state_Original_Site_Visit_ID",
   "Reporting_Period", "tpma_location_id", "Class1_N_Sample", "Class2_N_Sample", "Class3_N_Sample", "Class4_N_Sample", "Class5_N_Sample", "Class6_N_Sample", "Class7_N_Sample", "Class8_N_Sample", "Class9_N_Sample",
-  "Class10_N_Sample", "Class11_N_Sample", "Class12_N_Sample", "School_Status_Sample", "School_Status_EMIS",
+  "Class10_N_Sample", "Class11_N_Sample", "Class12_N_Sample", "School_Status_Sample", "School_Status_EMIS",  "Province_Climate",
   "Classes", # To be confirmed
   
   # PII 
@@ -261,7 +261,7 @@ extra_cols.tool3 <- c(
   "C1A2_Caption", "C1A2_2_Caption", "D4_Caption", "D4_2_Caption", "D8_Caption", "D8_2_Caption", "E2_Caption", "E2_2_Caption", "Please_Add_Any_Relevant_Photo_caption",
   
   # Notes and Re-coded
-  "Sample_Type", "",
+  "Sample_Type",
   
   # repeat counter and SET-OFF 
   "Support_Respondents_count",	"SET-OF-Support_Respondents", "Count_Support_Respondents",	"SET-OF-Enrollement_Attendance_Summary", "Count_Enrollement_Attendance_Summary",	"Count_Grade_Details",
@@ -284,7 +284,7 @@ extra_cols.tool2 <- c(
   "Province_DariPashto", "District_DariPashto", "Region_Pcode", "Village_DariPashto", "Date_And_Time", "School_CBE_Name_DariPashto",	"EMIS_School_ID_CBE_KEY", "Type_Of_School_CBE_Based_On_The_Sample",
   "Sector", "Line_Ministry_Name", "Line_Ministry_Project_Id", "Line_Ministry_SubProject_Id",
   "Line_Ministry_Sub_Project_Name_And_Description", "Type_Of_Implementing_Partner", "IP_Name", "Type_Of_Site_Visit", "Type_Of_Visit", "If_not_a_first_Site_Visit_state_Original_Site_Visit_ID",
-  "Reporting_Period", "tpma_location_id", "Province_Climate",
+  "Reporting_Period", "tpma_location_id", "Province_Climate", 
   
   # PII 
   "C4_Respondent_name", "C6_Respondent_phone_number1", "C6_Respondent_phone_number2", "D5", "Respondent1_Phone_Number", "Respondent2_Phone_Number", "D10", "D11",
@@ -313,9 +313,38 @@ extra_cols.tool2 <- c(
   
   
   # Surveyor Comments
-  "Surveyor_Comments",	"Surveyor_Comments_Translation" # Confirm with Shahim
+  "Surveyor_Comments",	"Surveyor_Comments_Translation", "Enumerator_Comments", "Enumerator_Comments_Translation"
 )
 
+
+extra_cols.tool0 <- c(
+  # Meta Cols
+  "Passcode", "deviceid", "subscriberid", "simid", "devicephonenum", "username", "duration", "device_info", "comments", "Surveyor_Name", "Province_filter", "CBE_KEY",
+  "Province_DariPashto", "District_DariPashto", "Region_Pcode", "Village_DariPashto", "Date_And_Time", "School_CBE_Name_DariPashto",	"EMIS_School_ID_CBE_KEY", "Type_Of_School_CBE_Based_On_The_Sample",
+  "Sector", "Line_Ministry_Name", "Line_Ministry_Project_Id", "Line_Ministry_SubProject_Id", "Province_Climate",
+  "Line_Ministry_Sub_Project_Name_And_Description", "Type_Of_Implementing_Partner", "IP_Name", "Type_Of_Site_Visit", "Type_Of_Visit", "If_not_a_first_Site_Visit_state_Original_Site_Visit_ID",
+  "Reporting_Period", "tpma_location_id",
+  
+  # PII 
+  "Data_Entry_Clerk_Name",
+  
+  # GPS
+  "Geopoint1-Latitude",	"Geopoint1-Longitude",	"Geopoint1-Altitude",	"Geopoint1-Accuracy",
+  
+  # URL
+  "text_audit_full",
+  
+  # repeat counter and SET-OFF 
+  "SET-OF-Tool3_Grades_Repeat", "Tool3_Class_Attendance_count",	"SET-OF-Tool3_Class_Attendance", "Tool3_T3_N_Classes_Repeat_count",	"SET-OF-Tool3_T3_N_Classes_Repeat",
+  "Tool3_Headcount_count", "SET-OF-Tool3_Headcount", "Tool1_Timetable_Year_count",	"SET-OF-Tool1_Timetable_Year", "Tool3_Grades_Repeat_count",
+  "Tool1_Timetable1_Repeat_count",	"SET-OF-Tool1_Timetable1_Repeat", "Tool1_Timetable2_Repeat_count",	"SET-OF-Tool1_Timetable2_Repeat",
+  "Tool1_Timetable3_Repeat_count",	"SET-OF-Tool1_Timetable3_Repeat", "Tool1_Timetable4_Repeat_count",	"SET-OF-Tool1_Timetable4_Repeat",
+
+  # Labels
+  
+  # Surveyor Comments
+  "Surveyor_Comments",	"Surveyor_Comments_Translation" # Confirm with Shahim
+)
 
 # extra_cols <- c(
 #   "Passcode", "deviceid", "subscriberid", "simid", "devicephonenum", "username", "duration", "device_info", "comments", "Surveyor_Name", "Province_filter",
@@ -346,6 +375,7 @@ extra_cols.tool2 <- c(
 
 
 # cloning clean datasets for client version
+clean_data.tool0_for_client <- clean_data.tool0
 clean_data.tool1_for_client <- clean_data.tool1
 clean_data.tool2_for_client <- clean_data.tool2
 clean_data.tool3_for_client <- clean_data.tool3
@@ -356,7 +386,20 @@ clean_data.tool7_for_client <- clean_data.tool7
 clean_data.tool8_for_client <- clean_data.tool8
 clean_data.tool9_for_client <- clean_data.tool9
 
+
 # Remove extra cols -------------------------------------------------------
+clean_data.tool0_for_client$data <- clean_data.tool0_for_client$data %>% select(-any_of(c(extra_cols.tool0, qa_cols)))
+clean_data.tool0_for_client$Tool3_Grades_Repeat <- clean_data.tool0_for_client$Tool3_Grades_Repeat %>% select(-any_of(c(extra_cols.tool0, qa_cols)))
+clean_data.tool0_for_client$Tool3_Class_Attendance <- clean_data.tool0_for_client$Tool3_Class_Attendance %>% select(-any_of(c(extra_cols.tool0, qa_cols)))
+clean_data.tool0_for_client$Tool3_T3_N_Classes_Repeat <- clean_data.tool0_for_client$Tool3_T3_N_Classes_Repeat %>% select(-any_of(c(extra_cols.tool0, qa_cols)))
+clean_data.tool0_for_client$Tool3_Headcount <- clean_data.tool0_for_client$Tool3_Headcount %>% select(-any_of(c(extra_cols.tool0, qa_cols)))
+clean_data.tool0_for_client$Tool1_Timetable_Year <- clean_data.tool0_for_client$Tool1_Timetable_Year %>% select(-any_of(c(extra_cols.tool0, qa_cols)))
+clean_data.tool0_for_client$Tool1_Timetable1_Repeat <- clean_data.tool0_for_client$Tool1_Timetable1_Repeat %>% select(-any_of(c(extra_cols.tool0, qa_cols)))
+clean_data.tool0_for_client$Tool1_Timetable2_Repeat <- clean_data.tool0_for_client$Tool1_Timetable2_Repeat %>% select(-any_of(c(extra_cols.tool0, qa_cols)))
+clean_data.tool0_for_client$Tool1_Timetable3_Repeat <- clean_data.tool0_for_client$Tool1_Timetable3_Repeat %>% select(-any_of(c(extra_cols.tool0, qa_cols)))
+clean_data.tool0_for_client$Tool1_Timetable4_Repeat <- clean_data.tool0_for_client$Tool1_Timetable4_Repeat %>% select(-any_of(c(extra_cols.tool0, qa_cols)))
+
+
 clean_data.tool1_for_client$data <- clean_data.tool1$data %>% select(-any_of(c(extra_cols.tool1, qa_cols)))
 clean_data.tool1_for_client$Support_Respondents <- clean_data.tool1$Support_Respondents %>% select(-any_of(c(extra_cols.tool1, qa_cols)))
 clean_data.tool1_for_client$School_Operationality <- clean_data.tool1$School_Operationality %>% select(-any_of(c(extra_cols.tool1, qa_cols)))
