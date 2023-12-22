@@ -23,7 +23,7 @@ write.xlsx(clean_data.tool8_ulabeled, paste0(output_data_path, "cleaned_dfs/clea
 write.xlsx(clean_data.tool9_ulabeled, paste0(output_data_path, "cleaned_dfs/cleaned_data/Tool9_EERA_CBE_IP_Level_Tool_", Sys.Date(),".xlsx"))
 
 # Exporting for client version of clean datasets -------------------------------
-# write.xlsx(clean_data.tool0_for_client, paste0(output_data_path, "cleaned_dfs/for_client/EERA_Public_SchoolCBE_Data_Entry_Tool_", Sys.Date(),".xlsx"))
+write.xlsx(clean_data.tool0_for_client, paste0(output_data_path, "cleaned_dfs/for_client/EERA_Public_SchoolCBE_Data_Entry_Tool_", Sys.Date(),".xlsx"))
 write.xlsx(clean_data.tool1_for_client, paste0(output_data_path, "cleaned_dfs/for_client/Tool1_EERA_Public_School_Headmaster_Interview_cleaned_", Sys.Date(),".xlsx"))
 write.xlsx(clean_data.tool2_for_client, paste0(output_data_path, "cleaned_dfs/for_client/Tool2_EERA_Public_School_Light_Tool_", Sys.Date(),".xlsx"))
 write.xlsx(clean_data.tool3_for_client, paste0(output_data_path, "cleaned_dfs/for_client/Tool3_EERA_Public_School_Student_Document_Headcount_", Sys.Date(),".xlsx"))
@@ -69,9 +69,9 @@ if(nrow(logic_check_data_entry_final) > 0){
   write.xlsx(logic_check_data_entry_final, paste0(output_data_path, "issues/logic_checks/logic_checks_Data_Entry_Tool_", Sys.Date(),".xlsx"))
 }
 
-if (nrow(calculate_issues) > 0){
-  write.xlsx(calculate_issues, paste0(output_data_path, "issues/calculate_issues/calculate_issues_", Sys.Date(),".xlsx"))
-}
+# if (nrow(calculate_issues) > 0){
+#   write.xlsx(calculate_issues, paste0(output_data_path, "issues/calculate_issues/calculate_issues_", Sys.Date(),".xlsx"))
+# }
 
 sm_question_issues_dfs = list(
   # "NA issues in select_multiple" = sm_na_issues,
