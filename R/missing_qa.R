@@ -487,7 +487,8 @@ missing_audio_description <- rbind(
     mutate(tool = "Tool 9 - IP", Sample_Type = "CBE")
 ) |>
   mutate(Type = "Audio") |>
-  filter(old_value == "" | is.na(old_value) | old_value == "NO CLEAR VOICE")
+  filter(old_value == "" | is.na(old_value) | old_value == "NO CLEAR VOICE" | old_value == "No_audio_received_from_the_field" | old_value == "Translation_is_from_a_callback" |
+           old_value == "No_audio_received_from_the_field/Translation_is_from_a_callback")
 
 
 missing_qa <-  rbind(
