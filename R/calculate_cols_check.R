@@ -3,6 +3,21 @@ Coalesce = function(var) ifelse(is.na(var), 0, var)
 # create the necessary columns --------------------------------------------
 # Tool 1
 
+clean_data.tool1$data <- clean_data.tool1$data |> 
+  mutate(
+    School_indx.re_calc = case_when(
+      School_Type_SV == "Primary (1-6); Secondary (7-9); Higher Secondary (10-12)" ~ "1 2 3 4 5 6 7 8 9 10 11 12",
+      School_Type_SV == "Primary (1-6); Secondary (7-9)" ~ "1 2 3 4 5 6 7 8 9",
+      School_Type_SV == "Primary (1-6); Higher Secondary (10-12)" ~ "1 2 3 4 5 6 10 11 12",
+      School_Type_SV == "Secondary (7-9); Higher Secondary (10-12)" ~ "7 8 9 10 11 12",
+      School_Type_SV == "Primary (1-6)" ~ "1 2 3 4 5 6",
+      School_Type_SV == "Secondary (7-9)" ~ "7 8 9",
+      School_Type_SV == "Higher Secondary (10-12)" ~ "10 11 12",
+      TRUE ~ NA_character_
+    ),
+    School_rep.re_calc = ifelse(!is.na(School_indx.re_calc),as.integer(str_count(School_indx.re_calc," ")+1),School_rep)
+  )
+
 clean_data.tool1$Curriculum_Changes <- clean_data.tool1$Curriculum_Changes |>
   left_join(
     clean_data.tool1$Weekly_Class_Schedule |>
@@ -123,6 +138,28 @@ clean_data.tool8$data <- clean_data.tool8$data |>
 # compare the calculated values before and after logs replaced ----------------
 calculate_issues <- rbind(
   # Tool 1
+  clean_data.tool1$data |> 
+    filter(School_indx != School_indx.re_calc) |> 
+    mutate(
+      issue = "The changes in the dataset has affected this value, it should be recalculated.",
+      question ="school_indx",
+      tool = "Tool 1 - data",
+      sheet = "data"
+    ) |> 
+    select(any_of(meta_cols), question, old_value = School_indx,
+           new_value = School_indx.re_calc, issue, tool, sheet, KEY),
+  
+  clean_data.tool1$data |> 
+    filter(School_rep != School_rep.re_calc) |> 
+    mutate(
+      issue = "The changes in the dataset has affected this value, it should be recalculated.",
+      question ="School_rep",
+      tool = "Tool 1 - data",
+      sheet = "data"
+    ) |> 
+    select(any_of(meta_cols), question, old_value = School_rep,
+           new_value = School_rep.re_calc, issue, tool, sheet, KEY),
+  
   clean_data.tool1$Curriculum_Changes |> 
     filter(Count_Weekly_Class_Schedule_Photo.re_calc != Count_Weekly_Class_Schedule_Photo) |> 
     mutate(
