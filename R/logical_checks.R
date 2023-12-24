@@ -513,9 +513,136 @@ lc_tool1 <- rbind(
       Related_value,
       KEY,
       Issue
-    )
+    ),
   
-  # 24 
+  # 24 -  Flagging if the school shift in question C1 is reported Single but later in shift details and shift details others reported more than one shift
+  clean_data.tool1$data |> 
+    left_join(
+      bind_rows(
+        clean_data.tool1$Shifts_Detail |> filter(!is.na(Shift_Name_Eng) & C14A1 == "Yes") |> select(Site_Visit_ID,Shift_Name_Eng),
+        clean_data.tool1$Other_Shifts_Detail |> filter(!is.na(Shift_name)) |>
+          left_join(kobo_tool.tool1$choices |> filter(list_name == "shifts") |> select(Shift_Value = value, Shift_Name_Eng = "label:English") |> mutate(Shift_Value = as.integer(Shift_Value)) , by = "Shift_Value") |>
+          select(Site_Visit_ID,Shift_Name_Eng)
+      ) |> 
+        group_by(Site_Visit_ID) |> 
+        summarise(
+          shift_count = n()
+        ), by = "Site_Visit_ID") |> 
+    filter(C1 == "Single" & shift_count > 1) |> 
+    mutate(
+      Issue = "The school shift in question C1 is reported Single but later in shift details and shift details others reported more than one shift",
+      Question = "C1",
+      Old_value = C1,
+      Related_question = "shift_count (Calculated form Shifts_Detail & Other_Shifts_Detail sheets)",
+      Related_value = shift_count
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  # 25 - Flagging if the school shift in question C1 is reported Multiple but later in shift details and shift details others reported only one shift
+  clean_data.tool1$data |> 
+    left_join(
+      bind_rows(
+        clean_data.tool1$Shifts_Detail |> filter(!is.na(Shift_Name_Eng) & C14A1 == "Yes") |> select(Site_Visit_ID,Shift_Name_Eng),
+        clean_data.tool1$Other_Shifts_Detail |> filter(!is.na(Shift_name)) |>
+          left_join(kobo_tool.tool1$choices |> filter(list_name == "shifts") |> select(Shift_Value = value, Shift_Name_Eng = "label:English") |> mutate(Shift_Value = as.integer(Shift_Value)) , by = "Shift_Value") |>
+          select(Site_Visit_ID,Shift_Name_Eng)
+      ) |> group_by(Site_Visit_ID) |> 
+        summarise(
+          shift_count = n()
+        ), by = "Site_Visit_ID") |> 
+    filter(C1 == "Multiple" & shift_count == 1) |> 
+    mutate(
+      Issue = "The school shift in question C1 is reported Multiple but later in shift details and shift details others reported only one shift",
+      Question = "C1",
+      Old_value = C1,
+      Related_question = "shift_count (Calculated form Shifts_Detail & Other_Shifts_Detail sheets)",
+      Related_value = shift_count
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+   
+  # 26 - Flagging if The school type does not match with grades reported in school Operationality and Operationality Other sheets
+  bind_rows(
+    clean_data.tool1$School_Operationality |> 
+      select(Site_Visit_ID,Grade_Name_Eng) |>
+      filter(!is.na(Grade_Name_Eng)),
+    clean_data.tool1$School_Operationality_Other_... |>
+      left_join(
+        kobo_tool.tool1$choices |>
+          filter(list_name == "grades") |>
+          select(Grade_Value = value, Grade_Name_Eng = "label:English") |> mutate(Grade_Value = as.integer(Grade_Value)), by = "Grade_Value") |>
+      select(Site_Visit_ID,Grade_Name_Eng) |>
+      filter(!is.na(Grade_Name_Eng))
+  ) |> 
+    mutate(
+      Grade_value = as.integer(str_extract(Grade_Name_Eng,"\\d+"))
+    ) |> 
+    select(-Grade_Name_Eng) |> 
+    arrange(Site_Visit_ID, Grade_value) |> 
+    pivot_wider(names_from = Grade_value,values_from = Grade_value, values_fill = 0, names_prefix = "grade_", values_fn = length) |> 
+    arrange(Site_Visit_ID) |> 
+    mutate(
+      primary = case_when(
+        rowSums(across(c(grade_1,grade_2,grade_3,grade_4,grade_5,grade_6))) > 1 ~ 1,
+        TRUE ~ 0
+      ),
+      secondary = case_when(
+        rowSums(across(c(grade_7,grade_8,grade_9))) > 1 ~ 1,
+        TRUE ~ 0
+      ),
+      high_school = case_when(
+        rowSums(across(c(grade_10,grade_11,grade_12))) > 1 ~ 1,
+        TRUE ~ 0
+      )
+    ) |> 
+    mutate(
+      school_type = case_when(
+        primary == 1 & secondary == 1 & high_school == 1 ~ "Primary (1-6); Secondary (7-9); Higher Secondary (10-12)",
+        primary == 1 & secondary == 1 & high_school == 0 ~ "Primary (1-6); Secondary (7-9)",
+        primary == 1 & secondary == 0 & high_school == 1 ~ "Primary (1-6); Higher Secondary (10-12)",
+        secondary == 0 & secondary == 1 & high_school == 1 ~ "Secondary (7-9); Higher Secondary (10-12)",
+        primary == 1 & secondary == 0 & high_school == 0 ~ "Primary (1-6)",
+        primary == 0 & secondary == 1 & high_school == 0 ~ "Secondary (7-9)",
+        primary == 0 & secondary == 0 & high_school == 1 ~ "Higher Secondary (10-12)",
+        TRUE ~ NA_character_
+      )
+    ) |> 
+    left_join( 
+      clean_data.tool1$data |>
+        select(Site_Visit_ID, School_Type_SV, KEY, any_of(meta_cols)),
+      by = "Site_Visit_ID") |> 
+    filter(School_Type_SV != school_type) |> 
+    mutate(
+      Issue = "The school type does not match with grades reported in school Operationality and Operationality Other sheets",
+      Question = "School_Type_SV",
+      Old_value = School_Type_SV,
+      Related_question = "School Type (Calculated based on Grades from Opertionality & Opertionality Other Sheets)",
+      Related_value = school_type
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    )
   
 ) |> mutate(tool = "Tool 1 - Headmaster", sheet = "data")
 
@@ -1568,6 +1695,509 @@ lc_tool1.shift_other_operationality_and_other <- rbind(
   }
   
 )  |> mutate(tool = "Tool 1 - Headmaster", sheet = "Other_Shifts_Detail", Old_value = as.character(Old_value))
+
+headmaster_and_operationality <- clean_data.tool1$Headmasters |>
+  left_join(
+    bind_rows(
+      clean_data.tool1$School_Operationality |>
+        select(Site_Visit_ID ,Grade_ID, is_operational = C13A1, Grade_Name_Eng) |>
+        mutate(sheet = "School_Operationality", Grade_Value = str_extract(Grade_Name_Eng, "\\d+")) |>
+        filter(is_operational == "No" & !is.na(Grade_ID) & Grade_ID != "") |>
+        select(Site_Visit_ID, is_operational, Grade_Value)
+      ,
+      clean_data.tool1$School_Operationality_Other_... |>
+        filter(!is.na(Grade_Value) & Grade_Value != "" & C13A6 == "No") |>
+        mutate(Grade_ID = paste0(Site_Visit_ID,"-", Grade_Value), sheet = "School_Operationality_Other_...", Grade_Value = as.character(Grade_Value)) |>
+        select(Site_Visit_ID, is_operational = C13A6, Grade_Value)
+    ) |> arrange(Site_Visit_ID, Grade_Value) |> 
+      # arrange(Grade_ID) |>
+      pivot_wider(names_from = Grade_Value, values_from = Grade_Value, values_fill = 0, names_prefix = "grade_", values_fn = length)
+    , by = "Site_Visit_ID" )
+
+headmaster_not_exist_grades <- clean_data.tool1$Headmasters |>
+  left_join(
+    bind_rows(
+      clean_data.tool1$School_Operationality |>
+        select(Site_Visit_ID ,Grade_ID, Grade_Name_Eng) |>
+        mutate(sheet = "School_Operationality", Grade_Value = str_extract(Grade_Name_Eng, "\\d+")) |>
+        filter(!is.na(Grade_ID) & Grade_ID != "") |>
+        select(Site_Visit_ID, Grade_Value)
+      ,
+      clean_data.tool1$School_Operationality_Other_... |>
+        filter(!is.na(Grade_Value) & Grade_Value != "") |>
+        mutate(Grade_ID = paste0(Site_Visit_ID,"-", Grade_Value), sheet = "School_Operationality_Other_...", Grade_Value = as.character(Grade_Value)) |>
+        select(Site_Visit_ID, Grade_Value)
+    ) |> 
+      arrange(Site_Visit_ID, Grade_Value) |> 
+      filter(!is.na(Grade_Value)) |>
+      # arrange(Grade_ID) |>
+      pivot_wider(names_from = Grade_Value, values_from = Grade_Value, values_fill = 0, names_prefix = "grade_", values_fn = length)
+    , by = "Site_Visit_ID" )
+
+
+lc_tool1.headmaster_operationality_and_other <- rbind(
+  # Flagging if a not operational grade is reported for the shift
+  # Grade 1
+    headmaster_and_operationality |>
+      filter(C15A2_1 == 1 & grade_1 == 1) |>
+      mutate(
+        Issue = "Grade 1 selected as supervised grade for the headmaster but is not operational in either Operationality or Operationality Other sheet!",
+        Question = "C15A2",
+        Old_value = C15A2,
+        Related_question = "C13A1 OR C13A6(School_Operationality OR School_Operationality_Other_...)",
+        Related_value = is_operational
+      ) |> 
+      select(
+        all_of(meta_cols),
+        Question,
+        Old_value,
+        Related_question,
+        Related_value,
+        KEY,
+        Issue
+      ),
+    # Grade 2
+    headmaster_and_operationality |>
+      filter(C15A2_2 == 1 & grade_2 == 1) |>
+      mutate(
+        Issue = "Grade 2 selected as supervised grade for the headmaster but is not operational in either Operationality or Operationality Other sheet!",
+        Question = "C15A2",
+        Old_value = C15A2,
+        Related_question = "C13A1 OR C13A6(School_Operationality OR School_Operationality_Other_...)",
+        Related_value = is_operational
+      ) |> 
+      select(
+        all_of(meta_cols),
+        Question,
+        Old_value,
+        Related_question,
+        Related_value,
+        KEY,
+        Issue
+      ),
+    # Grade 3
+    headmaster_and_operationality |>
+      filter(C15A2_3 == 1 & grade_3 == 1) |>
+      mutate(
+        Issue = "Grade 3 selected as supervised grade for the headmaster but is not operational in either Operationality or Operationality Other sheet!",
+        Question = "C15A2",
+        Old_value = C15A2,
+        Related_question = "C13A1 OR C13A6(School_Operationality OR School_Operationality_Other_...)",
+        Related_value = is_operational
+      ) |> 
+      select(
+        all_of(meta_cols),
+        Question,
+        Old_value,
+        Related_question,
+        Related_value,
+        KEY,
+        Issue
+      ),
+    # Grade 4
+    headmaster_and_operationality |>
+      filter(C15A2_4 == 1 & grade_4 == 1) |>
+      mutate(
+        Issue = "Grade 4 selected as supervised grade for the headmaster but is not operational in either Operationality or Operationality Other sheet!",
+        Question = "C15A2",
+        Old_value = C15A2,
+        Related_question = "C13A1 OR C13A6(School_Operationality OR School_Operationality_Other_...)",
+        Related_value = is_operational
+      ) |> 
+      select(
+        all_of(meta_cols),
+        Question,
+        Old_value,
+        Related_question,
+        Related_value,
+        KEY,
+        Issue
+      ),
+    # Grade 5
+    headmaster_and_operationality |>
+      filter(C15A2_5 == 1 & grade_5 == 1) |>
+      mutate(
+        Issue = "Grade 5 selected as supervised grade for the headmaster but is not operational in either Operationality or Operationality Other sheet!",
+        Question = "C15A2",
+        Old_value = C15A2,
+        Related_question = "C13A1 OR C13A6(School_Operationality OR School_Operationality_Other_...)",
+        Related_value = is_operational
+      ) |> 
+      select(
+        all_of(meta_cols),
+        Question,
+        Old_value,
+        Related_question,
+        Related_value,
+        KEY,
+        Issue
+      ),
+    # Grade 6
+    headmaster_and_operationality |>
+      filter(C15A2_6 == 1 & grade_6 == 1) |>
+      mutate(
+        Issue = "Grade 6 selected as supervised grade for the headmaster but is not operational in either Operationality or Operationality Other sheet!",
+        Question = "C15A2",
+        Old_value = C15A2,
+        Related_question = "C13A1 OR C13A6(School_Operationality OR School_Operationality_Other_...)",
+        Related_value = is_operational
+      ) |> 
+      select(
+        all_of(meta_cols),
+        Question,
+        Old_value,
+        Related_question,
+        Related_value,
+        KEY,
+        Issue
+      ),
+    # Grade 7 
+    headmaster_and_operationality |>
+      filter(C15A2_7 == 1 & grade_7 == 1) |>
+      mutate(
+        Issue = "Grade 7 selected as supervised grade for the headmaster but is not operational in either Operationality or Operationality Other sheet!",
+        Question = "C15A2",
+        Old_value = C15A2,
+        Related_question = "C13A1 OR C13A6(School_Operationality OR School_Operationality_Other_...)",
+        Related_value = is_operational
+      ) |> 
+      select(
+        all_of(meta_cols),
+        Question,
+        Old_value,
+        Related_question,
+        Related_value,
+        KEY,
+        Issue
+      ),
+    # Grade 8
+    headmaster_and_operationality |>
+      filter(C15A2_8 == 1 & grade_8 == 1) |>
+      mutate(
+        Issue = "Grade 8 selected as supervised grade for the headmaster but is not operational in either Operationality or Operationality Other sheet!",
+        Question = "C15A2",
+        Old_value = C15A2,
+        Related_question = "C13A1 OR C13A6(School_Operationality OR School_Operationality_Other_...)",
+        Related_value = is_operational
+      ) |> 
+      select(
+        all_of(meta_cols),
+        Question,
+        Old_value,
+        Related_question,
+        Related_value,
+        KEY,
+        Issue
+      ),
+    # Grade 9
+    headmaster_and_operationality |>
+      filter(C15A2_9 == 1 & grade_9 == 1) |>
+      mutate(
+        Issue = "Grade 9 selected as supervised grade for the headmaster but is not operational in either Operationality or Operationality Other sheet!",
+        Question = "C15A2",
+        Old_value = C15A2,
+        Related_question = "C13A1 OR C13A6(School_Operationality OR School_Operationality_Other_...)",
+        Related_value = is_operational
+      ) |> 
+      select(
+        all_of(meta_cols),
+        Question,
+        Old_value,
+        Related_question,
+        Related_value,
+        KEY,
+        Issue
+      ),
+    # Grade 10
+    headmaster_and_operationality |>
+      filter(C15A2_10 == 1 & grade_10 == 1) |>
+      mutate(
+        Issue = "Grade 10 selected as supervised grade for the headmaster but is not operational in either Operationality or Operationality Other sheet!",
+        Question = "C15A2",
+        Old_value = C15A2,
+        Related_question = "C13A1 OR C13A6(School_Operationality OR School_Operationality_Other_...)",
+        Related_value = is_operational
+      ) |> 
+      select(
+        all_of(meta_cols),
+        Question,
+        Old_value,
+        Related_question,
+        Related_value,
+        KEY,
+        Issue
+      ),
+    # Grade 11
+    headmaster_and_operationality |>
+      filter(C15A2_11 == 1 & grade_11 == 1) |>
+      mutate(
+        Issue = "Grade 11 selected as supervised grade for the headmaster but is not operational in either Operationality or Operationality Other sheet!",
+        Question = "C15A2",
+        Old_value = C15A2,
+        Related_question = "C13A1 OR C13A6(School_Operationality OR School_Operationality_Other_...)",
+        Related_value = is_operational
+      ) |> 
+      select(
+        all_of(meta_cols),
+        Question,
+        Old_value,
+        Related_question,
+        Related_value,
+        KEY,
+        Issue
+      ),
+    # Grade 12
+    headmaster_and_operationality |>
+      filter(C15A2_12 == 1 & grade_12 == 1) |>
+      mutate(
+        Issue = "Grade 12 selected as supervised grade for the headmaster but is not operational in either Operationality or Operationality Other sheet!",
+        Question = "C15A2",
+        Old_value = C15A2,
+        Related_question = "C13A1 OR C13A6(School_Operationality OR School_Operationality_Other_...)",
+        Related_value = is_operational
+      ) |> 
+      select(
+        all_of(meta_cols),
+        Question,
+        Old_value,
+        Related_question,
+        Related_value,
+        KEY,
+        Issue
+      ),
+    
+    # Flagging if headmaster reported supervising a grade which is not reported in operationality and operationality other sheets
+    # Grade 1
+    headmaster_not_exist_grades |>
+      filter(C15A2_1 == 1 & grade_1 == 0) |>
+      mutate(
+        Issue = "Grade 1 selected as supervised grade for the headmaster but is not existed/reported in either Operationality or Operationality Other sheet!",
+        Question = "C15A2",
+        Old_value = C15A2,
+        Related_question = "C13A1 OR C13A6(School_Operationality OR School_Operationality_Other_...)",
+        Related_value = ""
+      ) |> 
+      select(
+        all_of(meta_cols),
+        Question,
+        Old_value,
+        Related_question,
+        Related_value,
+        KEY,
+        Issue
+      ),
+    
+    # Grade 2
+    headmaster_not_exist_grades |>
+      filter(C15A2_2 == 1 & grade_2 == 0) |>
+      mutate(
+        Issue = "Grade 2 selected as supervised grade for the headmaster but is not existed/reported in either Operationality or Operationality Other sheet!",
+        Question = "C15A2",
+        Old_value = C15A2,
+        Related_question = "C13A1 OR C13A6(School_Operationality OR School_Operationality_Other_...)",
+        Related_value = ""
+      ) |> 
+      select(
+        all_of(meta_cols),
+        Question,
+        Old_value,
+        Related_question,
+        Related_value,
+        KEY,
+        Issue
+      ),
+    # Grade 3
+    headmaster_not_exist_grades |>
+      filter(C15A2_3 == 1 & grade_3 == 0) |>
+      mutate(
+        Issue = "Grade 3 selected as supervised grade for the headmaster but is not existed/reported in either Operationality or Operationality Other sheet!",
+        Question = "C15A2",
+        Old_value = C15A2,
+        Related_question = "C13A1 OR C13A6(School_Operationality OR School_Operationality_Other_...)",
+        Related_value = ""
+      ) |> 
+      select(
+        all_of(meta_cols),
+        Question,
+        Old_value,
+        Related_question,
+        Related_value,
+        KEY,
+        Issue
+      ),
+    # Grade 4
+    headmaster_not_exist_grades |>
+      filter(C15A2_4 == 1 & grade_4 == 0) |>
+      mutate(
+        Issue = "Grade 4 selected as supervised grade for the headmaster but is not existed/reported in either Operationality or Operationality Other sheet!",
+        Question = "C15A2",
+        Old_value = C15A2,
+        Related_question = "C13A1 OR C13A6(School_Operationality OR School_Operationality_Other_...)",
+        Related_value = ""
+      ) |> 
+      select(
+        all_of(meta_cols),
+        Question,
+        Old_value,
+        Related_question,
+        Related_value,
+        KEY,
+        Issue
+      ),
+    # Grade 5
+    headmaster_not_exist_grades |>
+      filter(C15A2_5 == 1 & grade_5 == 0) |>
+      mutate(
+        Issue = "Grade 5 selected as supervised grade for the headmaster but is not existed/reported in either Operationality or Operationality Other sheet!",
+        Question = "C15A2",
+        Old_value = C15A2,
+        Related_question = "C13A1 OR C13A6(School_Operationality OR School_Operationality_Other_...)",
+        Related_value = ""
+      ) |> 
+      select(
+        all_of(meta_cols),
+        Question,
+        Old_value,
+        Related_question,
+        Related_value,
+        KEY,
+        Issue
+      ),
+    # Grade 6
+    headmaster_not_exist_grades |>
+      filter(C15A2_6 == 1 & grade_6 == 0) |>
+      mutate(
+        Issue = "Grade 6 selected as supervised grade for the headmaster but is not existed/reported in either Operationality or Operationality Other sheet!",
+        Question = "C15A2",
+        Old_value = C15A2,
+        Related_question = "C13A1 OR C13A6(School_Operationality OR School_Operationality_Other_...)",
+        Related_value = ""
+      ) |> 
+      select(
+        all_of(meta_cols),
+        Question,
+        Old_value,
+        Related_question,
+        Related_value,
+        KEY,
+        Issue
+      ),
+    # Grade 7
+    headmaster_not_exist_grades |>
+      filter(C15A2_7 == 1 & grade_7 == 0) |>
+      mutate(
+        Issue = "Grade 7 selected as supervised grade for the headmaster but is not existed/reported in either Operationality or Operationality Other sheet!",
+        Question = "C15A2",
+        Old_value = C15A2,
+        Related_question = "C13A1 OR C13A6(School_Operationality OR School_Operationality_Other_...)",
+        Related_value = ""
+      ) |> 
+      select(
+        all_of(meta_cols),
+        Question,
+        Old_value,
+        Related_question,
+        Related_value,
+        KEY,
+        Issue
+      ),
+    # Grade 8
+    headmaster_not_exist_grades |>
+      filter(C15A2_8 == 1 & grade_8 == 0) |>
+      mutate(
+        Issue = "Grade 8 selected as supervised grade for the headmaster but is not existed/reported in either Operationality or Operationality Other sheet!",
+        Question = "C15A2",
+        Old_value = C15A2,
+        Related_question = "C13A1 OR C13A6(School_Operationality OR School_Operationality_Other_...)",
+        Related_value = ""
+      ) |> 
+      select(
+        all_of(meta_cols),
+        Question,
+        Old_value,
+        Related_question,
+        Related_value,
+        KEY,
+        Issue
+      ),
+    # Grade 9
+    headmaster_not_exist_grades |>
+      filter(C15A2_9 == 1 & grade_9 == 0) |>
+      mutate(
+        Issue = "Grade 9 selected as supervised grade for the headmaster but is not existed/reported in either Operationality or Operationality Other sheet!",
+        Question = "C15A2",
+        Old_value = C15A2,
+        Related_question = "C13A1 OR C13A6(School_Operationality OR School_Operationality_Other_...)",
+        Related_value = ""
+      ) |> 
+      select(
+        all_of(meta_cols),
+        Question,
+        Old_value,
+        Related_question,
+        Related_value,
+        KEY,
+        Issue
+      ),
+    # Grade 10
+    headmaster_not_exist_grades |>
+      filter(C15A2_10 == 1 & grade_10 == 0) |>
+      mutate(
+        Issue = "Grade 10 selected as supervised grade for the headmaster but is not existed/reported in either Operationality or Operationality Other sheet!",
+        Question = "C15A2",
+        Old_value = C15A2,
+        Related_question = "C13A1 OR C13A6(School_Operationality OR School_Operationality_Other_...)",
+        Related_value = ""
+      ) |> 
+      select(
+        all_of(meta_cols),
+        Question,
+        Old_value,
+        Related_question,
+        Related_value,
+        KEY,
+        Issue
+      ),
+    # Grade 11
+    headmaster_not_exist_grades |>
+      filter(C15A2_11 == 1 & grade_11 == 0) |>
+      mutate(
+        Issue = "Grade 11 selected as supervised grade for the headmaster but is not existed/reported in either Operationality or Operationality Other sheet!",
+        Question = "C15A2",
+        Old_value = C15A2,
+        Related_question = "C13A1 OR C13A6(School_Operationality OR School_Operationality_Other_...)",
+        Related_value = ""
+      ) |> 
+      select(
+        all_of(meta_cols),
+        Question,
+        Old_value,
+        Related_question,
+        Related_value,
+        KEY,
+        Issue
+      ),
+    # Grade 12
+    headmaster_not_exist_grades |>
+      filter(C15A2_12 == 1 & grade_12 == 0) |>
+      mutate(
+        Issue = "Grade 12 selected as supervised grade for the headmaster but is not existed/reported in either Operationality or Operationality Other sheet!",
+        Question = "C15A2",
+        Old_value = C15A2,
+        Related_question = "C13A1 OR C13A6(School_Operationality OR School_Operationality_Other_...)",
+        Related_value = ""
+      ) |> 
+      select(
+        all_of(meta_cols),
+        Question,
+        Old_value,
+        Related_question,
+        Related_value,
+        KEY,
+        Issue
+      )
+    
+) |> mutate(tool = "Tool 1 - Headmaster", sheet = "Headmasters", Old_value = as.character(Old_value))
 
 # Logging issues in Tool 2 ------------------------------------------------
 lc_tool2 <- rbind(
@@ -3834,6 +4464,7 @@ Logic_check_result <- rbind(
   lc_tool1.shift_both,
   lc_tool1.shift_operationality_and_other,
   lc_tool1.shift_other_operationality_and_other,
+  lc_tool1.headmaster_operationality_and_other,
   lc_tool2,
   lc_tool3,
   lc_tool4,
