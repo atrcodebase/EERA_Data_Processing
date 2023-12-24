@@ -105,7 +105,7 @@ clean_data.tool8_sample$Relevant_photos <- clean_data.tool8_for_client$Relevant_
 
 
 # Tool 9
-clean_data.tool9_sample$data <- sample_n(clean_data.tool9_for_client$data, n_sample)
+clean_data.tool9_sample$data <- sample_n(clean_data.tool9_for_client$data, 75)
 clean_data.tool9_sample$Relevant_photos <- clean_data.tool9_for_client$Relevant_photos %>% filter(PARENT_KEY %in% clean_data.tool9_sample$data$KEY)
 
 
