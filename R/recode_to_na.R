@@ -1,106 +1,253 @@
 source("R/functions/to_na_function.R")
 
-## Turn values to NA -------------------------------------------------------
+## Turn values to Lables -------------------------------------------------------
+# Tool 0
+clean_data.tool0_for_client$Tool3_Grades_Repeat <- clean_data.tool0_for_client$Tool3_Grades_Repeat |>
+  mutate(
+    Tool3_N_Classes = as.character(Tool3_N_Classes),
+    Tool3_N_Classes = case_when(
+      Tool3_N_Classes == "6666" ~ "Number not determined",
+      TRUE ~ Tool3_N_Classes
+    )
+  )
+
+clean_data.tool0_for_client$Tool1_Timetable1_Repeat <- clean_data.tool0_for_client$Tool1_Timetable1_Repeat |>
+  mutate(
+    Tool1_Timetable1_Number_Of_Classes_Timetable1 = as.character(Tool1_Timetable1_Number_Of_Classes_Timetable1),
+    Tool1_Timetable1_Number_Of_Classes_Timetable1 = case_when(
+      Tool1_Timetable1_Number_Of_Classes_Timetable1 == "6666" ~ "Not available",
+      TRUE ~ Tool1_Timetable1_Number_Of_Classes_Timetable1
+    )
+  )
+
+clean_data.tool0_for_client$Tool1_Timetable2_Repeat <- clean_data.tool0_for_client$Tool1_Timetable2_Repeat |>
+  mutate(
+    Tool1_Timetable2_Number_Of_Classes_Timetable2 = as.character(Tool1_Timetable2_Number_Of_Classes_Timetable2),
+    Tool1_Timetable2_Number_Of_Classes_Timetable2 = case_when(
+      Tool1_Timetable2_Number_Of_Classes_Timetable2 == "6666" ~ "Not available",
+      TRUE ~ Tool1_Timetable2_Number_Of_Classes_Timetable2
+    )
+  )
+
+clean_data.tool0_for_client$Tool1_Timetable3_Repeat <- clean_data.tool0_for_client$Tool1_Timetable3_Repeat |>
+  mutate(
+    Tool1_Timetable3_Number_Of_Classes_Timetable3 = as.character(Tool1_Timetable3_Number_Of_Classes_Timetable3),
+    Tool1_Timetable3_Number_Of_Classes_Timetable3 = case_when(
+      Tool1_Timetable3_Number_Of_Classes_Timetable3 == "6666" ~ "Not available",
+      TRUE ~ Tool1_Timetable3_Number_Of_Classes_Timetable3
+    )
+  )
+
+clean_data.tool0_for_client$Tool1_Timetable4_Repeat <- clean_data.tool0_for_client$Tool1_Timetable4_Repeat |>
+  mutate(
+    Tool1_Timetable4_Number_Of_Classes_Timetable4 = as.character(Tool1_Timetable4_Number_Of_Classes_Timetable4),
+    Tool1_Timetable4_Number_Of_Classes_Timetable4 = case_when(
+      Tool1_Timetable4_Number_Of_Classes_Timetable4 == "6666" ~ "Not available",
+      TRUE ~ Tool1_Timetable4_Number_Of_Classes_Timetable4
+    )
+  )
+
+
+clean_data.tool0_for_client$Tool3_Headcount <- clean_data.tool0_for_client$Tool3_Headcount |>
+  mutate(
+    Tool3_Headcount_Male = as.character(Tool3_Headcount_Male),
+    Tool3_Headcount_Female = as.character(Tool3_Headcount_Female),
+    
+    Tool3_Headcount_Male = case_when(
+      Tool3_Headcount_Male == "9999" ~ "Not applicable",
+      TRUE ~ Tool3_Headcount_Male
+    ),
+    
+    Tool3_Headcount_Female = case_when(
+      Tool3_Headcount_Female == "9999" ~ "Not applicable",
+      TRUE ~ Tool3_Headcount_Female
+    )
+  )
+
+
 # Tool 1
-clean_data.tool1$data <- to_na(
-  data = clean_data.tool1$data,
-  tool.survey = kobo_tool.tool1$survey)
 
-clean_data.tool1$Shifts_Detail <- to_na(
-  data = clean_data.tool1$Shifts_Detail,
-  tool.survey = kobo_tool.tool1$survey)
-
-clean_data.tool1$Other_Shifts_Detail <- to_na(
-  data = clean_data.tool1$Other_Shifts_Detail,
-  tool.survey = kobo_tool.tool1$survey)
 
 # Tool 2
-clean_data.tool2$data <- to_na(
-  data = clean_data.tool2$data,
-  tool.survey = kobo_tool.tool2$survey)
-
-clean_data.tool2$Public_Stationary_Kit_Group <- to_na(
-  data = clean_data.tool2$Public_Stationary_Kit_Group,
-  tool.survey = kobo_tool.tool2$survey)
-
-clean_data.tool2$Teachers_Pack_Group <- to_na(
-  data = clean_data.tool2$Teachers_Pack_Group,
-  tool.survey = kobo_tool.tool2$survey)
-
-clean_data.tool2$Students_Pack_Group <- to_na(
-  data = clean_data.tool2$Students_Pack_Group,
-  tool.survey = kobo_tool.tool2$survey)
+clean_data.tool2_for_client$Public_Stationary_Kit_Group <- clean_data.tool2_for_client$Public_Stationary_Kit_Group |>
+  mutate(
+    H9_Yes = as.character(H9_Yes),
+    H9_Yes = case_when(
+      H9_Yes == "9999" ~ "Don't wish to respond",
+      H9_Yes == "8888" ~ "I don't know",
+      TRUE ~ H9_Yes
+    )
+  )
 
 # Tool 3
-clean_data.tool3$data <- to_na(
-  data = clean_data.tool3$data,
-  tool.survey = kobo_tool.tool3$survey)
 
-clean_data.tool3$Student_Headcount <- to_na(
-  data = clean_data.tool3$Student_Headcount,
-  tool.survey = kobo_tool.tool3$survey)
 
 # Tool 4
-clean_data.tool4$data <- to_na(
-  data = clean_data.tool4$data,
-  tool.survey = kobo_tool.tool4$survey)
+
 
 # Tool 5
-clean_data.tool5$data <- to_na(
-  data = clean_data.tool5$data,
-  tool.survey = kobo_tool.tool5$survey)
+clean_data.tool5_for_client$data <- clean_data.tool5_for_client$data |>
+  mutate(
+    C6_Male = as.character(C6_Male),
+    C6_Female = as.character(C6_Female),
+    C6_Unisex = as.character(C6_Unisex),
+    
+    C6_Male = case_when(
+      C6_Male == "777" ~ "Not Applicable",
+      TRUE ~ C6_Male
+    ),
+    
+    C6_Female = case_when(
+      C6_Female == "777" ~ "Not Applicable",
+      TRUE ~ C6_Female
+    ),
+    
+    C6_Unisex = case_when(
+      C6_Unisex == "777" ~ "Not Applicable",
+      TRUE ~ C6_Unisex
+    )
+  )
 
 # Tool 6
-clean_data.tool6$data <- to_na(
-  data = clean_data.tool6$data,
-  tool.survey = kobo_tool.tool6$survey)
+clean_data.tool6_for_client$data <- clean_data.tool6_for_client$data |> # TS: Confirm with Shahim: What should be done in df value version?
+  mutate(
+    B6 = as.character(B6),
+    B6 = case_when(
+      B6 == "9999" ~ "Don't wish to respond",
+      B6 == "8888" ~ "I don't know",
+      TRUE ~ B6
+    )
+  )
 
 # Tool 7
-clean_data.tool7$data <- to_na(
-  data = clean_data.tool7$data,
-  tool.survey = kobo_tool.tool7$survey)
-
-clean_data.tool7$C6_list_members <- to_na(
-  data = clean_data.tool7$C6_list_members,
-  tool.survey = kobo_tool.tool7$survey)
 
 # Tool 8
-clean_data.tool8$data <- to_na(
-  data = clean_data.tool8$data,
-  tool.survey = kobo_tool.tool8$survey)
+clean_data.tool8_for_client$data <- clean_data.tool8_for_client$data |>
+  mutate(
+    N4 = as.character(N4),
+    P4 = as.character(P4),
+    R4 = as.character(R4),
+    
+    N4 = case_when(
+      N4 == "9999" ~ "Don't wish to respond",
+      N4 == "8888" ~ "I don't know",
+      TRUE ~ N4
+    ),
+    
+    P4 = case_when(
+      P4 == "9999" ~ "Don't wish to respond",
+      P4 == "8888" ~ "I don't know",
+      TRUE ~ P4
+    ),
+    
+    R4 = case_when(
+      R4 == "9999" ~ "Don't wish to respond",
+      R4 == "8888" ~ "I don't know",
+      TRUE ~ R4
+    )
+  )
 
-clean_data.tool8$Section_2_2_4_Headcount <- to_na(
-  data = clean_data.tool8$Section_2_2_4_Headcount,
-  tool.survey = kobo_tool.tool8$survey)
 
-clean_data.tool8$Section_2_4_Student_Ages <- to_na(
-  data = clean_data.tool8$Section_2_4_Student_Ages,
-  tool.survey = kobo_tool.tool8$survey)
+clean_data.tool8_for_client$Section_2_4_Student_Ages <- clean_data.tool8_for_client$Section_2_4_Student_Ages |>
+  mutate(
+    K1 = as.character(K1),
+    K2 = as.character(K2),
+    
+    K1 = case_when(
+      K1 == "9999" ~ "Don't wish to respond",
+      K1 == "8888" ~ "I don't know",
+      TRUE ~ K1
+    ),
+    
+    K2 = case_when(
+      K2 == "9999" ~ "Don't wish to respond",
+      K2 == "8888" ~ "I don't know",
+      TRUE ~ K2
+    )
+  )
 
-clean_data.tool8$Teacher_Kit <- to_na(
-  data = clean_data.tool8$Teacher_Kit,
-  tool.survey = kobo_tool.tool8$survey)
+clean_data.tool8_for_client$Classroom_Materials <- clean_data.tool8_for_client$Classroom_Materials |>
+  mutate(
+    O4 = as.character(O4),
+    O4 = case_when(
+      O4 == "9999" ~ "Don't wish to respond",
+      O4 == "8888" ~ "I don't know",
+      TRUE ~ O4
+    )
+  )
 
-clean_data.tool8$Classroom_Materials <- to_na(
-  data = clean_data.tool8$Classroom_Materials,
-  tool.survey = kobo_tool.tool8$survey)
+clean_data.tool8_for_client$Teacher_Kit <- clean_data.tool8_for_client$Teacher_Kit |>
+  mutate(
+    Q4 = as.character(Q4),
+    Q4 = case_when(
+      Q4 == "9999" ~ "Don't wish to respond",
+      Q4 == "8888" ~ "I don't know",
+      TRUE ~ Q4
+    )
+  )
 
-clean_data.tool8$Student_Kit <- to_na(
-  data = clean_data.tool8$Student_Kit,
-  tool.survey = kobo_tool.tool8$survey)
+clean_data.tool8_for_client$Student_Kit <- clean_data.tool8_for_client$Student_Kit |>
+  mutate(
+    S4 = as.character(S4),
+    S4 = case_when(
+      S4 == "9999" ~ "Don't wish to respond",
+      S4 == "8888" ~ "I don't know",
+      TRUE ~ S4
+    )
+  )
 
-clean_data.tool8$V_list_of_all_members <- to_na(
-  data = clean_data.tool8$V_list_of_all_members,
-  tool.survey = kobo_tool.tool8$survey)
+clean_data.tool8_for_client$V_list_of_all_members <- clean_data.tool8_for_client$V_list_of_all_members |>
+  mutate(
+    V_Male_Member = as.character(V_Male_Member),
+    V_Female_Member = as.character(V_Female_Member),
+    
+    V_Male_Member = case_when(
+      V_Male_Member == "9999" ~ "Don't wish to respond",
+      V_Male_Member == "8888" ~ "I don't know",
+      TRUE ~ V_Male_Member
+    ),
+    
+    V_Female_Member = case_when(
+      V_Female_Member == "9999" ~ "Don't wish to respond",
+      V_Female_Member == "8888" ~ "I don't know",
+      TRUE ~ V_Female_Member
+    )
+  )
+
+
 
 # Tool 9
-clean_data.tool9$data <- to_na(
-  data = clean_data.tool9$data,
-  tool.survey = kobo_tool.tool9$survey)
 
-# remove extra objects from environment  
-remove(to_na)
+clean_data.tool9_for_client$data <- clean_data.tool9_for_client$data |>
+  mutate(
+    A12_Female_Numbers = as.character(A12_Female_Numbers),
+    A12_Male_Numbers = as.character(A12_Male_Numbers),
+    A14_Female_Numbers = as.character(A14_Female_Numbers),
+    A14_Male_Numbers = as.character(A14_Male_Numbers),
+    
+    A12_Female_Numbers = case_when(
+      A12_Female_Numbers == "9999" ~ "Don't wish to respond",
+      A12_Female_Numbers == "8888" ~ "I don't know",
+      TRUE ~ A12_Female_Numbers
+    ),
+    
+    A12_Male_Numbers = case_when(
+      A12_Male_Numbers == "9999" ~ "Don't wish to respond",
+      A12_Male_Numbers == "8888" ~ "I don't know",
+      TRUE ~ A12_Male_Numbers
+    ),
+    
+    A14_Female_Numbers = case_when(
+      A14_Female_Numbers == "9999" ~ "Don't wish to respond",
+      A14_Female_Numbers == "8888" ~ "I don't know",
+      TRUE ~ A14_Female_Numbers
+    ),
+    
+    A14_Male_Numbers = case_when(
+      A14_Male_Numbers == "9999" ~ "Don't wish to respond",
+      A14_Male_Numbers == "8888" ~ "I don't know",
+      TRUE ~ A14_Male_Numbers
+    )
+  )
 
 
-numeric_vars <- kobo_tool.tool2$survey |> filter(type == "integer") |> pull(name)
-check_df <- clean_data.tool2$data |> select(all_of(numeric_vars))
