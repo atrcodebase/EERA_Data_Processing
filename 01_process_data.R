@@ -294,10 +294,6 @@ source("R/recoded_vars.R")
 source("R/logical_checks.R")
 
 
-# change 7777, 8888, 9999 to NA  ------------------------------------------ DONE - Confirm the numbers need to be NAed with QA team before running this part
-# source("R/recode_to_na.R")
-
-
 # prepare data sets to export  -------------------------------------------- DONE
 ## remove extra columns
 source("R/remove_extra_columns.R")
@@ -306,6 +302,10 @@ source("R/remove_extra_columns.R")
 # attach labels to calculates cols ---------------------------------------- 
 # file.edit("R/attach_calculate_label.R")
 source("R/attach_calculate_label.R")
+
+
+# change 7777, 8888, 9999 to Labels  ------------------------------------------ DONE - According to Note in the TOOLs
+source("R/recode_to_na.R")
 
 
 # export data sets and issues --------------------------------------------- DONE
