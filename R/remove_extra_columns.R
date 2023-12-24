@@ -5,11 +5,12 @@ qa_cols <- c("review_status", "review_quality", "review_comments", "review_corre
 extra_cols.tool1 <- c(
   # Meta cols
   "Passcode", "deviceid", "subscriberid", "simid", "devicephonenum", "username", "duration", "device_info", "comments", "Surveyor_Name", "Province_filter",
-  "Province_DariPashto", "District_DariPashto", "Village_DariPashto", "Date_And_Time", "CBE_KEY",	"School_CBE_Name_DariPashto","EMIS_School_ID_CBE_KEY", "Type_Of_School_CBE_Based_On_The_Sample",
-  "Sector",	"Line_Ministry_Name",	"Line_Ministry_Project_Id",	"Line_Ministry_SubProject_Id",	"Type_Of_Implementing_Partner",	"IP_Name",	"Type_Of_Site_Visit",	"Type_Of_Visit",
+  "Province_DariPashto", "District_DariPashto", "Village_DariPashto", "Date_And_Time", "CBE_KEY",	"School_CBE_Name_DariPashto", "Type_Of_School_CBE_Based_On_The_Sample",
+  "Sector",	"Line_Ministry_Name",	"Line_Ministry_Project_Id",	"Line_Ministry_SubProject_Id",	"Type_Of_Implementing_Partner",	"Type_Of_Site_Visit",	"Type_Of_Visit",
   "If_not_a_first_Site_Visit_state_Original_Site_Visit_ID",	"tpma_location_id", "Line_Ministry_Sub_Project_Name_And_Description",	
   "Reporting_Period",	"Class1_N_Sample",	"Class2_N_Sample",	"Class3_N_Sample",	"Class4_N_Sample",	"Class5_N_Sample",	"Class6_N_Sample",	"Class7_N_Sample",	"Class8_N_Sample",
-  "Class9_N_Sample",	"Class10_N_Sample",	"Class11_N_Sample",	"Class12_N_Sample", "Province_Climate",
+  "Class9_N_Sample",	"Class10_N_Sample",	"Class11_N_Sample",	"Class12_N_Sample", "Province_Climate", "Survey_Language", "Survey_Language_Other", "IP_Name", "Interviewee_Respondent_Type", "Interviewee_Respondent_Type_Other",
+  "Village", "instanceID", "formdef_version",
   
   # PII
   "B2", "B5A1", "B5A2","C5", "C6A1", "C6A2", "C12A1", "C12A4", "C15A1",
@@ -49,11 +50,12 @@ extra_cols.tool9 <- c(
   # Meta Cols
   "Passcode", "deviceid", "subscriberid", "simid", "devicephonenum", "username", "duration", "device_info", "comments", "Surveyor_Name", "Province_filter",
   "Province_DariPashto", "District_DariPashto", "Village_DariPashto", "Date_And_Time", "Sector", "Line_Ministry_Name", "Line_Ministry_Project_Id", "Line_Ministry_SubProject_Id",
-  "Line_Ministry_Sub_Project_Name_And_Description", "Type_Of_Implementing_Partner", "IP_Name", "Type_Of_Site_Visit", "Type_Of_Visit", "If_not_a_first_Site_Visit_state_Original_Site_Visit_ID",
-  "Reporting_Period", "tpma_location_id",
+  "Line_Ministry_Sub_Project_Name_And_Description", "Type_Of_Implementing_Partner", "Type_Of_Site_Visit", "Type_Of_Visit", "If_not_a_first_Site_Visit_state_Original_Site_Visit_ID",
+  "Reporting_Period", "tpma_location_id", "Province_Climate", "Survey_Language", "Survey_Language_Other", "Interviewee_Respondent_Type", "Interviewee_Respondent_Type_Other", "Sample_info_correct", "Village",
+  "instanceID", "formdef_version",
   
   # PII 
-  "Respondent_Full_Name", "Respondent1_Phone_Number", "Respondent2_Phone_Number", "Respondent_Designation", # Confirm with Shahim to exclude this
+  "Respondent_Full_Name", "Respondent1_Phone_Number", "Respondent2_Phone_Number",
   
   # GPS
   "Geopoint1-Latitude",	"Geopoint1-Longitude",	"Geopoint1-Altitude",	"Geopoint1-Accuracy",
@@ -78,9 +80,10 @@ extra_cols.tool9 <- c(
 extra_cols.tool8 <- c(
   # Meta Cols
   "Passcode", "deviceid", "subscriberid", "simid", "devicephonenum", "username", "duration", "device_info", "comments", "Date_And_Time", "Surveyor_Name", "CBE_KEY", "Province_filter",
-  "Province_DariPashto", "District_DariPashto", "Village_DariPashto", "School_CBE_Name_DariPashto", "EMIS_School_ID_CBE_KEY", "Type_Of_School_CBE_Based_On_The_Sample", "Sector", "Line_Ministry_Name",
-  "Line_Ministry_Project_Id", "Line_Ministry_SubProject_Id", "Line_Ministry_Sub_Project_Name_And_Description", "Type_Of_Implementing_Partner", "IP_Name", "Type_Of_Site_Visit", "Type_Of_Visit", "If_not_a_first_Site_Visit_state_Original_Site_Visit_ID",
-  "Reporting_Period", "tpma_location_id",  "Province_Climate",
+  "Province_DariPashto", "District_DariPashto", "Village_DariPashto", "School_CBE_Name_DariPashto", "Type_Of_School_CBE_Based_On_The_Sample", "Sector", "Line_Ministry_Name",
+  "Line_Ministry_Project_Id", "Line_Ministry_SubProject_Id", "Line_Ministry_Sub_Project_Name_And_Description", "Type_Of_Implementing_Partner", "Type_Of_Site_Visit", "Type_Of_Visit", "If_not_a_first_Site_Visit_state_Original_Site_Visit_ID",
+  "Reporting_Period", "tpma_location_id",  "Province_Climate", "Survey_Language", "Survey_Language_Other", "IP_Name", "Interviewee_Respondent_Type", "Interviewee_Respondent_Type_Other", "Sample_info_correct", "Village",
+  "instanceID", "formdef_version",
   
   # PII 
   "C2", "Respondent_Phone_Number1", "Respondent_Phone_Number2", "Respondent_Full_Name", "Respondent1_Phone_Number", "Respondent2_Phone_Number", "E18", 
@@ -120,10 +123,11 @@ extra_cols.tool8 <- c(
 extra_cols.tool7 <- c(
   # Meta Cols
   "Passcode", "deviceid", "subscriberid", "simid", "devicephonenum", "username", "duration", "device_info", "comments", "Surveyor_Name", "Province_filter", "CBE_KEY",
-  "Province_DariPashto", "District_DariPashto", "Village_DariPashto", "Date_And_Time", "School_CBE_Name_DariPashto",	"EMIS_School_ID_CBE_KEY",	"Type_Of_School_CBE_Based_On_The_Sample",
+  "Province_DariPashto", "District_DariPashto", "Village_DariPashto", "Date_And_Time", "School_CBE_Name_DariPashto",	"Type_Of_School_CBE_Based_On_The_Sample",
   "Sector", "Line_Ministry_Name", "Line_Ministry_Project_Id", "Line_Ministry_SubProject_Id",
-  "Line_Ministry_Sub_Project_Name_And_Description", "Type_Of_Implementing_Partner", "IP_Name", "Type_Of_Site_Visit", "Type_Of_Visit", "If_not_a_first_Site_Visit_state_Original_Site_Visit_ID",
-  "Reporting_Period", "tpma_location_id",  "Province_Climate",
+  "Line_Ministry_Sub_Project_Name_And_Description", "Type_Of_Implementing_Partner", "Type_Of_Site_Visit", "Type_Of_Visit", "If_not_a_first_Site_Visit_state_Original_Site_Visit_ID",
+  "Reporting_Period", "tpma_location_id",  "Province_Climate", "Survey_Language", "Survey_Language_Other", "IP_Name", "Interviewee_Respondent_Type",  "Sample_info_correct", "Village",
+  "instanceID", "formdef_version",
   
   # PII 
   "B5", "Respondent1_Phone_Number", "Respondent2_Phone_Number",
@@ -151,10 +155,11 @@ extra_cols.tool7 <- c(
 extra_cols.tool6 <- c(
   # Meta Cols
   "Passcode", "deviceid", "subscriberid", "simid", "devicephonenum", "username", "duration", "device_info", "comments", "Surveyor_Name", "Province_filter", "CBE_KEY",
-  "Province_DariPashto", "District_DariPashto", "Village_DariPashto", "Date_And_Time", "School_CBE_Name_DariPashto",	"EMIS_School_ID_CBE_KEY",	"Type_Of_School_CBE_Based_On_The_Sample",
+  "Province_DariPashto", "District_DariPashto", "Village_DariPashto", "Date_And_Time", "School_CBE_Name_DariPashto",	"Type_Of_School_CBE_Based_On_The_Sample",
   "Sector", "Line_Ministry_Name", "Line_Ministry_Project_Id", "Line_Ministry_SubProject_Id",
-  "Line_Ministry_Sub_Project_Name_And_Description", "Type_Of_Implementing_Partner", "IP_Name", "Type_Of_Site_Visit", "Type_Of_Visit", "If_not_a_first_Site_Visit_state_Original_Site_Visit_ID",
-  "Reporting_Period", "tpma_location_id",  "Province_Climate",
+  "Line_Ministry_Sub_Project_Name_And_Description", "Type_Of_Implementing_Partner", "Type_Of_Site_Visit", "Type_Of_Visit", "If_not_a_first_Site_Visit_state_Original_Site_Visit_ID",
+  "Reporting_Period", "tpma_location_id",  "Province_Climate", "Survey_Language", "Survey_Language_Other", "IP_Name", "Interviewee_Respondent_Type", "Sample_info_correct", "Village",
+  "instanceID", "formdef_version",
   
   # PII 
   "Respondent_Name", "Respondent1_Phone_Number", "Respondent2_Phone_Number",
@@ -179,10 +184,11 @@ extra_cols.tool6 <- c(
 extra_cols.tool5 <- c(
   # Meta Cols
   "Passcode", "deviceid", "subscriberid", "simid", "devicephonenum", "username", "duration", "device_info", "comments", "Surveyor_Name", "Province_filter", "CBE_KEY",
-  "Province_DariPashto", "District_DariPashto", "Village_DariPashto", "Date_And_Time", "School_CBE_Name_DariPashto",	"EMIS_School_ID_CBE_KEY",	"Type_Of_School_CBE_Based_On_The_Sample",
+  "Province_DariPashto", "District_DariPashto", "Village_DariPashto", "Date_And_Time", "School_CBE_Name_DariPashto",	"Type_Of_School_CBE_Based_On_The_Sample",
   "Sector", "Line_Ministry_Name", "Line_Ministry_Project_Id", "Line_Ministry_SubProject_Id",
-  "Line_Ministry_Sub_Project_Name_And_Description", "Type_Of_Implementing_Partner", "IP_Name", "Type_Of_Site_Visit", "Type_Of_Visit", "If_not_a_first_Site_Visit_state_Original_Site_Visit_ID",
-  "Reporting_Period", "tpma_location_id",  "Province_Climate",
+  "Line_Ministry_Sub_Project_Name_And_Description", "Type_Of_Implementing_Partner", "Type_Of_Site_Visit", "Type_Of_Visit", "If_not_a_first_Site_Visit_state_Original_Site_Visit_ID",
+  "Reporting_Period", "tpma_location_id",  "Province_Climate", "Survey_Language", "Survey_Language_Other", "IP_Name", "Interviewee_Respondent_Type", "Interviewee_Respondent_Type_Other", "Village",
+  "instanceID", "formdef_version",
   
   # PII 
   "Respondent_Full_Name", "Respondent1_Phone_Number", "Respondent2_Phone_Number",
@@ -210,10 +216,11 @@ extra_cols.tool5 <- c(
 extra_cols.tool4 <- c(
   # Meta Cols
   "Passcode", "deviceid", "subscriberid", "simid", "devicephonenum", "username", "duration", "device_info", "comments", "Surveyor_Name", "Province_filter", "CBE_KEY",
-  "Province_DariPashto", "District_DariPashto", "Village_DariPashto", "Date_And_Time", "School_CBE_Name_DariPashto",	"EMIS_School_ID_CBE_KEY",	"Type_Of_School_CBE_Based_On_The_Sample",
+  "Province_DariPashto", "District_DariPashto", "Village_DariPashto", "Date_And_Time", "School_CBE_Name_DariPashto",	"Type_Of_School_CBE_Based_On_The_Sample",
   "Sector", "Line_Ministry_Name", "Line_Ministry_Project_Id", "Line_Ministry_SubProject_Id",
-  "Line_Ministry_Sub_Project_Name_And_Description", "Type_Of_Implementing_Partner", "IP_Name", "Type_Of_Site_Visit", "Type_Of_Visit", "If_not_a_first_Site_Visit_state_Original_Site_Visit_ID",
-  "Reporting_Period", "tpma_location_id",  "Province_Climate",
+  "Line_Ministry_Sub_Project_Name_And_Description", "Type_Of_Implementing_Partner", "Type_Of_Site_Visit", "Type_Of_Visit", "If_not_a_first_Site_Visit_state_Original_Site_Visit_ID",
+  "Reporting_Period", "tpma_location_id",  "Province_Climate", "Survey_Language", "Survey_Language_Other", "IP_Name", "Interviewee_Respondent_Type", "Village",
+  "instanceID", "formdef_version",
   
   # PII 
   "Respondent_Full_Name", "Respondent1_Phone_Number", "Respondent2_Phone_Number",
@@ -241,12 +248,13 @@ extra_cols.tool4 <- c(
 extra_cols.tool3 <- c(
   # Meta Cols
   "Passcode", "deviceid", "subscriberid", "simid", "devicephonenum", "username", "duration", "device_info", "comments", "Surveyor_Name", "Province_filter", "CBE_KEY",
-  "Province_DariPashto", "District_DariPashto", "Region_Pcode", "Village_DariPashto", "Date_And_Time", "School_CBE_Name_DariPashto",	"EMIS_School_ID_CBE_KEY",	 "School_Program_Sample", "Type_Of_School_CBE_Based_On_The_Sample",
+  "Province_DariPashto", "District_DariPashto", "Region_Pcode", "Village_DariPashto", "Date_And_Time", "School_CBE_Name_DariPashto",	 "School_Program_Sample", "Type_Of_School_CBE_Based_On_The_Sample",
   "Sector", "Line_Ministry_Name", "Line_Ministry_Project_Id", "Line_Ministry_SubProject_Id", "School_Property_Sample", "School_Shifts_Sample",
-  "Line_Ministry_Sub_Project_Name_And_Description", "Type_Of_Implementing_Partner", "IP_Name", "Type_Of_Site_Visit", "Type_Of_Visit", "If_not_a_first_Site_Visit_state_Original_Site_Visit_ID",
+  "Line_Ministry_Sub_Project_Name_And_Description", "Type_Of_Implementing_Partner", "Type_Of_Site_Visit", "Type_Of_Visit", "If_not_a_first_Site_Visit_state_Original_Site_Visit_ID",
   "Reporting_Period", "tpma_location_id", "Class1_N_Sample", "Class2_N_Sample", "Class3_N_Sample", "Class4_N_Sample", "Class5_N_Sample", "Class6_N_Sample", "Class7_N_Sample", "Class8_N_Sample", "Class9_N_Sample",
-  "Class10_N_Sample", "Class11_N_Sample", "Class12_N_Sample", "School_Status_Sample", "School_Status_EMIS",  "Province_Climate",
+  "Class10_N_Sample", "Class11_N_Sample", "Class12_N_Sample", "School_Status_Sample", "School_Status_EMIS",  "Province_Climate", "Survey_Language", "Survey_Language_Other", "IP_Name",
   "Classes", # To be confirmed
+  "Interviewee_Respondent_Type", 'Interviewee_Respondent_Type_Other', "Village", "instanceID", "formdef_version",
   
   # PII 
   "B3", "B4A1", "B4A2", "B10A1", "B10A4",
@@ -281,10 +289,11 @@ extra_cols.tool3 <- c(
 extra_cols.tool2 <- c(
   # Meta Cols
   "Passcode", "deviceid", "subscriberid", "simid", "devicephonenum", "username", "duration", "device_info", "comments", "Surveyor_Name", "Province_filter", "CBE_KEY",
-  "Province_DariPashto", "District_DariPashto", "Region_Pcode", "Village_DariPashto", "Date_And_Time", "School_CBE_Name_DariPashto",	"EMIS_School_ID_CBE_KEY", "Type_Of_School_CBE_Based_On_The_Sample",
+  "Province_DariPashto", "District_DariPashto", "Region_Pcode", "Village_DariPashto", "Date_And_Time", "School_CBE_Name_DariPashto", "Type_Of_School_CBE_Based_On_The_Sample",
   "Sector", "Line_Ministry_Name", "Line_Ministry_Project_Id", "Line_Ministry_SubProject_Id",
-  "Line_Ministry_Sub_Project_Name_And_Description", "Type_Of_Implementing_Partner", "IP_Name", "Type_Of_Site_Visit", "Type_Of_Visit", "If_not_a_first_Site_Visit_state_Original_Site_Visit_ID",
-  "Reporting_Period", "tpma_location_id", "Province_Climate", 
+  "Line_Ministry_Sub_Project_Name_And_Description", "Type_Of_Implementing_Partner", "Type_Of_Site_Visit", "Type_Of_Visit", "If_not_a_first_Site_Visit_state_Original_Site_Visit_ID",
+  "Reporting_Period", "tpma_location_id", "Province_Climate", "Survey_Language", "Survey_Language_Other", "IP_Name", "Interviewee_Respondent_Type", "Interviewee_Respondent_Type_Other",
+  "Village", "instanceID", "formdef_version",
   
   # PII 
   "C4_Respondent_name", "C6_Respondent_phone_number1", "C6_Respondent_phone_number2", "D5", "Respondent1_Phone_Number", "Respondent2_Phone_Number", "D10", "D11",
@@ -320,10 +329,10 @@ extra_cols.tool2 <- c(
 extra_cols.tool0 <- c(
   # Meta Cols
   "Passcode", "deviceid", "subscriberid", "simid", "devicephonenum", "username", "duration", "device_info", "comments", "Surveyor_Name", "Province_filter", "CBE_KEY",
-  "Province_DariPashto", "District_DariPashto", "Region_Pcode", "Village_DariPashto", "Date_And_Time", "School_CBE_Name_DariPashto",	"EMIS_School_ID_CBE_KEY", "Type_Of_School_CBE_Based_On_The_Sample",
+  "Province_DariPashto", "District_DariPashto", "Region_Pcode", "Village_DariPashto", "Date_And_Time", "School_CBE_Name_DariPashto", "Type_Of_School_CBE_Based_On_The_Sample",
   "Sector", "Line_Ministry_Name", "Line_Ministry_Project_Id", "Line_Ministry_SubProject_Id", "Province_Climate",
-  "Line_Ministry_Sub_Project_Name_And_Description", "Type_Of_Implementing_Partner", "IP_Name", "Type_Of_Site_Visit", "Type_Of_Visit", "If_not_a_first_Site_Visit_state_Original_Site_Visit_ID",
-  "Reporting_Period", "tpma_location_id",
+  "Line_Ministry_Sub_Project_Name_And_Description", "Type_Of_Implementing_Partner", "Type_Of_Site_Visit", "Type_Of_Visit", "If_not_a_first_Site_Visit_state_Original_Site_Visit_ID",
+  "Reporting_Period", "tpma_location_id", "Survey_Language", "Survey_Language_Other", "IP_Name", "Sample_info_correct", "Village", "instanceID", "formdef_version",
   
   # PII 
   "Data_Entry_Clerk_Name",
@@ -389,93 +398,275 @@ clean_data.tool9_for_client <- clean_data.tool9
 
 # Remove extra cols -------------------------------------------------------
 clean_data.tool0_for_client$data <- clean_data.tool0_for_client$data %>% select(-any_of(c(extra_cols.tool0, qa_cols)))
-clean_data.tool0_for_client$Tool3_Grades_Repeat <- clean_data.tool0_for_client$Tool3_Grades_Repeat %>% select(-any_of(c(extra_cols.tool0, qa_cols)))
-clean_data.tool0_for_client$Tool3_Class_Attendance <- clean_data.tool0_for_client$Tool3_Class_Attendance %>% select(-any_of(c(extra_cols.tool0, qa_cols)))
-clean_data.tool0_for_client$Tool3_T3_N_Classes_Repeat <- clean_data.tool0_for_client$Tool3_T3_N_Classes_Repeat %>% select(-any_of(c(extra_cols.tool0, qa_cols)))
-clean_data.tool0_for_client$Tool3_Headcount <- clean_data.tool0_for_client$Tool3_Headcount %>% select(-any_of(c(extra_cols.tool0, qa_cols)))
-clean_data.tool0_for_client$Tool1_Timetable_Year <- clean_data.tool0_for_client$Tool1_Timetable_Year %>% select(-any_of(c(extra_cols.tool0, qa_cols)))
-clean_data.tool0_for_client$Tool1_Timetable1_Repeat <- clean_data.tool0_for_client$Tool1_Timetable1_Repeat %>% select(-any_of(c(extra_cols.tool0, qa_cols)))
-clean_data.tool0_for_client$Tool1_Timetable2_Repeat <- clean_data.tool0_for_client$Tool1_Timetable2_Repeat %>% select(-any_of(c(extra_cols.tool0, qa_cols)))
-clean_data.tool0_for_client$Tool1_Timetable3_Repeat <- clean_data.tool0_for_client$Tool1_Timetable3_Repeat %>% select(-any_of(c(extra_cols.tool0, qa_cols)))
-clean_data.tool0_for_client$Tool1_Timetable4_Repeat <- clean_data.tool0_for_client$Tool1_Timetable4_Repeat %>% select(-any_of(c(extra_cols.tool0, qa_cols)))
+clean_data.tool0_for_client$Tool3_Grades_Repeat <- clean_data.tool0_for_client$Tool3_Grades_Repeat %>% select(-any_of(c(extra_cols.tool0, qa_cols, "starttime"))) |>
+  left_join(clean_data.tool0_for_client$data |> select(KEY, EMIS_School_ID_CBE_KEY, School_CBE_Name), by = c("PARENT_KEY" = "KEY")) |> 
+  select(Site_Visit_ID, EMIS_School_ID_CBE_KEY, School_CBE_Name, everything())
+
+clean_data.tool0_for_client$Tool3_Class_Attendance <- clean_data.tool0_for_client$Tool3_Class_Attendance %>% select(-any_of(c(extra_cols.tool0, qa_cols, "starttime"))) |>
+  left_join(clean_data.tool0_for_client$data |> select(KEY, EMIS_School_ID_CBE_KEY, School_CBE_Name), by = c("PARENT_KEY" = "KEY")) |> 
+  select(Site_Visit_ID, EMIS_School_ID_CBE_KEY, School_CBE_Name, everything())
+
+clean_data.tool0_for_client$Tool3_T3_N_Classes_Repeat <- clean_data.tool0_for_client$Tool3_T3_N_Classes_Repeat %>% select(-any_of(c(extra_cols.tool0, qa_cols, "starttime"))) |>
+  left_join(clean_data.tool0_for_client$data |> select(KEY, EMIS_School_ID_CBE_KEY, School_CBE_Name), by = c("PARENT_KEY" = "KEY")) |> 
+  select(Site_Visit_ID, EMIS_School_ID_CBE_KEY, School_CBE_Name, everything())
+
+clean_data.tool0_for_client$Tool3_Headcount <- clean_data.tool0_for_client$Tool3_Headcount %>% select(-any_of(c(extra_cols.tool0, qa_cols, "starttime"))) |>
+  left_join(clean_data.tool0_for_client$data |> select(KEY, EMIS_School_ID_CBE_KEY, School_CBE_Name), by = c("PARENT_KEY" = "KEY")) |> 
+  select(Site_Visit_ID, EMIS_School_ID_CBE_KEY, School_CBE_Name, everything())
+
+clean_data.tool0_for_client$Tool1_Timetable_Year <- clean_data.tool0_for_client$Tool1_Timetable_Year %>% select(-any_of(c(extra_cols.tool0, qa_cols, "starttime"))) |>
+  left_join(clean_data.tool0_for_client$data |> select(KEY, EMIS_School_ID_CBE_KEY, School_CBE_Name), by = c("PARENT_KEY" = "KEY")) |> 
+  select(Site_Visit_ID, EMIS_School_ID_CBE_KEY, School_CBE_Name, everything())
+
+clean_data.tool0_for_client$Tool1_Timetable1_Repeat <- clean_data.tool0_for_client$Tool1_Timetable1_Repeat %>% select(-any_of(c(extra_cols.tool0, qa_cols, "starttime"))) |>
+  left_join(clean_data.tool0_for_client$Tool1_Timetable_Year |> select(KEY, EMIS_School_ID_CBE_KEY, School_CBE_Name), by = c("PARENT_KEY" = "KEY")) |> 
+  select(Site_Visit_ID, EMIS_School_ID_CBE_KEY, School_CBE_Name, everything())
+
+clean_data.tool0_for_client$Tool1_Timetable2_Repeat <- clean_data.tool0_for_client$Tool1_Timetable2_Repeat %>% select(-any_of(c(extra_cols.tool0, qa_cols, "starttime"))) |>
+  left_join(clean_data.tool0_for_client$Tool1_Timetable_Year |> select(KEY, EMIS_School_ID_CBE_KEY, School_CBE_Name), by = c("PARENT_KEY" = "KEY")) |> 
+  select(Site_Visit_ID, EMIS_School_ID_CBE_KEY, School_CBE_Name, everything())
+
+clean_data.tool0_for_client$Tool1_Timetable3_Repeat <- clean_data.tool0_for_client$Tool1_Timetable3_Repeat %>% select(-any_of(c(extra_cols.tool0, qa_cols, "starttime"))) |>
+  left_join(clean_data.tool0_for_client$Tool1_Timetable_Year |> select(KEY, EMIS_School_ID_CBE_KEY, School_CBE_Name), by = c("PARENT_KEY" = "KEY")) |> 
+  select(Site_Visit_ID, EMIS_School_ID_CBE_KEY, School_CBE_Name, everything())
+
+clean_data.tool0_for_client$Tool1_Timetable4_Repeat <- clean_data.tool0_for_client$Tool1_Timetable4_Repeat %>% select(-any_of(c(extra_cols.tool0, qa_cols, "starttime"))) |>
+  mutate(PARENT_KEY = as.character(PARENT_KEY)) |>
+  left_join(clean_data.tool0_for_client$Tool1_Timetable_Year |> select(KEY, EMIS_School_ID_CBE_KEY, School_CBE_Name), by = c("PARENT_KEY" = "KEY")) |> 
+  select(Site_Visit_ID, EMIS_School_ID_CBE_KEY, School_CBE_Name, everything())
 
 
 clean_data.tool1_for_client$data <- clean_data.tool1$data %>% select(-any_of(c(extra_cols.tool1, qa_cols)))
-clean_data.tool1_for_client$Support_Respondents <- clean_data.tool1$Support_Respondents %>% select(-any_of(c(extra_cols.tool1, qa_cols)))
-clean_data.tool1_for_client$School_Operationality <- clean_data.tool1$School_Operationality %>% select(-any_of(c(extra_cols.tool1, qa_cols)))
-clean_data.tool1_for_client$School_Operationality_Other_... <- clean_data.tool1$School_Operationality_Other_... %>% select(-any_of(c(extra_cols.tool1, qa_cols,"School_CBE_Gender_Based_On_The_Sample")))
-clean_data.tool1_for_client$Shifts_Detail <- clean_data.tool1$Shifts_Detail %>% select(-any_of(c(extra_cols.tool1, qa_cols)))
-clean_data.tool1_for_client$Other_Shifts_Detail <- clean_data.tool1$Other_Shifts_Detail %>% select(-any_of(c(extra_cols.tool1, qa_cols)))
-clean_data.tool1_for_client$Headmasters <- clean_data.tool1$Headmasters %>% select(-any_of(c(extra_cols.tool1, qa_cols)))
-clean_data.tool1_for_client$Curriculum_Changes <- clean_data.tool1$Curriculum_Changes %>% select(-any_of(c(extra_cols.tool1, qa_cols)))
-clean_data.tool1_for_client$Weekly_Class_Schedule <- clean_data.tool1$Weekly_Class_Schedule %>% select(-any_of(c(extra_cols.tool1, qa_cols)))
-clean_data.tool1_for_client$Grades_Curriculum <- clean_data.tool1$Grades_Curriculum %>% select(-any_of(c(extra_cols.tool1, qa_cols)))
-clean_data.tool1_for_client$Subjects_Detail <- clean_data.tool1$Subjects_Detail %>% select(-any_of(c(extra_cols.tool1, qa_cols)))
-clean_data.tool1_for_client$Education_Quality <- clean_data.tool1$Education_Quality %>% select(-any_of(c(extra_cols.tool1, qa_cols)))
-clean_data.tool1_for_client$Relevant_photos <- clean_data.tool1$Relevant_photos %>% select(-any_of(c(extra_cols.tool1, qa_cols)))
+clean_data.tool1_for_client$Support_Respondents <- clean_data.tool1$Support_Respondents %>% select(-any_of(c(extra_cols.tool1, qa_cols, "starttime"))) |>
+  left_join(clean_data.tool1_for_client$data |> select(KEY, EMIS_School_ID_CBE_KEY, School_CBE_Name), by = c("PARENT_KEY" = "KEY")) |> 
+  select(Site_Visit_ID, EMIS_School_ID_CBE_KEY, School_CBE_Name, everything())
+
+clean_data.tool1_for_client$School_Operationality <- clean_data.tool1$School_Operationality %>% select(-any_of(c(extra_cols.tool1, qa_cols, "starttime"))) |>
+  left_join(clean_data.tool1_for_client$data |> select(KEY, EMIS_School_ID_CBE_KEY, School_CBE_Name), by = c("PARENT_KEY" = "KEY")) |> 
+  select(Site_Visit_ID, EMIS_School_ID_CBE_KEY, School_CBE_Name, everything())
+
+clean_data.tool1_for_client$School_Operationality_Other_... <- clean_data.tool1$School_Operationality_Other_... %>% select(-any_of(c(extra_cols.tool1, qa_cols,"School_CBE_Gender_Based_On_The_Sample", "starttime"))) |>
+  left_join(clean_data.tool1_for_client$data |> select(KEY, EMIS_School_ID_CBE_KEY, School_CBE_Name), by = c("PARENT_KEY" = "KEY")) |> 
+  select(Site_Visit_ID, EMIS_School_ID_CBE_KEY, School_CBE_Name, everything())
+
+clean_data.tool1_for_client$Shifts_Detail <- clean_data.tool1$Shifts_Detail %>% select(-any_of(c(extra_cols.tool1, qa_cols, "starttime"))) |>
+  left_join(clean_data.tool1_for_client$data |> select(KEY, EMIS_School_ID_CBE_KEY, School_CBE_Name), by = c("PARENT_KEY" = "KEY")) |> 
+  select(Site_Visit_ID, EMIS_School_ID_CBE_KEY, School_CBE_Name, everything())
+
+clean_data.tool1_for_client$Other_Shifts_Detail <- clean_data.tool1$Other_Shifts_Detail %>% select(-any_of(c(extra_cols.tool1, qa_cols, "starttime"))) |>
+  left_join(clean_data.tool1_for_client$data |> select(KEY, EMIS_School_ID_CBE_KEY, School_CBE_Name), by = c("PARENT_KEY" = "KEY")) |> 
+  select(Site_Visit_ID, EMIS_School_ID_CBE_KEY, School_CBE_Name, everything())
+
+clean_data.tool1_for_client$Headmasters <- clean_data.tool1$Headmasters %>% select(-any_of(c(extra_cols.tool1, qa_cols, "starttime"))) |>
+  left_join(clean_data.tool1_for_client$data |> select(KEY, EMIS_School_ID_CBE_KEY, School_CBE_Name), by = c("PARENT_KEY" = "KEY")) |> 
+  select(Site_Visit_ID, EMIS_School_ID_CBE_KEY, School_CBE_Name, everything())
+
+clean_data.tool1_for_client$Curriculum_Changes <- clean_data.tool1$Curriculum_Changes %>% select(-any_of(c(extra_cols.tool1, qa_cols, "starttime"))) |>
+  left_join(clean_data.tool1_for_client$data |> select(KEY, EMIS_School_ID_CBE_KEY, School_CBE_Name), by = c("PARENT_KEY" = "KEY")) |> 
+  select(Site_Visit_ID, EMIS_School_ID_CBE_KEY, School_CBE_Name, everything())
+
+clean_data.tool1_for_client$Weekly_Class_Schedule <- clean_data.tool1$Weekly_Class_Schedule %>% select(-any_of(c(extra_cols.tool1, qa_cols, "starttime"))) |>
+  left_join(clean_data.tool1_for_client$Curriculum_Changes |> select(KEY, EMIS_School_ID_CBE_KEY, School_CBE_Name), by = c("PARENT_KEY" = "KEY")) |> 
+  select(Site_Visit_ID, EMIS_School_ID_CBE_KEY, School_CBE_Name, everything())
+
+clean_data.tool1_for_client$Grades_Curriculum <- clean_data.tool1$Grades_Curriculum %>% select(-any_of(c(extra_cols.tool1, qa_cols, "starttime"))) |>
+  left_join(clean_data.tool1_for_client$Curriculum_Changes |> select(KEY, EMIS_School_ID_CBE_KEY, School_CBE_Name), by = c("PARENT_KEY" = "KEY")) |> 
+  select(Site_Visit_ID, EMIS_School_ID_CBE_KEY, School_CBE_Name, everything())
+
+clean_data.tool1_for_client$Subjects_Detail <- clean_data.tool1$Subjects_Detail %>% select(-any_of(c(extra_cols.tool1, qa_cols, "starttime"))) |>
+  left_join(clean_data.tool1_for_client$data |> select(KEY, EMIS_School_ID_CBE_KEY, School_CBE_Name), by = c("PARENT_KEY" = "KEY")) |> 
+  select(Site_Visit_ID, EMIS_School_ID_CBE_KEY, School_CBE_Name, everything())
+
+clean_data.tool1_for_client$Education_Quality <- clean_data.tool1$Education_Quality %>% select(-any_of(c(extra_cols.tool1, qa_cols, "starttime"))) |>
+  left_join(clean_data.tool1_for_client$data |> select(KEY, EMIS_School_ID_CBE_KEY, School_CBE_Name), by = c("PARENT_KEY" = "KEY")) |> 
+  select(Site_Visit_ID, EMIS_School_ID_CBE_KEY, School_CBE_Name, everything())
+
+clean_data.tool1_for_client$Relevant_photos <- clean_data.tool1$Relevant_photos %>% select(-any_of(c(extra_cols.tool1, qa_cols, "starttime"))) |>
+  left_join(clean_data.tool1_for_client$data |> select(KEY, EMIS_School_ID_CBE_KEY, School_CBE_Name), by = c("PARENT_KEY" = "KEY")) |> 
+  select(Site_Visit_ID, EMIS_School_ID_CBE_KEY, School_CBE_Name, everything())
 
 
 clean_data.tool2_for_client$data <- clean_data.tool2$data %>% select(-any_of(c(extra_cols.tool2, qa_cols)))
-clean_data.tool2_for_client$Support_Respondents <- clean_data.tool2$Support_Respondents %>% select(-any_of(c(extra_cols.tool2, qa_cols)))
-clean_data.tool2_for_client$Attendance_Sheet_Photos <- clean_data.tool2$Attendance_Sheet_Photos %>% select(-any_of(c(extra_cols.tool2, qa_cols)))
-clean_data.tool2_for_client$Public_Stationary_Kit_Group <- clean_data.tool2$Public_Stationary_Kit_Group %>% select(-any_of(c(extra_cols.tool2, qa_cols)))
-clean_data.tool2_for_client$Teachers_Pack_Group <- clean_data.tool2$Teachers_Pack_Group %>% select(-any_of(c(extra_cols.tool2, qa_cols)))
-clean_data.tool2_for_client$Students_Pack_Group <- clean_data.tool2$Students_Pack_Group %>% select(-any_of(c(extra_cols.tool2, qa_cols)))
-clean_data.tool2_for_client$Relevant_photos <- clean_data.tool2$Relevant_photos %>% select(-any_of(c(extra_cols.tool2, qa_cols)))
+
+clean_data.tool2_for_client$Support_Respondents <- clean_data.tool2$Support_Respondents %>% select(-any_of(c(extra_cols.tool2, qa_cols, "starttime"))) |>
+  left_join(clean_data.tool2_for_client$data |> select(KEY, EMIS_School_ID_CBE_KEY, School_CBE_Name), by = c("PARENT_KEY" = "KEY")) |> 
+  select(Site_Visit_ID, EMIS_School_ID_CBE_KEY, School_CBE_Name, everything())
+
+clean_data.tool2_for_client$Attendance_Sheet_Photos <- clean_data.tool2$Attendance_Sheet_Photos %>% select(-any_of(c(extra_cols.tool2, qa_cols, "starttime"))) |>
+  left_join(clean_data.tool2_for_client$data |> select(KEY, EMIS_School_ID_CBE_KEY, School_CBE_Name), by = c("PARENT_KEY" = "KEY")) |> 
+  select(Site_Visit_ID, EMIS_School_ID_CBE_KEY, School_CBE_Name, everything())
+
+clean_data.tool2_for_client$Public_Stationary_Kit_Group <- clean_data.tool2$Public_Stationary_Kit_Group %>% select(-any_of(c(extra_cols.tool2, qa_cols, "starttime"))) |>
+  left_join(clean_data.tool2_for_client$data |> select(KEY, EMIS_School_ID_CBE_KEY, School_CBE_Name), by = c("PARENT_KEY" = "KEY")) |> 
+  select(Site_Visit_ID, EMIS_School_ID_CBE_KEY, School_CBE_Name, everything())
+
+clean_data.tool2_for_client$Teachers_Pack_Group <- clean_data.tool2$Teachers_Pack_Group %>% select(-any_of(c(extra_cols.tool2, qa_cols, "starttime"))) |>
+  left_join(clean_data.tool2_for_client$data |> select(KEY, EMIS_School_ID_CBE_KEY, School_CBE_Name), by = c("PARENT_KEY" = "KEY")) |> 
+  select(Site_Visit_ID, EMIS_School_ID_CBE_KEY, School_CBE_Name, everything())
+
+clean_data.tool2_for_client$Students_Pack_Group <- clean_data.tool2$Students_Pack_Group %>% select(-any_of(c(extra_cols.tool2, qa_cols, "starttime"))) |>
+  left_join(clean_data.tool2_for_client$data |> select(KEY, EMIS_School_ID_CBE_KEY, School_CBE_Name), by = c("PARENT_KEY" = "KEY")) |> 
+  select(Site_Visit_ID, EMIS_School_ID_CBE_KEY, School_CBE_Name, everything())
+
+clean_data.tool2_for_client$Relevant_photos <- clean_data.tool2$Relevant_photos %>% select(-any_of(c(extra_cols.tool2, qa_cols, "starttime"))) |>
+  left_join(clean_data.tool2_for_client$data |> select(KEY, EMIS_School_ID_CBE_KEY, School_CBE_Name), by = c("PARENT_KEY" = "KEY")) |> 
+  select(Site_Visit_ID, EMIS_School_ID_CBE_KEY, School_CBE_Name, everything())
 
 
 clean_data.tool3_for_client$data <- clean_data.tool3$data %>% select(-any_of(c(extra_cols.tool3, qa_cols)))
-clean_data.tool3_for_client$Support_Respondents <- clean_data.tool3$Support_Respondents %>% select(-any_of(c(extra_cols.tool3, qa_cols)))
-clean_data.tool3_for_client$Enrollement_Attendance_Summary <- clean_data.tool3$Enrollement_Attendance_Summary %>% select(-any_of(c(extra_cols.tool3, qa_cols)))
-clean_data.tool3_for_client$Grade_Details <- clean_data.tool3$Grade_Details %>% select(-any_of(c(extra_cols.tool3, qa_cols)))
-clean_data.tool3_for_client$Todays_Attendance_Detail <- clean_data.tool3$Todays_Attendance_Detail %>% select(-any_of(c(extra_cols.tool3, qa_cols)))
-clean_data.tool3_for_client$LastWeek_Attendance_Detail <- clean_data.tool3$LastWeek_Attendance_Detail %>% select(-any_of(c(extra_cols.tool3, qa_cols)))
-clean_data.tool3_for_client$Student_Headcount <- clean_data.tool3$Student_Headcount %>% select(-any_of(c(extra_cols.tool3, qa_cols)))
-clean_data.tool3_for_client$Relevant_photos <- clean_data.tool3$Relevant_photos %>% select(-any_of(c(extra_cols.tool3, qa_cols)))
+
+clean_data.tool3_for_client$Support_Respondents <- clean_data.tool3$Support_Respondents %>% select(-any_of(c(extra_cols.tool3, qa_cols, "starttime"))) |>
+  left_join(clean_data.tool3_for_client$data |> select(KEY, EMIS_School_ID_CBE_KEY, School_CBE_Name), by = c("PARENT_KEY" = "KEY")) |> 
+  select(Site_Visit_ID, EMIS_School_ID_CBE_KEY, School_CBE_Name, everything())
+
+clean_data.tool3_for_client$Enrollement_Attendance_Summary <- clean_data.tool3$Enrollement_Attendance_Summary %>% select(-any_of(c(extra_cols.tool3, qa_cols, "starttime"))) |>
+  left_join(clean_data.tool3_for_client$data |> select(KEY, EMIS_School_ID_CBE_KEY, School_CBE_Name), by = c("PARENT_KEY" = "KEY")) |> 
+  select(Site_Visit_ID, EMIS_School_ID_CBE_KEY, School_CBE_Name, everything())
+
+clean_data.tool3_for_client$Grade_Details <- clean_data.tool3$Grade_Details %>% select(-any_of(c(extra_cols.tool3, qa_cols, "starttime"))) |>
+  left_join(clean_data.tool3_for_client$data |> select(KEY, EMIS_School_ID_CBE_KEY, School_CBE_Name), by = c("PARENT_KEY" = "KEY")) |> 
+  select(Site_Visit_ID, EMIS_School_ID_CBE_KEY, School_CBE_Name, everything())
+
+clean_data.tool3_for_client$Todays_Attendance_Detail <- clean_data.tool3$Todays_Attendance_Detail %>% select(-any_of(c(extra_cols.tool3, qa_cols, "starttime"))) |>
+  left_join(clean_data.tool3_for_client$data |> select(KEY, EMIS_School_ID_CBE_KEY, School_CBE_Name), by = c("PARENT_KEY" = "KEY")) |> 
+  select(Site_Visit_ID, EMIS_School_ID_CBE_KEY, School_CBE_Name, everything())
+
+clean_data.tool3_for_client$LastWeek_Attendance_Detail <- clean_data.tool3$LastWeek_Attendance_Detail %>% select(-any_of(c(extra_cols.tool3, qa_cols, "starttime"))) |>
+  left_join(clean_data.tool3_for_client$data |> select(KEY, EMIS_School_ID_CBE_KEY, School_CBE_Name), by = c("PARENT_KEY" = "KEY")) |> 
+  select(Site_Visit_ID, EMIS_School_ID_CBE_KEY, School_CBE_Name, everything())
+
+clean_data.tool3_for_client$Student_Headcount <- clean_data.tool3$Student_Headcount %>% select(-any_of(c(extra_cols.tool3, qa_cols, "starttime"))) |>
+  left_join(clean_data.tool3_for_client$data |> select(KEY, EMIS_School_ID_CBE_KEY, School_CBE_Name), by = c("PARENT_KEY" = "KEY")) |> 
+  select(Site_Visit_ID, EMIS_School_ID_CBE_KEY, School_CBE_Name, everything())
+
+clean_data.tool3_for_client$Relevant_photos <- clean_data.tool3$Relevant_photos %>% select(-any_of(c(extra_cols.tool3, qa_cols, "starttime"))) |>
+  left_join(clean_data.tool3_for_client$data |> select(KEY, EMIS_School_ID_CBE_KEY, School_CBE_Name), by = c("PARENT_KEY" = "KEY")) |> 
+  select(Site_Visit_ID, EMIS_School_ID_CBE_KEY, School_CBE_Name, everything())
 
 
 clean_data.tool4_for_client$data <- clean_data.tool4$data %>% select(-any_of(c(extra_cols.tool4, qa_cols)))
-clean_data.tool4_for_client$Additional_Subjects <- clean_data.tool4$Additional_Subjects %>% select(-any_of(c(extra_cols.tool4, qa_cols)))
-clean_data.tool4_for_client$Subjects_taught_by_this_teacher <- clean_data.tool4$Subjects_taught_by_this_teacher %>% select(-any_of(c(extra_cols.tool4, qa_cols)))
-clean_data.tool4_for_client$Subjects_Not_Being_Taught <- clean_data.tool4$Subjects_Not_Being_Taught %>% select(-any_of(c(extra_cols.tool4, qa_cols)))
-clean_data.tool4_for_client$Relevant_photos <- clean_data.tool4$Relevant_photos %>% select(-any_of(c(extra_cols.tool4, qa_cols)))
+
+clean_data.tool4_for_client$Additional_Subjects <- clean_data.tool4$Additional_Subjects %>% select(-any_of(c(extra_cols.tool4, qa_cols, "starttime"))) |>
+  left_join(clean_data.tool4_for_client$data |> select(KEY, EMIS_School_ID_CBE_KEY, School_CBE_Name), by = c("PARENT_KEY" = "KEY")) |> 
+  select(Site_Visit_ID, EMIS_School_ID_CBE_KEY, School_CBE_Name, everything())
+
+clean_data.tool4_for_client$Subjects_taught_by_this_teacher <- clean_data.tool4$Subjects_taught_by_this_teacher %>% select(-any_of(c(extra_cols.tool4, qa_cols, "starttime"))) |>
+  left_join(clean_data.tool4_for_client$data |> select(KEY, EMIS_School_ID_CBE_KEY, School_CBE_Name), by = c("PARENT_KEY" = "KEY")) |> 
+  select(Site_Visit_ID, EMIS_School_ID_CBE_KEY, School_CBE_Name, everything())
+
+clean_data.tool4_for_client$Subjects_Not_Being_Taught <- clean_data.tool4$Subjects_Not_Being_Taught %>% select(-any_of(c(extra_cols.tool4, qa_cols, "starttime"))) |>
+  left_join(clean_data.tool4_for_client$data |> select(KEY, EMIS_School_ID_CBE_KEY, School_CBE_Name), by = c("PARENT_KEY" = "KEY")) |> 
+  select(Site_Visit_ID, EMIS_School_ID_CBE_KEY, School_CBE_Name, everything())
+
+clean_data.tool4_for_client$Relevant_photos <- clean_data.tool4$Relevant_photos %>% select(-any_of(c(extra_cols.tool4, qa_cols, "starttime"))) |>
+  left_join(clean_data.tool4_for_client$data |> select(KEY, EMIS_School_ID_CBE_KEY, School_CBE_Name), by = c("PARENT_KEY" = "KEY")) |> 
+  select(Site_Visit_ID, EMIS_School_ID_CBE_KEY, School_CBE_Name, everything())
+
 
 
 clean_data.tool5_for_client$data <- clean_data.tool5$data %>% select(-any_of(c(extra_cols.tool5, qa_cols)))
-clean_data.tool5_for_client$Under_Construction_Toilets <- clean_data.tool5$Under_Construction_Toilets %>% select(-any_of(c(extra_cols.tool5, qa_cols)))
-clean_data.tool5_for_client$Useable_Toilets <- clean_data.tool5$Useable_Toilets %>% select(-any_of(c(extra_cols.tool5, qa_cols)))
-clean_data.tool5_for_client$Non_Useable_Toilets <- clean_data.tool5$Non_Useable_Toilets %>% select(-any_of(c(extra_cols.tool5, qa_cols)))
-clean_data.tool5_for_client$Relevant_photos <- clean_data.tool5$Relevant_photos %>% select(-any_of(c(extra_cols.tool5, qa_cols)))
+
+clean_data.tool5_for_client$Under_Construction_Toilets <- clean_data.tool5$Under_Construction_Toilets %>% select(-any_of(c(extra_cols.tool5, qa_cols, "starttime"))) |>
+  left_join(clean_data.tool5_for_client$data |> select(KEY, EMIS_School_ID_CBE_KEY, School_CBE_Name), by = c("PARENT_KEY" = "KEY")) |> 
+  select(Site_Visit_ID, EMIS_School_ID_CBE_KEY, School_CBE_Name, everything())
+
+clean_data.tool5_for_client$Useable_Toilets <- clean_data.tool5$Useable_Toilets %>% select(-any_of(c(extra_cols.tool5, qa_cols, "starttime"))) |>
+  left_join(clean_data.tool5_for_client$data |> select(KEY, EMIS_School_ID_CBE_KEY, School_CBE_Name), by = c("PARENT_KEY" = "KEY")) |> 
+  select(Site_Visit_ID, EMIS_School_ID_CBE_KEY, School_CBE_Name, everything())
+
+clean_data.tool5_for_client$Non_Useable_Toilets <- clean_data.tool5$Non_Useable_Toilets %>% select(-any_of(c(extra_cols.tool5, qa_cols, "starttime"))) |>
+  left_join(clean_data.tool5_for_client$data |> select(KEY, EMIS_School_ID_CBE_KEY, School_CBE_Name), by = c("PARENT_KEY" = "KEY")) |> 
+  select(Site_Visit_ID, EMIS_School_ID_CBE_KEY, School_CBE_Name, everything())
+
+clean_data.tool5_for_client$Relevant_photos <- clean_data.tool5$Relevant_photos %>% select(-any_of(c(extra_cols.tool5, qa_cols, "starttime"))) |>
+  left_join(clean_data.tool5_for_client$data |> select(KEY, EMIS_School_ID_CBE_KEY, School_CBE_Name), by = c("PARENT_KEY" = "KEY")) |> 
+  select(Site_Visit_ID, EMIS_School_ID_CBE_KEY, School_CBE_Name, everything())
+
 
 
 clean_data.tool6_for_client$data <- clean_data.tool6$data %>% select(-any_of(c(extra_cols.tool6, qa_cols)))
-clean_data.tool6_for_client$Subjects_Added <- clean_data.tool6$Subjects_Added %>% select(-any_of(c(extra_cols.tool6, qa_cols)))
-clean_data.tool6_for_client$Relevant_photos <- clean_data.tool6$Relevant_photos %>% select(-any_of(c(extra_cols.tool6, qa_cols)))
+
+clean_data.tool6_for_client$Subjects_Added <- clean_data.tool6$Subjects_Added %>% select(-any_of(c(extra_cols.tool6, qa_cols, "starttime"))) |>
+  left_join(clean_data.tool6_for_client$data |> select(KEY, EMIS_School_ID_CBE_KEY, School_CBE_Name), by = c("PARENT_KEY" = "KEY")) |> 
+  select(Site_Visit_ID, EMIS_School_ID_CBE_KEY, School_CBE_Name, everything())
+
+clean_data.tool6_for_client$Relevant_photos <- clean_data.tool6$Relevant_photos %>% select(-any_of(c(extra_cols.tool6, qa_cols, "starttime"))) |>
+  left_join(clean_data.tool6_for_client$data |> select(KEY, EMIS_School_ID_CBE_KEY, School_CBE_Name), by = c("PARENT_KEY" = "KEY")) |> 
+  select(Site_Visit_ID, EMIS_School_ID_CBE_KEY, School_CBE_Name, everything())
 
 
 clean_data.tool7_for_client$data <- clean_data.tool7$data %>% select(-any_of(c(extra_cols.tool7, qa_cols)))
-clean_data.tool7_for_client$C6_list_members <- clean_data.tool7$C6_list_members %>% select(-any_of(c(extra_cols.tool7, qa_cols)))
-clean_data.tool7_for_client$Subjects_Added <- clean_data.tool7$Subjects_Added %>% select(-any_of(c(extra_cols.tool7, qa_cols)))
-clean_data.tool7_for_client$Relevant_photos <- clean_data.tool7$Relevant_photos %>% select(-any_of(c(extra_cols.tool7, qa_cols)))
+
+clean_data.tool7_for_client$C6_list_members <- clean_data.tool7$C6_list_members %>% select(-any_of(c(extra_cols.tool7, qa_cols, "starttime"))) |>
+  left_join(clean_data.tool7_for_client$data |> select(KEY, EMIS_School_ID_CBE_KEY, School_CBE_Name), by = c("PARENT_KEY" = "KEY")) |> 
+  select(Site_Visit_ID, EMIS_School_ID_CBE_KEY, School_CBE_Name, everything())
+
+clean_data.tool7_for_client$Subjects_Added <- clean_data.tool7$Subjects_Added %>% select(-any_of(c(extra_cols.tool7, qa_cols, "starttime"))) |>
+  left_join(clean_data.tool7_for_client$data |> select(KEY, EMIS_School_ID_CBE_KEY, School_CBE_Name), by = c("PARENT_KEY" = "KEY")) |> 
+  select(Site_Visit_ID, EMIS_School_ID_CBE_KEY, School_CBE_Name, everything())
+
+clean_data.tool7_for_client$Relevant_photos <- clean_data.tool7$Relevant_photos %>% select(-any_of(c(extra_cols.tool7, qa_cols, "starttime"))) |>
+  left_join(clean_data.tool7_for_client$data |> select(KEY, EMIS_School_ID_CBE_KEY, School_CBE_Name), by = c("PARENT_KEY" = "KEY")) |> 
+  select(Site_Visit_ID, EMIS_School_ID_CBE_KEY, School_CBE_Name, everything())
+
 
 
 clean_data.tool8_for_client$data <- clean_data.tool8$data %>% select(-any_of(c(extra_cols.tool8, qa_cols)))
-clean_data.tool8_for_client$Classes <- clean_data.tool8$Classes %>% select(-any_of(c(extra_cols.tool8, qa_cols)))
-clean_data.tool8_for_client$Adults_At_The_CBE <- clean_data.tool8$Adults_At_The_CBE %>% select(-any_of(c(extra_cols.tool8, qa_cols)))
-clean_data.tool8_for_client$Section_2_2_3_Attendance_Rec... <- clean_data.tool8$Section_2_2_3_Attendance_Rec... %>% select(-any_of(c(extra_cols.tool8, qa_cols)))
-clean_data.tool8_for_client$Section_2_2_4_Headcount <- clean_data.tool8$Section_2_2_4_Headcount %>% select(-any_of(c(extra_cols.tool8, qa_cols)))
-clean_data.tool8_for_client$Students_Enrolment_Book <- clean_data.tool8$Students_Enrolment_Book %>% select(-any_of(c(extra_cols.tool8, qa_cols)))
-clean_data.tool8_for_client$Section_2_4_Student_Ages <- clean_data.tool8$Section_2_4_Student_Ages %>% select(-any_of(c(extra_cols.tool8, qa_cols)))
-clean_data.tool8_for_client$Classroom_Materials <- clean_data.tool8$Classroom_Materials %>% select(-any_of(c(extra_cols.tool8, qa_cols)))
-clean_data.tool8_for_client$Teacher_Kit <- clean_data.tool8$Teacher_Kit %>% select(-any_of(c(extra_cols.tool8, qa_cols)))
-clean_data.tool8_for_client$Student_Kit <- clean_data.tool8$Student_Kit %>% select(-any_of(c(extra_cols.tool8, qa_cols)))
-clean_data.tool8_for_client$V_list_of_all_members <- clean_data.tool8$V_list_of_all_members %>% select(-any_of(c(extra_cols.tool8, qa_cols)))
-clean_data.tool8_for_client$Subjects_Added <- clean_data.tool8$Subjects_Added %>% select(-any_of(c(extra_cols.tool8, qa_cols)))
-clean_data.tool8_for_client$Relevant_photos <- clean_data.tool8$Relevant_photos %>% select(-any_of(c(extra_cols.tool8, qa_cols)))
+
+clean_data.tool8_for_client$Classes <- clean_data.tool8$Classes %>% select(-any_of(c(extra_cols.tool8, qa_cols, "starttime"))) |>
+  left_join(clean_data.tool8_for_client$data |> select(KEY, EMIS_School_ID_CBE_KEY, School_CBE_Name), by = c("PARENT_KEY" = "KEY")) |> 
+  select(Site_Visit_ID, EMIS_School_ID_CBE_KEY, School_CBE_Name, everything())
+
+clean_data.tool8_for_client$Adults_At_The_CBE <- clean_data.tool8$Adults_At_The_CBE %>% select(-any_of(c(extra_cols.tool8, qa_cols, "starttime"))) |>
+  left_join(clean_data.tool8_for_client$data |> select(KEY, EMIS_School_ID_CBE_KEY, School_CBE_Name), by = c("PARENT_KEY" = "KEY")) |> 
+  select(Site_Visit_ID, EMIS_School_ID_CBE_KEY, School_CBE_Name, everything())
+
+clean_data.tool8_for_client$Section_2_2_3_Attendance_Rec... <- clean_data.tool8$Section_2_2_3_Attendance_Rec... %>% select(-any_of(c(extra_cols.tool8, qa_cols, "starttime"))) |>
+  left_join(clean_data.tool8_for_client$data |> select(KEY, EMIS_School_ID_CBE_KEY, School_CBE_Name), by = c("PARENT_KEY" = "KEY")) |> 
+  select(Site_Visit_ID, EMIS_School_ID_CBE_KEY, School_CBE_Name, everything())
+
+clean_data.tool8_for_client$Section_2_2_4_Headcount <- clean_data.tool8$Section_2_2_4_Headcount %>% select(-any_of(c(extra_cols.tool8, qa_cols, "starttime"))) |>
+  left_join(clean_data.tool8_for_client$data |> select(KEY, EMIS_School_ID_CBE_KEY, School_CBE_Name), by = c("PARENT_KEY" = "KEY")) |> 
+  select(Site_Visit_ID, EMIS_School_ID_CBE_KEY, School_CBE_Name, everything())
+
+clean_data.tool8_for_client$Students_Enrolment_Book <- clean_data.tool8$Students_Enrolment_Book %>% select(-any_of(c(extra_cols.tool8, qa_cols, "starttime"))) |>
+  left_join(clean_data.tool8_for_client$data |> select(KEY, EMIS_School_ID_CBE_KEY, School_CBE_Name), by = c("PARENT_KEY" = "KEY")) |> 
+  select(Site_Visit_ID, EMIS_School_ID_CBE_KEY, School_CBE_Name, everything())
+
+clean_data.tool8_for_client$Section_2_4_Student_Ages <- clean_data.tool8$Section_2_4_Student_Ages %>% select(-any_of(c(extra_cols.tool8, qa_cols, "starttime"))) |>
+  left_join(clean_data.tool8_for_client$data |> select(KEY, EMIS_School_ID_CBE_KEY, School_CBE_Name), by = c("PARENT_KEY" = "KEY")) |> 
+  select(Site_Visit_ID, EMIS_School_ID_CBE_KEY, School_CBE_Name, everything())
+
+clean_data.tool8_for_client$Classroom_Materials <- clean_data.tool8$Classroom_Materials %>% select(-any_of(c(extra_cols.tool8, qa_cols, "starttime"))) |>
+  left_join(clean_data.tool8_for_client$data |> select(KEY, EMIS_School_ID_CBE_KEY, School_CBE_Name), by = c("PARENT_KEY" = "KEY")) |> 
+  select(Site_Visit_ID, EMIS_School_ID_CBE_KEY, School_CBE_Name, everything())
+
+clean_data.tool8_for_client$Teacher_Kit <- clean_data.tool8$Teacher_Kit %>% select(-any_of(c(extra_cols.tool8, qa_cols, "starttime"))) |>
+  left_join(clean_data.tool8_for_client$data |> select(KEY, EMIS_School_ID_CBE_KEY, School_CBE_Name), by = c("PARENT_KEY" = "KEY")) |> 
+  select(Site_Visit_ID, EMIS_School_ID_CBE_KEY, School_CBE_Name, everything())
+
+clean_data.tool8_for_client$Student_Kit <- clean_data.tool8$Student_Kit %>% select(-any_of(c(extra_cols.tool8, qa_cols, "starttime"))) |>
+  left_join(clean_data.tool8_for_client$data |> select(KEY, EMIS_School_ID_CBE_KEY, School_CBE_Name), by = c("PARENT_KEY" = "KEY")) |> 
+  select(Site_Visit_ID, EMIS_School_ID_CBE_KEY, School_CBE_Name, everything())
+
+clean_data.tool8_for_client$V_list_of_all_members <- clean_data.tool8$V_list_of_all_members %>% select(-any_of(c(extra_cols.tool8, qa_cols, "starttime"))) |>
+  left_join(clean_data.tool8_for_client$data |> select(KEY, EMIS_School_ID_CBE_KEY, School_CBE_Name), by = c("PARENT_KEY" = "KEY")) |> 
+  select(Site_Visit_ID, EMIS_School_ID_CBE_KEY, School_CBE_Name, everything())
+
+clean_data.tool8_for_client$Subjects_Added <- clean_data.tool8$Subjects_Added %>% select(-any_of(c(extra_cols.tool8, qa_cols, "starttime"))) |>
+  left_join(clean_data.tool8_for_client$data |> select(KEY, EMIS_School_ID_CBE_KEY, School_CBE_Name), by = c("PARENT_KEY" = "KEY")) |> 
+  select(Site_Visit_ID, EMIS_School_ID_CBE_KEY, School_CBE_Name, everything())
+
+clean_data.tool8_for_client$Relevant_photos <- clean_data.tool8$Relevant_photos %>% select(-any_of(c(extra_cols.tool8, qa_cols, "starttime"))) |>
+  left_join(clean_data.tool8_for_client$data |> select(KEY, EMIS_School_ID_CBE_KEY, School_CBE_Name), by = c("PARENT_KEY" = "KEY")) |> 
+  select(Site_Visit_ID, EMIS_School_ID_CBE_KEY, School_CBE_Name, everything())
+
 
 
 clean_data.tool9_for_client$data <- clean_data.tool9$data %>% select(-any_of(c(extra_cols.tool9, qa_cols)))
-clean_data.tool9_for_client$Relevant_photos <- clean_data.tool9$Relevant_photos %>% select(-any_of(c(extra_cols.tool9, qa_cols)))
+clean_data.tool9_for_client$Relevant_photos <- clean_data.tool9$Relevant_photos %>% select(-any_of(c(extra_cols.tool9, qa_cols, "starttime"))) |>
+  left_join(clean_data.tool9$data |> select(KEY, IP_Name), by = c("PARENT_KEY"="KEY")) |>
+  select(Site_Visit_ID, IP_Name, everything())
 
 # remove extra objects from environment  
 remove(list = c("qa_cols"))
