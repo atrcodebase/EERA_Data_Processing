@@ -2,6 +2,20 @@ source("R/functions/missing_translation_function.R")
 
 # Find missing translations to add in the translation log -----------------
 missing_translations <- bind_rows(
+  ## Tool 0
+  bind_rows(
+    missing_translation_func(clean_data.tool0$data) |> mutate(Tab_name = "data"),
+    missing_translation_func(clean_data.tool0$Tool3_Grades_Repeat) |> mutate(Tab_name = "Tool3_Grades_Repeat"),
+    missing_translation_func(clean_data.tool0$Tool3_Class_Attendance) |> mutate(Tab_name = "Tool3_Class_Attendance"),
+    missing_translation_func(clean_data.tool0$Tool3_T3_N_Classes_Repeat) |> mutate(Tab_name = "Tool3_T3_N_Classes_Repeat"),
+    missing_translation_func(clean_data.tool0$Tool3_Headcount) |> mutate(Tab_name = "Tool3_Headcount"),
+    missing_translation_func(clean_data.tool0$Tool1_Timetable_Year) |> mutate(Tab_name = "Tool1_Timetable_Year"),
+    missing_translation_func(clean_data.tool0$Tool1_Timetable1_Repeat) |> mutate(Tab_name = "Tool1_Timetable1_Repeat"),
+    missing_translation_func(clean_data.tool0$Tool1_Timetable2_Repeat) |> mutate(Tab_name = "Tool1_Timetable2_Repeat"),
+    missing_translation_func(clean_data.tool0$Tool1_Timetable3_Repeat) |> mutate(Tab_name = "Tool1_Timetable3_Repeat"),
+    missing_translation_func(clean_data.tool0$Tool1_Timetable4_Repeat) |> mutate(Tab_name = "Tool1_Timetable4_Repeat")
+  ) |>
+    mutate(tool = "Tool 0 - Data Entry", Sample_Type = "", .before = question_name),
   ## Tool 1
   bind_rows(
     missing_translation_func(clean_data.tool1$data) |> mutate(Tab_Name = "data"),
@@ -176,8 +190,73 @@ need_translation <- c(
   
   # Tool 9:
   "A2_Other", "A3_Other", "A4_Other", "A8_Other", "Survey_Language_Other", 
-  "Respondent_Designation"
+  "Respondent_Designation",
   
+  # Tool 0 Data Entry
+  "Tool2_Months_Attendance_Signed_Other",
+  "Tool3_Class_Name",
+  "Tool1_Enter_School_Name",
+  "Tool1_Timetable_Other",
+  "Tool1_Timetable1_Class_Name1",
+  "Tool1_Timetable1_Class_Name2",
+  
+  "Tool1_Timetable1_Class1_Saturday_Other1", "Tool1_Timetable1_Class1_Saturday_Other2", "Tool1_Timetable1_Class1_Saturday_Other3", "Tool1_Timetable1_Class1_Saturday_Other4", "Tool1_Timetable1_Class1_Saturday_Other5",
+  "Tool1_Timetable1_Class1_Sunday_Other1", "Tool1_Timetable1_Class1_Sunday_Other2", "Tool1_Timetable1_Class1_Sunday_Other3", "Tool1_Timetable1_Class1_Sunday_Other4", "Tool1_Timetable1_Class1_Sunday_Other5",
+  "Tool1_Timetable1_Class1_Monday_Other1", "Tool1_Timetable1_Class1_Monday_Other2", "Tool1_Timetable1_Class1_Monday_Other3", "Tool1_Timetable1_Class1_Monday_Other4", "Tool1_Timetable1_Class1_Monday_Other5",
+  "Tool1_Timetable1_Class1_Tuesday_Other1", "Tool1_Timetable1_Class1_Tuesday_Other2", "Tool1_Timetable1_Class1_Tuesday_Other3", "Tool1_Timetable1_Class1_Tuesday_Other4", "Tool1_Timetable1_Class1_Tuesday_Other5",
+  "Tool1_Timetable1_Class1_Wednesday_Other1", "Tool1_Timetable1_Class1_Wednesday_Other2", "Tool1_Timetable1_Class1_Wednesday_Other3", "Tool1_Timetable1_Class1_Wednesday_Other4", "Tool1_Timetable1_Class1_Wednesday_Other5",
+  "Tool1_Timetable1_Class1_Thursday_Other1", "Tool1_Timetable1_Class1_Thursday_Other2", "Tool1_Timetable1_Class1_Thursday_Other3", "Tool1_Timetable1_Class1_Thursday_Other4", "Tool1_Timetable1_Class1_Thursday_Other5",
+  "Tool1_Timetable1_Class2_Saturday_Other1", "Tool1_Timetable1_Class2_Saturday_Other2", "Tool1_Timetable1_Class2_Saturday_Other3", "Tool1_Timetable1_Class2_Saturday_Other4", "Tool1_Timetable1_Class2_Saturday_Other5",
+  "Tool1_Timetable1_Class2_Sunday_Other1", "Tool1_Timetable1_Class2_Sunday_Other2", "Tool1_Timetable1_Class2_Sunday_Other3", "Tool1_Timetable1_Class2_Sunday_Other4", "Tool1_Timetable1_Class2_Sunday_Other5",
+  "Tool1_Timetable1_Class2_Monday_Other1", "Tool1_Timetable1_Class2_Monday_Other2", "Tool1_Timetable1_Class2_Monday_Other3", "Tool1_Timetable1_Class2_Monday_Other4", "Tool1_Timetable1_Class2_Monday_Other5",
+  "Tool1_Timetable1_Class2_Tuesday_Other1", "Tool1_Timetable1_Class2_Tuesday_Other2", "Tool1_Timetable1_Class2_Tuesday_Other3", "Tool1_Timetable1_Class2_Tuesday_Other4", "Tool1_Timetable1_Class2_Tuesday_Other5",
+  "Tool1_Timetable1_Class2_Wednesday_Other1", "Tool1_Timetable1_Class2_Wednesday_Other2", "Tool1_Timetable1_Class2_Wednesday_Other3", "Tool1_Timetable1_Class2_Wednesday_Other4", "Tool1_Timetable1_Class2_Wednesday_Other5",
+  "Tool1_Timetable1_Class2_Thursday_Other1", "Tool1_Timetable1_Class2_Thursday_Other2", "Tool1_Timetable1_Class2_Thursday_Other3", "Tool1_Timetable1_Class2_Thursday_Other4", "Tool1_Timetable1_Class2_Thursday_Other5",
+  
+  "Tool1_Timetable2_Class_Name1", "Tool1_Timetable2_Class_Name2",
+  
+  "Tool1_Timetable2_Class1_Saturday_Other1", "Tool1_Timetable2_Class1_Saturday_Other2", "Tool1_Timetable2_Class1_Saturday_Other3", "Tool1_Timetable2_Class1_Saturday_Other4", "Tool1_Timetable2_Class1_Saturday_Other5",
+  "Tool1_Timetable2_Class1_Sunday_Other1", "Tool1_Timetable2_Class1_Sunday_Other2", "Tool1_Timetable2_Class1_Sunday_Other3", "Tool1_Timetable2_Class1_Sunday_Other4", "Tool1_Timetable2_Class1_Sunday_Other5",
+  "Tool1_Timetable2_Class1_Monday_Other1", "Tool1_Timetable2_Class1_Monday_Other2", "Tool1_Timetable2_Class1_Monday_Other3", "Tool1_Timetable2_Class1_Monday_Other4", "Tool1_Timetable2_Class1_Monday_Other5",
+  "Tool1_Timetable2_Class1_Tuesday_Other1", "Tool1_Timetable2_Class1_Tuesday_Other2", "Tool1_Timetable2_Class1_Tuesday_Other3", "Tool1_Timetable2_Class1_Tuesday_Other4", "Tool1_Timetable2_Class1_Tuesday_Other5",
+  "Tool1_Timetable2_Class1_Wednesday_Other1", "Tool1_Timetable2_Class1_Wednesday_Other2", "Tool1_Timetable2_Class1_Wednesday_Other3", "Tool1_Timetable2_Class1_Wednesday_Other4", "Tool1_Timetable2_Class1_Wednesday_Other5",
+  "Tool1_Timetable2_Class1_Thursday_Other1", "Tool1_Timetable2_Class1_Thursday_Other2", "Tool1_Timetable2_Class1_Thursday_Other3", "Tool1_Timetable2_Class1_Thursday_Other4",  "Tool1_Timetable2_Class1_Thursday_Other5",
+  "Tool1_Timetable2_Class2_Saturday_Other1", "Tool1_Timetable2_Class2_Saturday_Other2", "Tool1_Timetable2_Class2_Saturday_Other3", "Tool1_Timetable2_Class2_Saturday_Other4", "Tool1_Timetable2_Class2_Saturday_Other5",
+  "Tool1_Timetable2_Class2_Sunday_Other1", "Tool1_Timetable2_Class2_Sunday_Other2", "Tool1_Timetable2_Class2_Sunday_Other3", "Tool1_Timetable2_Class2_Sunday_Other4", "Tool1_Timetable2_Class2_Sunday_Other5",
+  "Tool1_Timetable2_Class2_Monday_Other1", "Tool1_Timetable2_Class2_Monday_Other2", "Tool1_Timetable2_Class2_Monday_Other3", "Tool1_Timetable2_Class2_Monday_Other4", "Tool1_Timetable2_Class2_Monday_Other5",
+  "Tool1_Timetable2_Class2_Tuesday_Other1", "Tool1_Timetable2_Class2_Tuesday_Other2", "Tool1_Timetable2_Class2_Tuesday_Other3", "Tool1_Timetable2_Class2_Tuesday_Other4", "Tool1_Timetable2_Class2_Tuesday_Other5",
+  "Tool1_Timetable2_Class2_Wednesday_Other1", "Tool1_Timetable2_Class2_Wednesday_Other2", "Tool1_Timetable2_Class2_Wednesday_Other3", "Tool1_Timetable2_Class2_Wednesday_Other4", "Tool1_Timetable2_Class2_Wednesday_Other5",
+  "Tool1_Timetable2_Class2_Thursday_Other1", "Tool1_Timetable2_Class2_Thursday_Other2", 'Tool1_Timetable2_Class2_Thursday_Other3', "Tool1_Timetable2_Class2_Thursday_Other4", "Tool1_Timetable2_Class2_Thursday_Other5",
+  
+  "Tool1_Timetable3_Class_Name1", "Tool1_Timetable3_Class_Name2",
+  
+  "Tool1_Timetable3_Class1_Saturday_Other1", "Tool1_Timetable3_Class1_Saturday_Other2", "Tool1_Timetable3_Class1_Saturday_Other3", "Tool1_Timetable3_Class1_Saturday_Other4", "Tool1_Timetable3_Class1_Saturday_Other5",
+  "Tool1_Timetable3_Class1_Sunday_Other1", "Tool1_Timetable3_Class1_Sunday_Other2", "Tool1_Timetable3_Class1_Sunday_Other3", "Tool1_Timetable3_Class1_Sunday_Other4", "Tool1_Timetable3_Class1_Sunday_Other5",
+  "Tool1_Timetable3_Class1_Monday_Other1", "Tool1_Timetable3_Class1_Monday_Other2", "Tool1_Timetable3_Class1_Monday_Other3", "Tool1_Timetable3_Class1_Monday_Other4", "Tool1_Timetable3_Class1_Monday_Other5",
+  "Tool1_Timetable3_Class1_Tuesday_Other1", "Tool1_Timetable3_Class1_Tuesday_Other2", "Tool1_Timetable3_Class1_Tuesday_Other3", "Tool1_Timetable3_Class1_Tuesday_Other4", "Tool1_Timetable3_Class1_Tuesday_Other5",
+  "Tool1_Timetable3_Class1_Wednesday_Other1", "Tool1_Timetable3_Class1_Wednesday_Other2", "Tool1_Timetable3_Class1_Wednesday_Other3", "Tool1_Timetable3_Class1_Wednesday_Other4", "Tool1_Timetable3_Class1_Wednesday_Other5",
+  "Tool1_Timetable3_Class1_Thursday_Other1", 'Tool1_Timetable3_Class1_Thursday_Other2', "Tool1_Timetable3_Class1_Thursday_Other3", "Tool1_Timetable3_Class1_Thursday_Other4", "Tool1_Timetable3_Class1_Thursday_Other5",
+  "Tool1_Timetable3_Class2_Saturday_Other1", 'Tool1_Timetable3_Class2_Saturday_Other2', 'Tool1_Timetable3_Class2_Saturday_Other3', 'Tool1_Timetable3_Class2_Saturday_Other4', 'Tool1_Timetable3_Class2_Saturday_Other5',
+  'Tool1_Timetable3_Class2_Sunday_Other1', 'Tool1_Timetable3_Class2_Sunday_Other2', 'Tool1_Timetable3_Class2_Sunday_Other3', 'Tool1_Timetable3_Class2_Sunday_Other4', 'Tool1_Timetable3_Class2_Sunday_Other5',
+  'Tool1_Timetable3_Class2_Monday_Other1', 'Tool1_Timetable3_Class2_Monday_Other2', 'Tool1_Timetable3_Class2_Monday_Other3', 'Tool1_Timetable3_Class2_Monday_Other4', 'Tool1_Timetable3_Class2_Monday_Other5',
+  'Tool1_Timetable3_Class2_Tuesday_Other1', 'Tool1_Timetable3_Class2_Tuesday_Other2', 'Tool1_Timetable3_Class2_Tuesday_Other3', 'Tool1_Timetable3_Class2_Tuesday_Other4', 'Tool1_Timetable3_Class2_Tuesday_Other5',
+  'Tool1_Timetable3_Class2_Wednesday_Other1', 'Tool1_Timetable3_Class2_Wednesday_Other2', 'Tool1_Timetable3_Class2_Wednesday_Other3', 'Tool1_Timetable3_Class2_Wednesday_Other4', 'Tool1_Timetable3_Class2_Wednesday_Other5',
+  'Tool1_Timetable3_Class2_Thursday_Other1', 'Tool1_Timetable3_Class2_Thursday_Other2', 'Tool1_Timetable3_Class2_Thursday_Other3', 'Tool1_Timetable3_Class2_Thursday_Other4', 'Tool1_Timetable3_Class2_Thursday_Other5',
+  
+  "Tool1_Timetable4_Class_Name1", "Tool1_Timetable4_Class_Name2",
+  
+  'Tool1_Timetable4_Class1_Saturday_Other1', 'Tool1_Timetable4_Class1_Saturday_Other2','Tool1_Timetable4_Class1_Saturday_Other3', 'Tool1_Timetable4_Class1_Saturday_Other4', 'Tool1_Timetable4_Class1_Saturday_Other5',
+  'Tool1_Timetable4_Class1_Sunday_Other1', 'Tool1_Timetable4_Class1_Sunday_Other2', 'Tool1_Timetable4_Class1_Sunday_Other3', 'Tool1_Timetable4_Class1_Sunday_Other4', 'Tool1_Timetable4_Class1_Sunday_Other5',
+  'Tool1_Timetable4_Class1_Monday_Other1', 'Tool1_Timetable4_Class1_Monday_Other2', 'Tool1_Timetable4_Class1_Monday_Other3', 'Tool1_Timetable4_Class1_Monday_Other4', 'Tool1_Timetable4_Class1_Monday_Other5',
+  'Tool1_Timetable4_Class1_Tuesday_Other1', 'Tool1_Timetable4_Class1_Tuesday_Other2', 'Tool1_Timetable4_Class1_Tuesday_Other3', 'Tool1_Timetable4_Class1_Tuesday_Other4', 'Tool1_Timetable4_Class1_Tuesday_Other5',
+  'Tool1_Timetable4_Class1_Wednesday_Other1', 'Tool1_Timetable4_Class1_Wednesday_Other2', 'Tool1_Timetable4_Class1_Wednesday_Other3', 'Tool1_Timetable4_Class1_Wednesday_Other4', 'Tool1_Timetable4_Class1_Wednesday_Other5',
+  'Tool1_Timetable4_Class1_Thursday_Other1', 'Tool1_Timetable4_Class1_Thursday_Other2', 'Tool1_Timetable4_Class1_Thursday_Other3', 'Tool1_Timetable4_Class1_Thursday_Other4', 'Tool1_Timetable4_Class1_Thursday_Other5',
+  'Tool1_Timetable4_Class2_Saturday_Other1', 'Tool1_Timetable4_Class2_Saturday_Other2', 'Tool1_Timetable4_Class2_Saturday_Other3', "Tool1_Timetable4_Class2_Saturday_Other4", "Tool1_Timetable4_Class2_Saturday_Other5",
+  "Tool1_Timetable4_Class2_Sunday_Other1", "Tool1_Timetable4_Class2_Sunday_Other2", "Tool1_Timetable4_Class2_Sunday_Other3", "Tool1_Timetable4_Class2_Sunday_Other4", "Tool1_Timetable4_Class2_Sunday_Other5",
+  "Tool1_Timetable4_Class2_Monday_Other1", "Tool1_Timetable4_Class2_Monday_Other2", "Tool1_Timetable4_Class2_Monday_Other3", "Tool1_Timetable4_Class2_Monday_Other4", "Tool1_Timetable4_Class2_Monday_Other5",
+  "Tool1_Timetable4_Class2_Tuesday_Other1", "Tool1_Timetable4_Class2_Tuesday_Other2", "Tool1_Timetable4_Class2_Tuesday_Other3", "Tool1_Timetable4_Class2_Tuesday_Other4", "Tool1_Timetable4_Class2_Tuesday_Other5",
+  "Tool1_Timetable4_Class2_Wednesday_Other1", "Tool1_Timetable4_Class2_Wednesday_Other2", "Tool1_Timetable4_Class2_Wednesday_Other3", "Tool1_Timetable4_Class2_Wednesday_Other4", "Tool1_Timetable4_Class2_Wednesday_Other5",
+  "Tool1_Timetable4_Class2_Thursday_Other1", "Tool1_Timetable4_Class2_Thursday_Other2", "Tool1_Timetable4_Class2_Thursday_Other3", "Tool1_Timetable4_Class2_Thursday_Other4", "Tool1_Timetable4_Class2_Thursday_Other5"
 )
 
 missing_translations <- missing_translations |>
@@ -186,6 +265,21 @@ missing_translations <- missing_translations |>
 
 # double check unlogged translations --------------------------------------
 un_logged_values <- bind_rows(
+  ## Tool 0
+  bind_rows(
+    log_translation_cols(clean_data.tool0$data, need_translation) |> mutate(Tab_name = "data"),
+    # log_translation_cols(clean_data.tool0$Tool3_Grades_Repeat, need_translation) |> mutate(Tab_name = "Tool3_Grades_Repeat"),
+    log_translation_cols(clean_data.tool0$Tool3_Class_Attendance, need_translation) |> mutate(Tab_name = "Tool3_Class_Attendance"),
+    # log_translation_cols(clean_data.tool0$Tool3_T3_N_Classes_Repeat, need_translation) |> mutate(Tab_name = "Tool3_T3_N_Classes_Repeat"),
+    # log_translation_cols(clean_data.tool0$Tool3_Headcount, need_translation) |> mutate(Tab_name = "Tool3_Headcount"),
+    # log_translation_cols(clean_data.tool0$Tool1_Timetable_Year, need_translation) |> mutate(Tab_name = "Tool1_Timetable_Year"),
+    log_translation_cols(clean_data.tool0$Tool1_Timetable1_Repeat, need_translation) |> mutate(Tab_name = "Tool1_Timetable1_Repeat"),
+    log_translation_cols(clean_data.tool0$Tool1_Timetable2_Repeat, need_translation) |> mutate(Tab_name = "Tool1_Timetable2_Repeat"),
+    log_translation_cols(clean_data.tool0$Tool1_Timetable3_Repeat, need_translation) |> mutate(Tab_name = "Tool1_Timetable3_Repeat"),
+    log_translation_cols(clean_data.tool0$Tool1_Timetable4_Repeat, need_translation) |> mutate(Tab_name = "Tool1_Timetable4_Repeat") |> mutate(KEY = as.character(KEY), old_value = as.character(old_value))
+  ) |>
+    mutate(tool = "Tool 0 - Data Entry", .before = question_name),
+  
   ## Tool 1
   bind_rows(
     log_translation_cols(clean_data.tool1$data |> select(-C10), need_translation) |> mutate(Tab_Name = "data"),
