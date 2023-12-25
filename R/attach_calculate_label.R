@@ -1,5 +1,5 @@
 ## Append calculated vars label
-meta_cols22 <- c("Site_Visit_ID", "EMIS_School_ID_CBE_KEY", "School_CBE_Name", "Region", "Province" , "District" , "Area_Type", "Sample_Type")
+meta_cols2 <- c("Site_Visit_ID", "EMIS_School_ID_CBE_KEY", "School_CBE_Name", "Region", "Province" , "District" , "Area_Type", "Sample_Type")
 
 # Tool 1
 clean_data.tool1_for_client$School_Operationality_Other_... <- clean_data.tool1_for_client$School_Operationality_Other_... |>
