@@ -138,8 +138,17 @@ missing_translations <- bind_rows(
   ) |>
     mutate(tool = "Tool 9 - IP", Sample_Type = "CBE", .before = question_name)
 )
+## Tool 0
+for(sheet in names(clean_data.tool0)){
+  missing_translations <- bind_rows(
+    missing_translations,
+    missing_translation_func(clean_data.tool0[[sheet]]) %>% 
+      mutate(Tab_Name = sheet, tool = "Data Entry Tool", Sample_Type = "Public School", .before = question_name)
+  )
+}
 
 need_translation <- c(
+  # Tool 0: # @Taqi Please add the columns that need to be shared with Translation team
   # Tool 1:
   "A31_Other", "Interviewee_Respondent_Type_Other", "B6_Other", "B7_Other", "B9_Other", "B10_Other", "C2_Other", "C4_Other", "C4_1_Other", "C9_Other", "C12A3_Other", "C13A3_Other",
   "C13A8_Other", "D3_Other", "D4_Other", "D7_Other", "D8_Other", "E3_Other", "E4_Other", "E7_Other", "E8_Other", "E11_Other", "E12_Other", "E15_Other", "E16_Other", "E19_Other", "E20_Other",

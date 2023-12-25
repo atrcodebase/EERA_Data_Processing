@@ -263,7 +263,7 @@ source("R/calculate_cols_check.R") ## Double-check
 
 
 # Outlier Check ----------------------------------------------------------- DONE
-source("R/check_outliers.R") ## Double-check
+# source("R/check_outliers.R") ## Double-check
 
 
 # Compare Number of Interviews with Sample -------------------------------- DONE
@@ -271,7 +271,7 @@ source("R/compare_sample_vs_df.R") ## Double-check
 
 
 # Relevancy Check --------------------------------------------------------- DONE
-source("R/check_relevancies.R") # Add relevancies for Tool 0
+source("R/check_relevancies.R") 
 
 
 # Check the responses with the tool --------------------------------------- DONE
@@ -283,7 +283,7 @@ source("R/compare_df_values_with_tool.R") ## Double-check
 
 
 # attach value labels  ---------------------------------------------------- DONE
-source("R/attach_labels.R") ## Double-check onward
+source("R/attach_labels.R")
 
 
 # re-code variables ------------------------------------------------------- PENDING - On-going

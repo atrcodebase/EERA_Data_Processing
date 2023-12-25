@@ -24,6 +24,16 @@ clean_data.tool9_joined <- clean_data.tool9
 #   # Join
 #   clean_data.tool0_joined[[sheet]] <- join_dfs(clean_data.tool0_joined[], clean_data.tool1$data |> select(!any_of(meta_cols)))
 # }
+# Tool 0
+clean_data.tool0_joined$Tool3_Grades_Repeat <- join_dfs(clean_data.tool0$Tool3_Grades_Repeat, clean_data.tool0$data %>% select(!any_of(meta_cols)))
+clean_data.tool0_joined$Tool3_Class_Attendance <- join_dfs(clean_data.tool0$Tool3_Class_Attendance, clean_data.tool0$data %>% select(!any_of(meta_cols)))
+clean_data.tool0_joined$Tool3_T3_N_Classes_Repeat <- join_dfs(clean_data.tool0$Tool3_T3_N_Classes_Repeat, clean_data.tool0$data %>% select(!any_of(meta_cols)))
+clean_data.tool0_joined$Tool3_Headcount <- join_dfs(clean_data.tool0$Tool3_Headcount, clean_data.tool0$data %>% select(!any_of(meta_cols)))
+clean_data.tool0_joined$Tool1_Timetable_Year <- join_dfs(clean_data.tool0$Tool1_Timetable_Year, clean_data.tool0$data %>% select(!any_of(meta_cols)))
+clean_data.tool0_joined$Tool1_Timetable1_Repeat <- join_dfs(clean_data.tool0$Tool1_Timetable1_Repeat, clean_data.tool0$data %>% select(!any_of(meta_cols)))
+clean_data.tool0_joined$Tool1_Timetable2_Repeat <- join_dfs(clean_data.tool0$Tool1_Timetable2_Repeat, clean_data.tool0$data %>% select(!any_of(meta_cols)))
+clean_data.tool0_joined$Tool1_Timetable3_Repeat <- join_dfs(clean_data.tool0$Tool1_Timetable3_Repeat, clean_data.tool0$data %>% select(!any_of(meta_cols)))
+clean_data.tool0_joined$Tool1_Timetable4_Repeat <- join_dfs(clean_data.tool0$Tool1_Timetable4_Repeat, clean_data.tool0$data %>% select(!any_of(meta_cols)))
 
 # Tool 1
 clean_data.tool1_joined$Support_Respondents <- join_dfs(clean_data.tool1$Support_Respondents, clean_data.tool1$data |> select(!any_of(meta_cols)))
@@ -119,6 +129,20 @@ tool9.notrequired_questions <- kobo_tool.tool9$survey %>% filter((required %in% 
 
 # checking the relevancy issues ------------------------------------------------
 relevancy_issues <- plyr::rbind.fill(
+    # Tool 0
+    rbind(
+      check_relevancy_rules(data = clean_data.tool0_joined$data, tool_relevancy =  relevancy_file.tool0, sheet_name="data"),
+      check_relevancy_rules(data = clean_data.tool0_joined$Tool3_Grades_Repeat, tool_relevancy =  relevancy_file.tool0, sheet_name="Tool3_Grades_Repeat"),
+      check_relevancy_rules(data = clean_data.tool0_joined$Tool3_Class_Attendance, tool_relevancy =  relevancy_file.tool0, sheet_name="Tool3_Class_Attendance"),
+      check_relevancy_rules(data = clean_data.tool0_joined$Tool3_T3_N_Classes_Repeat, tool_relevancy =  relevancy_file.tool0, sheet_name="Tool3_T3_N_Classes_Repeat"),
+      check_relevancy_rules(data = clean_data.tool0_joined$Tool3_Headcount, tool_relevancy =  relevancy_file.tool0, sheet_name="Tool3_Headcount"),
+      check_relevancy_rules(data = clean_data.tool0_joined$Tool1_Timetable_Year, tool_relevancy =  relevancy_file.tool0, sheet_name="Tool1_Timetable_Year"),
+      check_relevancy_rules(data = clean_data.tool0_joined$Tool1_Timetable1_Repeat, tool_relevancy =  relevancy_file.tool0, sheet_name="Tool1_Timetable1_Repeat"),
+      check_relevancy_rules(data = clean_data.tool0_joined$Tool1_Timetable2_Repeat, tool_relevancy =  relevancy_file.tool0, sheet_name="Tool1_Timetable2_Repeat"),
+      check_relevancy_rules(data = clean_data.tool0_joined$Tool1_Timetable3_Repeat, tool_relevancy =  relevancy_file.tool0, sheet_name="Tool1_Timetable3_Repeat"),
+      check_relevancy_rules(data = clean_data.tool0_joined$Tool1_Timetable4_Repeat, tool_relevancy =  relevancy_file.tool0, sheet_name="Tool1_Timetable4_Repeat")
+    ) |>
+      mutate(tool = "Data Entry Tool", Sample_type = "Public School"),
   # Tool 1
   rbind(
     check_relevancy_rules(data = clean_data.tool1_joined$data, tool_relevancy =  relevancy_file.tool1, sheet_name="data"),
