@@ -626,7 +626,7 @@ clean_data.tool8_for_client$Section_2_2_3_Attendance_Rec... <- clean_data.tool8$
   left_join(clean_data.tool8_for_client$data |> select(KEY, EMIS_School_ID_CBE_KEY, School_CBE_Name), by = c("PARENT_KEY" = "KEY")) |> 
   select(Site_Visit_ID, EMIS_School_ID_CBE_KEY, School_CBE_Name, everything())
 
-clean_data.tool8_for_client$Section_2_2_4_Headcount <- clean_data.tool8$Section_2_2_4_Headcount %>% select(-any_of(c(extra_cols.tool8, qa_cols, "starttime"))) |>
+clean_data.tool8_for_client$Section_2_2_4_Headcount <- clean_data.tool8$Section_2_2_4_Headcount %>% select(-any_of(c(extra_cols.tool8, qa_cols, "starttime", "School_CBE_Gender_Based_On_The_Sample"))) |>
   left_join(clean_data.tool8_for_client$data |> select(KEY, EMIS_School_ID_CBE_KEY, School_CBE_Name), by = c("PARENT_KEY" = "KEY")) |> 
   select(Site_Visit_ID, EMIS_School_ID_CBE_KEY, School_CBE_Name, everything())
 
