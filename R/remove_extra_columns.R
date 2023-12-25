@@ -109,7 +109,8 @@ extra_cols.tool8 <- c(
   "Subjects_Added_count",	"SET-OF-Subjects_Added", "SET-OF-Relevant_photos",
   
   # Surveyor Comments
-  "Surveyor_Comments",	"Surveyor_Comments_Translation",
+  "Surveyor_Comments",	"Surveyor_Comments_Translation", "C13",	"C13_Translation",
+
   
   # FDE
   "FDE_Confirm_The_Date_of_Visit_With_Attendance", "FDE_Overall_Present_Students_Male", "FDE_Overall_Present_Students_Female", "FDE_Overall_Absent_Students_Male", "FDE_Overall_Absent_Students_Female",
