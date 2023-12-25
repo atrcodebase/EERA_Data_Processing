@@ -1,3 +1,6 @@
+sample_file.cbe <- sample_file.cbe |>
+  filter(Component.Name == "CBE")
+
 over_sampled_extra_ints <- 
   bind_rows(
     # Tool 1
@@ -105,7 +108,7 @@ missing_not_interviewed_site <-
     
     # Tool 4
     sample_file.ps %>%
-      filter(!Site_Visit_Id %in% clean_data.tool4$Site_Visit_ID) %>% 
+      filter(!Site_Visit_Id %in% clean_data.tool4$data$Site_Visit_ID) %>% 
       select(any_of(cols_from_sample_ps)) %>% 
       mutate(issue="The Site Visit ID is Sampled but no interview is collected in Tool 4",
              Question = "Site_Visit_Id",
@@ -114,7 +117,7 @@ missing_not_interviewed_site <-
     
     # Tool 5
     sample_file.ps %>%
-      filter(!Site_Visit_Id %in% clean_data.tool5$Site_Visit_ID) %>% 
+      filter(!Site_Visit_Id %in% clean_data.tool5$data$Site_Visit_ID) %>% 
       select(any_of(cols_from_sample_ps)) %>% 
       mutate(issue="The Site Visit ID is Sampled but no interview is collected in Tool 5",
              Question = "Site_Visit_Id",
@@ -159,7 +162,7 @@ missing_not_interviewed_site <-
     
     # Tool 8 - BCE
     sample_file.cbe %>%
-      filter(!Site_Visit_Id %in% clean_data.tool8$Site_Visit_ID) %>% 
+      filter(!Site_Visit_Id %in% clean_data.tool8$data$Site_Visit_ID) %>% 
       select(any_of(cols_from_sample.cbe)) %>% 
       mutate(issue="The Site Visit ID is Sampled but no interview is collected in Tool 8",
              Question = "Site_Visit_Id",
