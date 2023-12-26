@@ -398,40 +398,40 @@ clean_data.tool9_for_client <- clean_data.tool9
 
 
 # Remove extra cols -------------------------------------------------------
-clean_data.tool0_for_client$data <- clean_data.tool0_for_client$data %>% select(-any_of(c(extra_cols.tool0, qa_cols)))
-clean_data.tool0_for_client$Tool3_Grades_Repeat <- clean_data.tool0_for_client$Tool3_Grades_Repeat %>% select(-any_of(c(extra_cols.tool0, qa_cols, "starttime"))) |>
+clean_data.tool0_for_client$data <- clean_data.tool0$data %>% select(-any_of(c(extra_cols.tool0, qa_cols)))
+clean_data.tool0_for_client$Tool3_Grades_Repeat <- clean_data.tool0$Tool3_Grades_Repeat %>% select(-any_of(c(extra_cols.tool0, qa_cols, "starttime"))) |>
   left_join(clean_data.tool0_for_client$data |> select(KEY, EMIS_School_ID_CBE_KEY, School_CBE_Name), by = c("PARENT_KEY" = "KEY")) |> 
   select(Site_Visit_ID, EMIS_School_ID_CBE_KEY, School_CBE_Name, everything())
 
-clean_data.tool0_for_client$Tool3_Class_Attendance <- clean_data.tool0_for_client$Tool3_Class_Attendance %>% select(-any_of(c(extra_cols.tool0, qa_cols, "starttime"))) |>
+clean_data.tool0_for_client$Tool3_Class_Attendance <- clean_data.tool0$Tool3_Class_Attendance %>% select(-any_of(c(extra_cols.tool0, qa_cols, "starttime"))) |>
   left_join(clean_data.tool0_for_client$data |> select(KEY, EMIS_School_ID_CBE_KEY, School_CBE_Name), by = c("PARENT_KEY" = "KEY")) |> 
   select(Site_Visit_ID, EMIS_School_ID_CBE_KEY, School_CBE_Name, everything())
 
-clean_data.tool0_for_client$Tool3_T3_N_Classes_Repeat <- clean_data.tool0_for_client$Tool3_T3_N_Classes_Repeat %>% select(-any_of(c(extra_cols.tool0, qa_cols, "starttime"))) |>
+clean_data.tool0_for_client$Tool3_T3_N_Classes_Repeat <- clean_data.tool0$Tool3_T3_N_Classes_Repeat %>% select(-any_of(c(extra_cols.tool0, qa_cols, "starttime"))) |>
   left_join(clean_data.tool0_for_client$data |> select(KEY, EMIS_School_ID_CBE_KEY, School_CBE_Name), by = c("PARENT_KEY" = "KEY")) |> 
   select(Site_Visit_ID, EMIS_School_ID_CBE_KEY, School_CBE_Name, everything())
 
-clean_data.tool0_for_client$Tool3_Headcount <- clean_data.tool0_for_client$Tool3_Headcount %>% select(-any_of(c(extra_cols.tool0, qa_cols, "starttime"))) |>
+clean_data.tool0_for_client$Tool3_Headcount <- clean_data.tool0$Tool3_Headcount %>% select(-any_of(c(extra_cols.tool0, qa_cols, "starttime"))) |>
   left_join(clean_data.tool0_for_client$data |> select(KEY, EMIS_School_ID_CBE_KEY, School_CBE_Name), by = c("PARENT_KEY" = "KEY")) |> 
   select(Site_Visit_ID, EMIS_School_ID_CBE_KEY, School_CBE_Name, everything())
 
-clean_data.tool0_for_client$Tool1_Timetable_Year <- clean_data.tool0_for_client$Tool1_Timetable_Year %>% select(-any_of(c(extra_cols.tool0, qa_cols, "starttime"))) |>
+clean_data.tool0_for_client$Tool1_Timetable_Year <- clean_data.tool0$Tool1_Timetable_Year %>% select(-any_of(c(extra_cols.tool0, qa_cols, "starttime"))) |>
   left_join(clean_data.tool0_for_client$data |> select(KEY, EMIS_School_ID_CBE_KEY, School_CBE_Name), by = c("PARENT_KEY" = "KEY")) |> 
   select(Site_Visit_ID, EMIS_School_ID_CBE_KEY, School_CBE_Name, everything())
 
-clean_data.tool0_for_client$Tool1_Timetable1_Repeat <- clean_data.tool0_for_client$Tool1_Timetable1_Repeat %>% select(-any_of(c(extra_cols.tool0, qa_cols, "starttime"))) |>
+clean_data.tool0_for_client$Tool1_Timetable1_Repeat <- clean_data.tool0$Tool1_Timetable1_Repeat %>% select(-any_of(c(extra_cols.tool0, qa_cols, "starttime"))) |>
   left_join(clean_data.tool0_for_client$Tool1_Timetable_Year |> select(KEY, EMIS_School_ID_CBE_KEY, School_CBE_Name), by = c("PARENT_KEY" = "KEY")) |> 
   select(Site_Visit_ID, EMIS_School_ID_CBE_KEY, School_CBE_Name, everything())
 
-clean_data.tool0_for_client$Tool1_Timetable2_Repeat <- clean_data.tool0_for_client$Tool1_Timetable2_Repeat %>% select(-any_of(c(extra_cols.tool0, qa_cols, "starttime"))) |>
+clean_data.tool0_for_client$Tool1_Timetable2_Repeat <- clean_data.tool0$Tool1_Timetable2_Repeat %>% select(-any_of(c(extra_cols.tool0, qa_cols, "starttime"))) |>
   left_join(clean_data.tool0_for_client$Tool1_Timetable_Year |> select(KEY, EMIS_School_ID_CBE_KEY, School_CBE_Name), by = c("PARENT_KEY" = "KEY")) |> 
   select(Site_Visit_ID, EMIS_School_ID_CBE_KEY, School_CBE_Name, everything())
 
-clean_data.tool0_for_client$Tool1_Timetable3_Repeat <- clean_data.tool0_for_client$Tool1_Timetable3_Repeat %>% select(-any_of(c(extra_cols.tool0, qa_cols, "starttime"))) |>
+clean_data.tool0_for_client$Tool1_Timetable3_Repeat <- clean_data.tool0$Tool1_Timetable3_Repeat %>% select(-any_of(c(extra_cols.tool0, qa_cols, "starttime"))) |>
   left_join(clean_data.tool0_for_client$Tool1_Timetable_Year |> select(KEY, EMIS_School_ID_CBE_KEY, School_CBE_Name), by = c("PARENT_KEY" = "KEY")) |> 
   select(Site_Visit_ID, EMIS_School_ID_CBE_KEY, School_CBE_Name, everything())
 
-clean_data.tool0_for_client$Tool1_Timetable4_Repeat <- clean_data.tool0_for_client$Tool1_Timetable4_Repeat %>% select(-any_of(c(extra_cols.tool0, qa_cols, "starttime"))) |>
+clean_data.tool0_for_client$Tool1_Timetable4_Repeat <- clean_data.tool0$Tool1_Timetable4_Repeat %>% select(-any_of(c(extra_cols.tool0, qa_cols, "starttime"))) |>
   mutate(PARENT_KEY = as.character(PARENT_KEY)) |>
   left_join(clean_data.tool0_for_client$Tool1_Timetable_Year |> select(KEY, EMIS_School_ID_CBE_KEY, School_CBE_Name), by = c("PARENT_KEY" = "KEY")) |> 
   select(Site_Visit_ID, EMIS_School_ID_CBE_KEY, School_CBE_Name, everything())
@@ -671,3 +671,5 @@ clean_data.tool9_for_client$Relevant_photos <- clean_data.tool9$Relevant_photos 
 
 # remove extra objects from environment  
 remove(list = c("qa_cols"))
+
+source("R/remove_extra_columns_value.R")
