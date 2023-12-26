@@ -2292,7 +2292,7 @@ lc_tool2 <- rbind(
       KEY,
       Issue
     ),
-  
+
   # flagging if the answer to question related to open/closed status of school is inconsistent across tool 1 and tool 2
   clean_data.tool2$data |>
     distinct(Site_Visit_ID, .keep_all = T) |> 
@@ -2301,10 +2301,14 @@ lc_tool2 <- rbind(
         select(A34.tool1 = A34, Site_Visit_ID),
       by = "Site_Visit_ID"
     ) |> 
+    mutate(
+      B7 = str_trim(B7),
+      A34.tool1 = str_trim(A34.tool1)
+      ) |>
     filter(
-      (B7 == "Yes, school is open, teachers and students (both male and female) are inside" & A34.tool1 != "Yes, school is open, and teachers and students (both male and female) are inside ") |
-        (B7 == "Yes, it is open and there are students (only male) and teachers inside" & A34.tool1 != "Yes, it is open and there are students (only male) and teachers inside ") |
-        (B7 == "Yes, it is open and there are students (only female) and teachers inside" & A34.tool1 != "Yes, it is open and there are students (only female) and teachers inside ")|
+      (B7 == "Yes, school is open, teachers and students (both male and female) are inside" & A34.tool1 != "Yes, school is open, and teachers and students (both male and female) are inside") |
+        (B7 == "Yes, it is open and there are students (only male) and teachers inside" & A34.tool1 != "Yes, it is open and there are students (only male) and teachers inside") |
+        (B7 == "Yes, it is open and there are students (only female) and teachers inside" & A34.tool1 != "Yes, it is open and there are students (only female) and teachers inside")|
         (B7 == "Yes, school is open and there are only teachers and no students inside" & A34.tool1 != "Yes, school is open and there are only teachers and no students inside")|
         (B7 == "Yes, school is open, and there are only staff members but there are no teachers and students inside" & A34.tool1 != "Yes, school is open, and there are only staff members but there are no teachers and students inside")|
         (B7 == "No, school is closed and there is no one inside" & A34.tool1 != "No, school is closed and there is no one inside")
@@ -2475,20 +2479,41 @@ lc_tool2 <- rbind(
     ),
   
   # Flagging if number of Shifts in tool 2 Question D1 is inconsistent with Tool1 - Shifts Details Sheet  Total Running Shifts
+  # clean_data.tool2$data |>
+  #   left_join(
+  #     clean_data.tool1$Shifts_Detail |>
+  #       filter(C14A1 == "Yes") |>
+  #       group_by(Site_Visit_ID) |>
+  #       summarise(total_running_shifts = n()) |>
+  #       ungroup() , by = "Site_Visit_ID") |>
+  #   filter(!is.na(total_running_shifts) & ((D1 == "Single" & total_running_shifts > 1) | (D1 == "Multiple" & total_running_shifts == 1))) |>
+  #   mutate(
+  #     Issue = "The number of Shifts in tool 2 Question D1 is inconsistent with Tool1 - Shifts Details Sheet for Total Running Shifts!",
+  #     Question = "D1",
+  #     Old_value = D1,
+  #     Related_question ="", #"Total Running Shift (Tool 1 - Shifts_Detail Sheet)",
+  #     Related_value = total_running_shifts
+  #   ) |>
+  #   select(
+  #     all_of(meta_cols),
+  #     Question,
+  #     Old_value,
+  #     Related_question,
+  #     Related_value,
+  #     KEY,
+  #     Issue
+  #   ),
+  # Flagging if shift types differs between tool 2 and tool 1
   clean_data.tool2$data |>
     left_join(
-      clean_data.tool1$Shifts_Detail |>
-        filter(C14A1 == "Yes") |>
-        group_by(Site_Visit_ID) |>
-        summarise(total_running_shifts = n()) |>
-        ungroup() , by = "Site_Visit_ID") |>
-    filter(!is.na(total_running_shifts) & ((D1 == "Single" & total_running_shifts > 1) | (D1 == "Multiple" & total_running_shifts == 1))) |>
+      clean_data.tool1$data |> select( Site_Visit_ID, C1.tool1 = C1),  by = "Site_Visit_ID") |>
+    filter(D1 != C1.tool1) |>
     mutate(
-      Issue = "The number of Shifts in tool 2 Question D1 is inconsistent with Tool1 - Shifts Details Sheet for Total Running Shifts!",
+      Issue = "The shift types differs between tool 2 and tool 1!",
       Question = "D1",
       Old_value = D1,
-      Related_question ="", #"Total Running Shift (Tool 1 - Shifts_Detail Sheet)",
-      Related_value = total_running_shifts
+      Related_question ="C1 (Tool 1)",
+      Related_value = C1.tool1
     ) |>
     select(
       all_of(meta_cols),
