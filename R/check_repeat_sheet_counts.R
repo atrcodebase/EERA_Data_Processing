@@ -135,7 +135,10 @@ repeat_sheet_issues <- rbind(
     # 9 -- Should be disscused
     # compare_row_counts(
     #   supposed_count_df = select(clean_data.tool1$data, supposed_row_count = School_rep, KEY),
-    #   child_df = clean_data.tool1$Grades_Curriculum,
+    #   child_df = clean_data.tool1$Grades_Curriculum |> 
+    #     left_join(clean_data.tool1$Curriculum_Changes |>
+    #                 select(F1, PARENT_KEY = KEY), by = "PARENT_KEY") |>
+    #     filter(F1 == 1),
     #   child_sheet_name = "Grades_Curriculum"
     # ) |> mutate(Row_count_from_tab = "data", Row_count_column_name = "School_rep"),
     # 10
@@ -146,7 +149,7 @@ repeat_sheet_issues <- rbind(
     ) |> mutate(Row_count_from_tab = "data", Row_count_column_name = "subject_detail_counter"),
     # 11
     compare_row_counts(
-      supposed_count_df = select(clean_data.tool1$data |> mutate(education_quality_counter = 10), supposed_row_count = education_quality_counter, KEY),
+      supposed_count_df = select(clean_data.tool1$data |> filter(A34 %in% c(1,2,3,4,"1","2","3","4")) |> mutate(education_quality_counter = 10), supposed_row_count = education_quality_counter, KEY),
       child_df = clean_data.tool1$Education_Quality,
       child_sheet_name = "Education_Quality"
     ) |> mutate(Row_count_from_tab = "data", Row_count_column_name = "education_quality_counter")
@@ -199,6 +202,7 @@ repeat_sheet_issues <- rbind(
     compare_row_counts(
       supposed_count_df = select(clean_data.tool2$data |> mutate(H5_value_count = case_when(
         is.na(H5) | str_trim(H5) == "" ~ 0,
+        str_detect(H5, "8888") ~ (str_count(H5, " ")),
         TRUE ~ (str_count(H5, " ")+1)
       )), supposed_row_count = H5_value_count, KEY),
       child_df = clean_data.tool2$Public_Stationary_Kit_Group,
@@ -206,7 +210,7 @@ repeat_sheet_issues <- rbind(
     ) |> mutate(Row_count_from_tab = "data", Row_count_column_name = "H5"),
     # 4
     compare_row_counts(
-      supposed_count_df = select(clean_data.tool2$data |> mutate(i5_value_count = case_when(
+      supposed_count_df = select(clean_data.tool2$data |> filter(i1 == 1) |> mutate(i5_value_count = case_when(
         is.na(i5) | str_trim(i5) == "" ~ 0,
         TRUE ~ (str_count(i5, " ")+1)
         )), supposed_row_count = i5_value_count, KEY),
@@ -217,6 +221,7 @@ repeat_sheet_issues <- rbind(
     compare_row_counts(
       supposed_count_df = select(clean_data.tool2$data |> mutate(J5_value_count = case_when(
         is.na(J5) | str_trim(J5) == "" ~ 0,
+        str_detect(J5, "8888") ~ (str_count(J5, " ")),
         TRUE ~ (str_count(J5, " ")+1)
       )), supposed_row_count = J5_value_count, KEY),
       child_df = clean_data.tool2$Students_Pack_Group,
@@ -322,8 +327,9 @@ repeat_sheet_issues <- rbind(
     ) |> mutate(Row_count_from_tab = "data", Row_count_column_name = "D9"),
     # 3
     compare_row_counts(
-      supposed_count_df = select(clean_data.tool4$data |> mutate(F12_Subjects_Not_Being_Taught_value_count = case_when(
+      supposed_count_df = select(clean_data.tool4$data |> filter(F11 == 1) |> mutate(F12_Subjects_Not_Being_Taught_value_count = case_when(
         is.na(F12_Subjects_Not_Being_Taught) | str_trim(F12_Subjects_Not_Being_Taught) == "" ~ 0,
+        str_detect(F12_Subjects_Not_Being_Taught, "8888") ~ (str_count(F12_Subjects_Not_Being_Taught, " ")),
         TRUE ~ (str_count(F12_Subjects_Not_Being_Taught, " ")+1)
       )), KEY, supposed_row_count = F12_Subjects_Not_Being_Taught_value_count),
       child_df = clean_data.tool4$Subjects_Not_Being_Taught,
