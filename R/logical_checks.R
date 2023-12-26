@@ -14,7 +14,7 @@ library(glue)
 #   pull(other_sifts) |> 
 #   unique()
   
-lc_tool1 <- rbind(
+lc_tool1 <- plyr::rbind.fill(
   # Flagging interview conducted before the first day of data collection
   clean_data.tool1$data |>
     filter(starttime < janitor::convert_to_date(data_collection_start_date_ps)) |> 
@@ -647,7 +647,7 @@ lc_tool1 <- rbind(
 ) |> mutate(tool = "Tool 1 - Headmaster", sheet = "data")
 
 
-lc_tool1.school_operationality <- rbind(
+lc_tool1.school_operationality <- plyr::rbind.fill(
   # Flagging if Grade ID is blank
   clean_data.tool1$School_Operationality |>
     filter(is.na(Grade_ID) | Grade_ID == "") |> 
@@ -810,7 +810,7 @@ lc_tool1.school_operationality <- rbind(
 ) |> mutate(tool = "Tool 1 - Headmaster", sheet = "School_Operationality", Old_value = as.character(Old_value))
 
 
-lc_tool1.school_operationality_other <- rbind(
+lc_tool1.school_operationality_other <- plyr::rbind.fill(
   # Flagging if It is reported that Grade's classes are running for both Girls and Boys which is differed with Sampling information.
   clean_data.tool1$School_Operationality_Other_... |>
     filter(C13A7 == "Both" & School_CBE_Gender_Based_On_The_Sample != "Mixed") |>
@@ -873,7 +873,7 @@ lc_tool1.school_operationality_other <- rbind(
 ) |> mutate(tool = "Tool 1 - Headmaster", sheet = "School_Operationality_Other_...", Old_value = as.character(Old_value))
 
 
-lc_tool1.school_ope_both <- rbind(
+lc_tool1.school_ope_both <- plyr::rbind.fill(
   
   # Flagging if Duplicated Grade/s (Already reported in Operationality Sheet) reported in School Operationality Other
   bind_rows(
@@ -922,7 +922,7 @@ lc_tool1.school_ope_both <- rbind(
   
 )
 
-lc_tool1.shift <- rbind(
+lc_tool1.shift <- plyr::rbind.fill(
   # Flagging if Grade ID is blank
   clean_data.tool1$Shifts_Detail |>
     filter(is.na(Shift_ID) | Shift_ID == "") |> 
@@ -1025,7 +1025,7 @@ lc_tool1.shift <- rbind(
   
 )  |> mutate(tool = "Tool 1 - Headmaster", sheet = "Shifts_Detail", Old_value = as.character(Old_value))
 
-lc_tool1.shift_other <- rbind(
+lc_tool1.shift_other <- plyr::rbind.fill(
   # Flagging if Grade ID is blank
   clean_data.tool1$Other_Shifts_Detail |>
      filter(is.na(Shift_name) | Shift_name == "") |> 
@@ -1089,7 +1089,7 @@ lc_tool1.shift_other <- rbind(
 ) |> mutate(tool = "Tool 1 - Headmaster", sheet = "Other_Shifts_Detail", Old_value = as.character(Old_value))
 
 
-lc_tool1.shift_both <- rbind(
+lc_tool1.shift_both <- plyr::rbind.fill(
   # Flagging if Duplicated Shift/s (Already reported in Shifts_Details Sheet) reported in Other_Shifts_Detail
   bind_rows(
     clean_data.tool1$Shifts_Detail |>
@@ -1160,7 +1160,7 @@ shifts_and_operationality <- clean_data.tool1$Shifts_Detail |>
     , by = "Site_Visit_ID" ) |>
   filter(is_operational == "No")
 
-lc_tool1.shift_operationality_and_other <- rbind(
+lc_tool1.shift_operationality_and_other <- plyr::rbind.fill(
   # Flagging if a not operational grade is reported for the shift
   # Grade 1
   if("grade_1" %in% names(shifts_and_operationality)){
@@ -1439,7 +1439,7 @@ shifts_other_and_operationality <- clean_data.tool1$Other_Shifts_Detail |>
   filter(is_operational == "No")
 
 
-lc_tool1.shift_other_operationality_and_other <- rbind(
+lc_tool1.shift_other_operationality_and_other <- plyr::rbind.fill(
   # Flagging if a not operational grade is reported for the shift
   # Grade 1
   if("grade_1" %in% names(shifts_other_and_operationality)){
@@ -1735,7 +1735,7 @@ headmaster_not_exist_grades <- clean_data.tool1$Headmasters |>
     , by = "Site_Visit_ID" )
 
 
-lc_tool1.headmaster_operationality_and_other <- rbind(
+lc_tool1.headmaster_operationality_and_other <- plyr::rbind.fill(
   # Flagging if a not operational grade is reported for the shift
   # Grade 1
     headmaster_and_operationality |>
@@ -2200,7 +2200,7 @@ lc_tool1.headmaster_operationality_and_other <- rbind(
 ) |> mutate(tool = "Tool 1 - Headmaster", sheet = "Headmasters", Old_value = as.character(Old_value))
 
 # Logging issues in Tool 2 ------------------------------------------------
-lc_tool2 <- rbind(
+lc_tool2 <- plyr::rbind.fill(
   # Flagging interview conducted before the first day of data collection
   clean_data.tool2$data |>
     filter(starttime < janitor::convert_to_date(data_collection_start_date_ps)) |> 
@@ -2556,7 +2556,7 @@ lc_tool2 <- rbind(
   mutate(tool = "Tool 2 - Light", sheet = "data", Old_value = as.character(Old_value))
 
 # Logging issues in Tool 3 ------------------------------------------------
-lc_tool3 <- rbind(
+lc_tool3 <- plyr::rbind.fill(
   # Flagging interview conducted before the first day of data collection
   clean_data.tool3$data |>
     filter(starttime < janitor::convert_to_date(data_collection_start_date_ps)) |> 
@@ -2894,7 +2894,7 @@ lc_tool3 <- rbind(
 
 
 # Logging issues in Tool 4 ------------------------------------------------
-lc_tool4 <- rbind(
+lc_tool4 <- plyr::rbind.fill(
   # Flagging interview conducted before the first day of data collection
   clean_data.tool4$data |>
     filter(starttime < janitor::convert_to_date(data_collection_start_date_ps)) |> 
@@ -3006,7 +3006,7 @@ lc_tool4 <- rbind(
 
 
 # Logging issues in Tool 5 ------------------------------------------------
-lc_tool5 <- rbind(
+lc_tool5 <- plyr::rbind.fill(
   # Flagging interview conducted before the first day of data collection
   clean_data.tool5$data |>
     filter(starttime < janitor::convert_to_date(data_collection_start_date_cbe)) |> 
@@ -3147,7 +3147,7 @@ lc_tool5 <- rbind(
   mutate(tool = "Tool 5 - WASH", sheet = "data", Old_value = as.character(Old_value))
 
 # Logging issues in Tool 6 ------------------------------------------------
-lc_tool6 <- rbind(
+lc_tool6 <- plyr::rbind.fill(
   # Flagging interview conducted before the first day of data collection - Public School
   clean_data.tool6$data |>
     filter(Sample_Type == "Public School" & starttime < janitor::convert_to_date(data_collection_start_date_ps)) |> 
@@ -3574,7 +3574,7 @@ lc_tool6 <- rbind(
 
 # Logging issues in Tool 7 ------------------------------------------------
 # Flagging interview conducted before the first day of data collection - Public School
-lc_tool7 <- rbind(
+lc_tool7 <- plyr::rbind.fill(
   clean_data.tool7$data |>
     filter(Sample_Type == "Public School" & starttime < janitor::convert_to_date(data_collection_start_date_ps)) |> 
     mutate(
@@ -3837,7 +3837,7 @@ lc_tool7 <- rbind(
   mutate(tool = "Tool 7 - Shura", sheet = "data", Old_value = as.character(Old_value))
 
 
-lc_tool7.list_members <- rbind(
+lc_tool7.list_members <- plyr::rbind.fill(
   # Flagging if number the sum of Male and Female for the shura postion is reported 0 or less
   clean_data.tool7$C6_list_members |>
     filter(C6_Number_Male + C6_Number_Female <= 0) |>
@@ -3863,7 +3863,7 @@ lc_tool7.list_members <- rbind(
 
 # Logging issues in Tool 8 ------------------------------------------------
 
-lc_tool8 <- rbind(
+lc_tool8 <- plyr::rbind.fill(
   # Flagging interview conducted before the first day of data collection
   clean_data.tool8$data |>
     filter(starttime < janitor::convert_to_date(data_collection_start_date_cbe)) |> 
@@ -4219,7 +4219,7 @@ lc_tool8 <- rbind(
 ) |> 
   mutate(tool = "Tool 8 - Class", sheet = "data", Old_value = as.character(Old_value))
 
-lc_tool8.classes <- rbind(
+lc_tool8.classes <- plyr::rbind.fill(
   # Flagging if Selected Class Type does not match with Class Type in the main Sheet
   clean_data.tool8$Classes |>
     left_join( select(clean_data.tool8$data, D7.main_sheet = D7, KEY), by = c("PARENT_KEY" = "KEY")) |>
@@ -4264,7 +4264,7 @@ lc_tool8.classes <- rbind(
 ) |> 
   mutate(tool = "Tool 8 - Class", sheet = "Classes", Old_value = as.character(Old_value))
 
-lc_tool8.attendance_record <- rbind(
+lc_tool8.attendance_record <- plyr::rbind.fill(
   # Flagging if The date for the attendance sheet equal to the interview date is confirmed, but also there is a difference between those dates
   clean_data.tool8$Section_2_2_3_Attendance_Rec... |>
     filter(E21 == "Yes" & janitor::convert_to_date(E20) != janitor::convert_to_date(starttime)) |>
@@ -4287,7 +4287,7 @@ lc_tool8.attendance_record <- rbind(
 ) |> 
   mutate(tool = "Tool 8 - Class", sheet = "Section_2_2_3_Attendance_Rec...", Old_value = as.character(Old_value))
 
-lc_tool8.headcount <- rbind(
+lc_tool8.headcount <- plyr::rbind.fill(
   #Flag if The school gender is female based on sample but headcount male students is reported more than 0
   clean_data.tool8$Section_2_2_4_Headcount |>
     filter(Headcount_Male_Students > 0 & School_CBE_Gender_Based_On_The_Sample == "Girls") |>
@@ -4368,7 +4368,7 @@ lc_tool8.headcount <- rbind(
   mutate(tool = "Tool 8 - Class", sheet = "Section_2_2_4_Headcount", Old_value = as.character(Old_value))
 
 
-lc_tool8.v_list_member <- rbind(
+lc_tool8.v_list_member <- plyr::rbind.fill(
   # Flagging if the sum of both Male and Female members is reported 0
   clean_data.tool8$V_list_of_all_members |>
     filter((V_Male_Member + V_Female_Member) <= 0) |>
@@ -4394,7 +4394,7 @@ lc_tool8.v_list_member <- rbind(
 
 
 # Logging issues in Tool 9 ------------------------------------------------
-lc_tool9 <- rbind(
+lc_tool9 <- plyr::rbind.fill(
   # Flagging interview conducted before the first day of data collection
   clean_data.tool9$data |>
     filter(starttime < janitor::convert_to_date(data_collection_start_date_cbe)) |> 
@@ -4479,7 +4479,7 @@ lc_tool9 <- rbind(
   mutate(tool = "Tool 9 - IP", sheet = "data", Old_value = as.character(Old_value))
 
 # Combination of all tools logic checks --------------------------------------
-Logic_check_result <- rbind(
+Logic_check_result <- plyr::rbind.fill(
   lc_tool1,
   lc_tool1.school_operationality,
   lc_tool1.school_operationality_other,
