@@ -263,7 +263,7 @@ source("R/calculate_cols_check.R") ## Double-check
 
 
 # Outlier Check ----------------------------------------------------------- DONE
-# source("R/check_outliers.R") ## Double-check
+source("R/check_outliers.R") ## Double-check
 
 
 # Compare Number of Interviews with Sample -------------------------------- DONE
