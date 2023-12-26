@@ -1434,4 +1434,4 @@ logic_check_data_entry_final <- rbind(
   # filter(Related_value != c(6666, "6666"))
   
 
-rm(list = ls(pattern = "lc_*"))
+# rm(list = ls("lc_tool_data_entry", "lc_DE_tool3.grades_repeat", "lc_DE_tool3.class_attendance", "lc_DE_tool3.headcount", "lc_DE_tool3.n_classes_repeat", "lc_tool1.timetable_year"))
