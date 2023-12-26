@@ -248,14 +248,15 @@ tool9_image_vars = c(
 
 photo_qaed_values <- c("Checked & Verified", "Checked - Irrelevant Photo", "Checked - Blur/Not Visible Photo", "Checked - Date Not Specified In The Photo", "Checked - Incomplete Information",
                        "Checked - Date Not Specified In The Photo;Checked - Incomplete Information", "Checked - Incomplete Information;Checked - Schedule Not Available For Some Grades",
-                       "Checked - Date Not Specified In The Photo;Checked - Schedule Not Available For Some Grades", "Checked - Different Date In The Photo", "Checked - Document With No Signature"
+                       "Checked - Date Not Specified In The Photo;Checked - Schedule Not Available For Some Grades", "Checked - Different Date In The Photo", "Checked - Document With No Signature",
+                       "No_photo_received_from_the_field_during_first_days_of_data_collection"
                        )
 
 # Checking QA's comments --------------------------------------------------
 missing_qa <- rbind(
   # Tool 1
   rbind(
-    missing_qa_func(clean_data.tool1$data,tool1_image_vars), # Should be double-checked
+    missing_qa_func(data = clean_data.tool1$data,obj_cols =  tool1_image_vars), # Should be double-checked
     missing_qa_func(clean_data.tool1$Weekly_Class_Schedule, tool1_image_vars),
     missing_qa_func(clean_data.tool1$Relevant_photos, tool1_image_vars)
   ) %>% 
@@ -347,6 +348,9 @@ unique(missing_qa$old_value)
 table(missing_qa$old_value)
 
 # Checking the audio descriptions -----------------------------------------
+audio_qaed_values <- c("No_audio_received_from_the_field", "Translation_is_from_a_callback", "No_audio_received_from_the_field/Translation_is_from_a_callback")
+
+
 tool1.audio_vars = c(
   "B12_Translation" = "B12",
   "B14_Translation" = "B14",
@@ -434,7 +438,7 @@ tool9.audio_vars = c(
 missing_audio_description <- rbind(
   # Tool 1
   rbind(
-    missing_qa_func(clean_data.tool1$data, obj_cols = tool1.audio_vars)
+    missing_qa_func(data = clean_data.tool1$data, obj_cols = tool1.audio_vars)
   ) |> 
     mutate(tool = "Tool 1 - Headmaster", Sample_Type = "Public School"),
   
@@ -487,8 +491,7 @@ missing_audio_description <- rbind(
     mutate(tool = "Tool 9 - IP", Sample_Type = "CBE")
 ) |>
   mutate(Type = "Audio") |>
-  filter(old_value == "" | is.na(old_value) | old_value == "NO CLEAR VOICE" | old_value == "No_audio_received_from_the_field" | old_value == "Translation_is_from_a_callback" |
-           old_value == "No_audio_received_from_the_field/Translation_is_from_a_callback")
+  filter((old_value == "" | is.na(old_value)) | old_value %in% c("NO CLEAR VOICE") | link %in% audio_qaed_values)
 
 
 missing_qa <-  rbind(
