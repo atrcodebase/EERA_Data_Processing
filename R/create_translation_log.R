@@ -1,9 +1,9 @@
 source("R/functions/missing_translation_function.R")
 
 # Find missing translations to add in the translation log -----------------
-missing_translations <- bind_rows(
+missing_translations <- plyr::rbind.fill(
   ## Tool 0
-  bind_rows(
+  plyr::rbind.fill(
     missing_translation_func(clean_data.tool0$data) |> mutate(Tab_name = "data"),
     missing_translation_func(clean_data.tool0$Tool3_Grades_Repeat) |> mutate(Tab_name = "Tool3_Grades_Repeat"),
     missing_translation_func(clean_data.tool0$Tool3_Class_Attendance) |> mutate(Tab_name = "Tool3_Class_Attendance"),
@@ -17,7 +17,7 @@ missing_translations <- bind_rows(
   ) |>
     mutate(tool = "Tool 0 - Data Entry", Sample_Type = "", .before = question_name),
   ## Tool 1
-  bind_rows(
+  plyr::rbind.fill(
     missing_translation_func(clean_data.tool1$data) |> mutate(Tab_Name = "data"),
     missing_translation_func(clean_data.tool1$Support_Respondents) |> mutate(Tab_Name = "Support_Respondents"),
     missing_translation_func(clean_data.tool1$School_Operationality) |> mutate(Tab_Name = "School_Operationality"),
@@ -35,7 +35,7 @@ missing_translations <- bind_rows(
     mutate(tool = "Tool 1 - Headmaster", Sample_Type = "Public School", .before = question_name),
   
   ## Tool 2
-  bind_rows(
+  plyr::rbind.fill(
     missing_translation_func(clean_data.tool2$data) |> mutate(Tab_Name = "data"),
     missing_translation_func(clean_data.tool2$Support_Respondents) |> mutate(Tab_Name = "Support_Respondents"),
     missing_translation_func(clean_data.tool2$Attendance_Sheet_Photos) |> mutate(Tab_Name = "Attendance_Sheet_Photos"),
@@ -47,7 +47,7 @@ missing_translations <- bind_rows(
     mutate(tool = "Tool 2 - Light", Sample_Type = "Public School", .before = question_name),
   
   ## Tool 3
-  bind_rows(
+  plyr::rbind.fill(
     missing_translation_func(clean_data.tool3$data) |> mutate(Tab_Name = "data"),
     missing_translation_func(clean_data.tool3$Support_Respondents) |> mutate(Tab_Name = "Support_Respondents"),
     missing_translation_func(clean_data.tool3$Enrollement_Attendance_Summary) |> mutate(Tab_Name = "Enrollement_Attendance_Summary"),
@@ -60,7 +60,7 @@ missing_translations <- bind_rows(
     mutate(tool = "Tool 3 - Headcount", Sample_Type = "Public School", .before = question_name),
   
   ## Tool 4
-  bind_rows(
+  plyr::rbind.fill(
     missing_translation_func(clean_data.tool4$data) |> mutate(Tab_Name = "data"),
     missing_translation_func(clean_data.tool4$Additional_Subjects) |> mutate(Tab_Name = "Additional_Subjects"),
     missing_translation_func(clean_data.tool4$Subjects_taught_by_this_teacher) |> mutate(Tab_Name = "Subjects_taught_by_this_teacher"),
@@ -70,7 +70,7 @@ missing_translations <- bind_rows(
     mutate(tool = "Tool 4 - Teacher", Sample_Type = "Public School", .before = question_name),
 
   ## Tool 5
-  bind_rows(
+  plyr::rbind.fill(
     missing_translation_func(clean_data.tool5$data) |> mutate(Tab_Name = "data"),
     missing_translation_func(clean_data.tool5$Under_Construction_Toilets) |> mutate(Tab_Name = "Under_Construction_Toilets"),
     missing_translation_func(clean_data.tool5$Useable_Toilets) |> mutate(Tab_Name = "Useable_Toilets"),
@@ -80,7 +80,7 @@ missing_translations <- bind_rows(
     mutate(tool = "Tool 5 - WASH", Sample_Type = "Public School", .before = question_name),
 
   ## Tool 6
-  bind_rows(
+  plyr::rbind.fill(
     missing_translation_func(clean_data.tool6$data) |> mutate(Tab_Name = "data") |> 
       left_join(clean_data.tool6$data |> select(KEY, Sample_Type), by = "KEY"),
     
@@ -94,7 +94,7 @@ missing_translations <- bind_rows(
     select(tool, Sample_Type, everything()),
 
   ## Tool 7
-  bind_rows(
+  plyr::rbind.fill(
     missing_translation_func(clean_data.tool7$data) |> mutate(Tab_Name = "data") |> 
       left_join(clean_data.tool7$data |> select(KEY, Sample_Type), by = "KEY"),
     
@@ -114,7 +114,7 @@ missing_translations <- bind_rows(
     select(tool, Sample_Type, everything()),
 
   ## Tool 8
-  bind_rows(
+  plyr::rbind.fill(
     missing_translation_func(clean_data.tool8$data) |> mutate(Tab_Name = "data"),
     missing_translation_func(clean_data.tool8$Classes) |> mutate(Tab_Name = "Classes"),
     missing_translation_func(clean_data.tool8$Adults_At_The_CBE) |> mutate(Tab_Name = "Adults_At_The_CBE"),
@@ -132,7 +132,7 @@ missing_translations <- bind_rows(
     mutate(tool = "Tool 8 - Class", Sample_Type = "CBE", .before = question_name),
   
   ## Tool 9
-  bind_rows(
+  plyr::rbind.fill(
     missing_translation_func(clean_data.tool9$data) |> mutate(Tab_Name = "data"),
     missing_translation_func(clean_data.tool9$Relevant_photos) |> mutate(Tab_Name = "Relevant_photos")
   ) |>
@@ -140,7 +140,7 @@ missing_translations <- bind_rows(
 )
 ## Tool 0
 for(sheet in names(clean_data.tool0)){
-  missing_translations <- bind_rows(
+  missing_translations <- plyr::rbind.fill(
     missing_translations,
     missing_translation_func(clean_data.tool0[[sheet]]) %>% 
       mutate(Tab_Name = sheet, tool = "Data Entry Tool", Sample_Type = "Public School", .before = question_name)
@@ -273,9 +273,9 @@ missing_translations <- missing_translations |>
 
 
 # double check unlogged translations --------------------------------------
-un_logged_values <- bind_rows(
+un_logged_values <- plyr::rbind.fill(
   ## Tool 0
-  bind_rows(
+  plyr::rbind.fill(
     log_translation_cols(clean_data.tool0$data, need_translation) |> mutate(Tab_name = "data"),
     # log_translation_cols(clean_data.tool0$Tool3_Grades_Repeat, need_translation) |> mutate(Tab_name = "Tool3_Grades_Repeat"),
     log_translation_cols(clean_data.tool0$Tool3_Class_Attendance, need_translation) |> mutate(Tab_name = "Tool3_Class_Attendance"),
@@ -290,7 +290,7 @@ un_logged_values <- bind_rows(
     mutate(tool = "Tool 0 - Data Entry", .before = question_name),
   
   ## Tool 1
-  bind_rows(
+  plyr::rbind.fill(
     log_translation_cols(clean_data.tool1$data |> select(-C10), need_translation) |> mutate(Tab_Name = "data"),
     log_translation_cols(clean_data.tool1$Support_Respondents, need_translation) |> mutate(Tab_Name = "Support_Respondents"),
     log_translation_cols(clean_data.tool1$School_Operationality, need_translation) |> mutate(Tab_Name = "School_Operationality"),
@@ -308,7 +308,7 @@ un_logged_values <- bind_rows(
     mutate(tool = "Tool 1 - Headmaster", .before = question_name),
   
   ## Tool 2
-  bind_rows(
+  plyr::rbind.fill(
     log_translation_cols(clean_data.tool2$data |> select(-C10), need_translation) |> mutate(Tab_Name = "data"),
     log_translation_cols(clean_data.tool2$Support_Respondents, need_translation) |> mutate(Tab_Name = "Support_Respondents"),
     log_translation_cols(clean_data.tool2$Attendance_Sheet_Photos, need_translation),
@@ -320,7 +320,7 @@ un_logged_values <- bind_rows(
     mutate(tool = "Tool 2 - Light", .before = question_name),
   
   ## Tool 3
-  bind_rows(
+  plyr::rbind.fill(
     log_translation_cols(clean_data.tool3$data |> select(-B2), need_translation) |> mutate(Tab_Name = "data"),
     log_translation_cols(clean_data.tool3$Support_Respondents, need_translation) |> mutate(Tab_Name = "Support_Respondents"),
     log_translation_cols(clean_data.tool3$Grade_Details, need_translation),
@@ -333,7 +333,7 @@ un_logged_values <- bind_rows(
     mutate(tool = "Tool 3 - Headcount", .before = question_name),
   
   ## Tool 4
-  bind_rows(
+  plyr::rbind.fill(
     log_translation_cols(clean_data.tool4$data, need_translation) |> mutate(Tab_Name = "data"),
     log_translation_cols(clean_data.tool4$Additional_Subjects, need_translation),
     log_translation_cols(clean_data.tool4$Subjects_taught_by_this_teacher, need_translation) |> mutate(Tab_Name = "Subjects_taught_by_this_teacher"),
@@ -343,7 +343,7 @@ un_logged_values <- bind_rows(
     mutate(tool = "Tool 4 - Teacher", .before = question_name),
 
   ## Tool 5
-  bind_rows(
+  plyr::rbind.fill(
     log_translation_cols(clean_data.tool5$data |> select(-C10, -C8_1, -C8_2), need_translation) |> mutate(Tab_Name = "data"),
     log_translation_cols(clean_data.tool5$Under_Construction_Toilets, need_translation),
     log_translation_cols(clean_data.tool5$Useable_Toilets, need_translation),
@@ -353,7 +353,7 @@ un_logged_values <- bind_rows(
     mutate(tool = "Tool 5 - WASH", .before = question_name),
   
   ## Tool 6
-  bind_rows(
+  plyr::rbind.fill(
     log_translation_cols(clean_data.tool6$data |> select(-F9, -C8_1, -C8_2), need_translation) |> mutate(Tab_Name = "data"),
     log_translation_cols(clean_data.tool6$Subjects_Added, need_translation),
     log_translation_cols(clean_data.tool6$Relevant_photos, need_translation)
@@ -361,7 +361,7 @@ un_logged_values <- bind_rows(
     mutate(tool = "Tool 6 - Parent", .before = question_name),
   
   ## Tool 7
-  bind_rows(
+  plyr::rbind.fill(
     log_translation_cols(clean_data.tool7$data |> mutate(E10_Other = as.character(E10_Other)) |> select(-C10), need_translation) |> mutate(Tab_Name = "data"),
     log_translation_cols(clean_data.tool7$C6_list_members, need_translation),
     log_translation_cols(clean_data.tool7$Subjects_Added, need_translation),
@@ -370,7 +370,7 @@ un_logged_values <- bind_rows(
     mutate(tool = "Tool 7 - Shura", .before = question_name),
   
   ## Tool 8
-  bind_rows(
+  plyr::rbind.fill(
     log_translation_cols(clean_data.tool8$data |> select(-C10), need_translation) |> mutate(Tab_Name = "data"),
     log_translation_cols(clean_data.tool8$Classes, need_translation),
     log_translation_cols(clean_data.tool8$Adults_At_The_CBE, need_translation) |> mutate(Tab_Name = "Adults_At_The_CBE"),
@@ -388,7 +388,7 @@ un_logged_values <- bind_rows(
     mutate(tool = "Tool 8 - Class", .before = question_name),
   
   ## Tool 9
-  bind_rows(
+  plyr::rbind.fill(
     log_translation_cols(clean_data.tool9$data |> select(-B2, -A2), need_translation) |> mutate(Tab_Name = "data"),
     log_translation_cols(clean_data.tool9$Relevant_photos, need_translation)
   ) |>
