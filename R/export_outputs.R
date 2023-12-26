@@ -12,16 +12,74 @@ write.xlsx(clean_data.tool8, paste0(output_data_path, "cleaned_dfs/unsterilized/
 write.xlsx(clean_data.tool9, paste0(output_data_path, "cleaned_dfs/unsterilized/Tool9_EERA_CBE_IP_Level_Tool_", Sys.Date(),".xlsx"))
 
 # Exporting unsterilized version of clean datasets -----------------------------
-write.xlsx(clean_data.tool0_ulabeled, paste0(output_data_path, "cleaned_dfs/cleaned_data/EERA_Public_SchoolCBE_Data_Entry_Tool_", Sys.Date(),".xlsx"))
-write.xlsx(clean_data.tool1_ulabeled, paste0(output_data_path, "cleaned_dfs/cleaned_data/Tool1_EERA_Public_School_Headmaster_Interview_cleaned_", Sys.Date(),".xlsx"))
-write.xlsx(clean_data.tool2_ulabeled, paste0(output_data_path, "cleaned_dfs/cleaned_data/Tool2_EERA_Public_School_Light_Tool_", Sys.Date(),".xlsx"))
-write.xlsx(clean_data.tool3_ulabeled, paste0(output_data_path, "cleaned_dfs/cleaned_data/Tool3_EERA_Public_School_Student_Document_Headcount_", Sys.Date(),".xlsx"))
-write.xlsx(clean_data.tool4_ulabeled, paste0(output_data_path, "cleaned_dfs/cleaned_data/Tool4_EERA_Public_School_Teacher_Tool_", Sys.Date(),".xlsx"))
-write.xlsx(clean_data.tool5_ulabeled, paste0(output_data_path, "cleaned_dfs/cleaned_data/Tool5_EERA_Public_School_WASH_Observation_", Sys.Date(),".xlsx"))
-write.xlsx(clean_data.tool6_ulabeled, paste0(output_data_path, "cleaned_dfs/cleaned_data/Tool6_EERA_Public_School_Parent_Tool_", Sys.Date(),".xlsx"))
-write.xlsx(clean_data.tool7_ulabeled, paste0(output_data_path, "cleaned_dfs/cleaned_data/Tool7_EERA_Public_School_Shura_Tool_", Sys.Date(),".xlsx"))
-write.xlsx(clean_data.tool8_ulabeled, paste0(output_data_path, "cleaned_dfs/cleaned_data/Tool8_EERA_CBE_Class_Level_Tool_", Sys.Date(),".xlsx"))
-write.xlsx(clean_data.tool9_ulabeled, paste0(output_data_path, "cleaned_dfs/cleaned_data/Tool9_EERA_CBE_IP_Level_Tool_", Sys.Date(),".xlsx"))
+write.xlsx(clean_data.tool0_for_client_ulabeled, paste0(output_data_path, "cleaned_dfs/cleaned_data/EERA_Public_SchoolCBE_Data_Entry_Tool_Unlabeled_", Sys.Date(),".xlsx"))
+write.xlsx(clean_data.tool1_for_client_ulabeled, paste0(output_data_path, "cleaned_dfs/cleaned_data/Tool1_EERA_Public_School_Headmaster_Interview_cleaned_Unlabeled__", Sys.Date(),".xlsx"))
+write.xlsx(clean_data.tool2_for_client_ulabeled, paste0(output_data_path, "cleaned_dfs/cleaned_data/Tool2_EERA_Public_School_Light_Tool_Unlabeled__", Sys.Date(),".xlsx"))
+write.xlsx(clean_data.tool3_for_client_ulabeled, paste0(output_data_path, "cleaned_dfs/cleaned_data/Tool3_EERA_Public_School_Student_Document_Headcount_Unlabeled__", Sys.Date(),".xlsx"))
+write.xlsx(clean_data.tool4_for_client_ulabeled, paste0(output_data_path, "cleaned_dfs/cleaned_data/Tool4_EERA_Public_School_Teacher_Tool_Unlabeled__", Sys.Date(),".xlsx"))
+write.xlsx(clean_data.tool5_for_client_ulabeled, paste0(output_data_path, "cleaned_dfs/cleaned_data/Tool5_EERA_Public_School_WASH_Observation_Unlabeled__", Sys.Date(),".xlsx"))
+
+# Public School
+clean_data.tool6_PS_for_client_ulabeled <- clean_data.tool6_for_client_ulabeled
+clean_data.tool6_PS_for_client_ulabeled$data <- clean_data.tool6_PS_for_client_ulabeled$data |>
+  filter(Sample_Type == "Public School")
+
+clean_data.tool6_PS_for_client_ulabeled$Subjects_Added <- clean_data.tool6_PS_for_client_ulabeled$Subjects_Added |>
+  filter(Sample_Type == "Public School")
+
+clean_data.tool6_PS_for_client_ulabeled$Relevant_photos <- clean_data.tool6_PS_for_client_ulabeled$Relevant_photos |>
+  filter(Sample_Type == "Public School")
+
+write.xlsx(clean_data.tool6_PS_for_client_ulabeled, paste0(output_data_path, "cleaned_dfs/cleaned_data/Tool6_EERA_Public_School_Parent_Tool_Public_School_Unlabeled_", Sys.Date(),".xlsx"))
+
+# CBE
+clean_data.tool6_CBE_for_client_ulabeled <- clean_data.tool6_for_client_ulabeled
+clean_data.tool6_CBE_for_client_ulabeled$data <- clean_data.tool6_CBE_for_client_ulabeled$data |>
+  filter(Sample_Type == "CBE")
+
+clean_data.tool6_CBE_for_client_ulabeled$Subjects_Added <- clean_data.tool6_CBE_for_client_ulabeled$Subjects_Added |>
+  filter(Sample_Type == "CBE")
+
+clean_data.tool6_CBE_for_client_ulabeled$Relevant_photos <- clean_data.tool6_CBE_for_client_ulabeled$Relevant_photos |>
+  filter(Sample_Type == "CBE")
+
+write.xlsx(clean_data.tool6_CBE_for_client_ulabeled, paste0(output_data_path, "cleaned_dfs/cleaned_data/Tool6_EERA_Public_School_Parent_Tool_CBE_Unlabeled_", Sys.Date(),".xlsx"))
+# write.xlsx(clean_data.tool6_for_client_ulabeled, paste0(output_data_path, "cleaned_dfs/cleaned_data/Tool6_EERA_Public_School_Parent_Tool_Unlabeled__", Sys.Date(),".xlsx"))
+
+# Public School
+clean_data.tool7_PS_for_client_ulabeled <- clean_data.tool7_for_client_ulabeled
+clean_data.tool7_PS_for_client_ulabeled$data <- clean_data.tool7_PS_for_client_ulabeled$data |>
+  filter(Sample_Type == "Public School")
+
+clean_data.tool7_PS_for_client_ulabeled$C6_list_members <- clean_data.tool7_PS_for_client_ulabeled$C6_list_members |>
+  filter(Sample_Type == "Public School")
+
+clean_data.tool7_PS_for_client_ulabeled$Subjects_Added <- clean_data.tool7_PS_for_client_ulabeled$Subjects_Added |>
+  filter(Sample_Type == "Public School")
+
+clean_data.tool7_PS_for_client_ulabeled$Relevant_photos <- clean_data.tool7_PS_for_client_ulabeled$Relevant_photos |>
+  filter(Sample_Type == "Public School")
+
+write.xlsx(clean_data.tool7_PS_for_client_ulabeled, paste0(output_data_path, "cleaned_dfs/cleaned_data/Tool7_EERA_Public_School_Shura_Tool_Public_School_Unlabeled_", Sys.Date(),".xlsx"))
+
+# CBE
+clean_data.tool7_CBE_for_client_ulabeled <- clean_data.tool7_for_client_ulabeled
+clean_data.tool7_CBE_for_client_ulabeled$data <- clean_data.tool7_CBE_for_client_ulabeled$data |>
+  filter(Sample_Type == "CBE")
+
+clean_data.tool7_CBE_for_client_ulabeled$C6_list_members <- clean_data.tool7_CBE_for_client_ulabeled$C6_list_members |>
+  filter(Sample_Type == "CBE")
+
+clean_data.tool7_CBE_for_client_ulabeled$Subjects_Added <- clean_data.tool7_CBE_for_client_ulabeled$Subjects_Added |>
+  filter(Sample_Type == "CBE")
+
+clean_data.tool7_CBE_for_client_ulabeled$Relevant_photos <- clean_data.tool7_CBE_for_client_ulabeled$Relevant_photos |>
+  filter(Sample_Type == "CBE")
+
+write.xlsx(clean_data.tool7_CBE_for_client_ulabeled, paste0(output_data_path, "cleaned_dfs/cleaned_data/Tool7_EERA_Public_School_Shura_Tool_CBE_Unlabeled_", Sys.Date(),".xlsx"))
+# write.xlsx(clean_data.tool7_for_client_ulabeled, paste0(output_data_path, "cleaned_dfs/cleaned_data/Tool7_EERA_Public_School_Shura_Tool_Unlabeled__", Sys.Date(),".xlsx"))
+write.xlsx(clean_data.tool8_for_client_ulabeled, paste0(output_data_path, "cleaned_dfs/cleaned_data/Tool8_EERA_CBE_Class_Level_Tool_Unlabeled__", Sys.Date(),".xlsx"))
+write.xlsx(clean_data.tool9_for_client_ulabeled, paste0(output_data_path, "cleaned_dfs/cleaned_data/Tool9_EERA_CBE_IP_Level_Tool_Unlabeled__", Sys.Date(),".xlsx"))
 
 # Exporting for client version of clean datasets -------------------------------
 write.xlsx(clean_data.tool0_for_client, paste0(output_data_path, "cleaned_dfs/for_client/EERA_Public_SchoolCBE_Data_Entry_Tool_", Sys.Date(),".xlsx"))
