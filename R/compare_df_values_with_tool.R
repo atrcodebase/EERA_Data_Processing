@@ -1,9 +1,73 @@
 source("R/functions/check_sm_so_questions_value.R")
 
-to_be_excluded_questions = c("Province_filter", "Surveyor_Name", "Site_Visit_ID", "Sample_Type")
+to_be_excluded_questions = c("Province_filter", "Surveyor_Name", "Site_Visit_ID", "Sample_Type", "Data_Entry_Clerk_Name")
 
 
 wrong_choices_result <- rbind(
+  # Tool 0
+  rbind(
+    check_so_sm_questions(
+      df = select(clean_data.tool0$data, !any_of(to_be_excluded_questions)),
+      kobotool.survey = kobo_tool.tool0$survey,
+      kobotool.choices = kobo_tool.tool0$choices) |> 
+      mutate(Tab_Name = "data"),
+    
+    check_so_sm_questions(
+      df = select(clean_data.tool0$Tool3_Grades_Repeat, !any_of(to_be_excluded_questions)),
+      kobotool.survey = kobo_tool.tool0$survey,
+      kobotool.choices = kobo_tool.tool0$choices) |> 
+      mutate(Tab_Name = "Tool3_Grades_Repeat"),
+    
+    check_so_sm_questions(
+      df = select(clean_data.tool0$Tool3_Class_Attendance, !any_of(to_be_excluded_questions)),
+      kobotool.survey = kobo_tool.tool0$survey,
+      kobotool.choices = kobo_tool.tool0$choices) |> 
+      mutate(Tab_Name = "Tool3_Class_Attendance"),
+    
+    check_so_sm_questions(
+      df = select(clean_data.tool0$Tool3_T3_N_Classes_Repeat, !any_of(to_be_excluded_questions)),
+      kobotool.survey = kobo_tool.tool0$survey,
+      kobotool.choices = kobo_tool.tool0$choices) |> 
+      mutate(Tab_Name = "Tool3_T3_N_Classes_Repeat"),
+    
+    check_so_sm_questions(
+      df = select(clean_data.tool0$Tool3_Headcount, !any_of(to_be_excluded_questions)),
+      kobotool.survey = kobo_tool.tool0$survey,
+      kobotool.choices = kobo_tool.tool0$choices) |> 
+      mutate(Tab_Name = "Tool3_Headcount"),
+    
+    check_so_sm_questions(
+      df = select(clean_data.tool0$Tool1_Timetable_Year, !any_of(to_be_excluded_questions)),
+      kobotool.survey = kobo_tool.tool0$survey,
+      kobotool.choices = kobo_tool.tool0$choices) |> 
+      mutate(Tab_Name = "Tool1_Timetable_Year"),
+    
+    check_so_sm_questions(
+      df = select(clean_data.tool0$Tool1_Timetable1_Repeat, !any_of(to_be_excluded_questions)),
+      kobotool.survey = kobo_tool.tool0$survey,
+      kobotool.choices = kobo_tool.tool0$choices) |> 
+      mutate(Tab_Name = "Tool1_Timetable1_Repeat"),
+    
+    check_so_sm_questions(
+      df = select(clean_data.tool0$Tool1_Timetable2_Repeat, !any_of(to_be_excluded_questions)),
+      kobotool.survey = kobo_tool.tool0$survey,
+      kobotool.choices = kobo_tool.tool0$choices) |> 
+      mutate(Tab_Name = "Tool1_Timetable2_Repeat"),
+    
+    check_so_sm_questions(
+      df = select(clean_data.tool0$Tool1_Timetable3_Repeat, !any_of(to_be_excluded_questions)),
+      kobotool.survey = kobo_tool.tool0$survey,
+      kobotool.choices = kobo_tool.tool0$choices) |> 
+      mutate(Tab_Name = "Tool1_Timetable3_Repeat"),
+    
+    check_so_sm_questions(
+      df = select(clean_data.tool0$Tool1_Timetable4_Repeat, !any_of(to_be_excluded_questions)),
+      kobotool.survey = kobo_tool.tool0$survey,
+      kobotool.choices = kobo_tool.tool0$choices) |> 
+      mutate(Tab_Name = "Tool1_Timetable4_Repeat")
+  ) |> 
+    mutate(tool = "Tool Data Entry", Sample_Type = ""),
+  
   # Tool 1
   rbind(
     check_so_sm_questions(
