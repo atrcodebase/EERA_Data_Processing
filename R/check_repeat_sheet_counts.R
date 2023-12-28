@@ -52,8 +52,89 @@ count_sm_selected_choices <- function(df, question) {
     )
 }
 
+
 # Changed the supposed_row_count value from COUNT column in data sets to column define in the tool repeat-count - 131223
 repeat_sheet_issues <- rbind(
+  rbind(
+    # Tool 0 
+    compare_row_counts(
+      supposed_count_df = select(clean_data.tool0$data |> mutate(Tool3_Grades_value_count = case_when(
+        is.na(Tool3_Grades) | str_trim(Tool3_Grades) == "" ~ 0,
+        TRUE ~ (str_count(Tool3_Grades," ")+1))
+      ), supposed_row_count = Tool3_Grades_value_count, KEY),
+      child_df = clean_data.tool0$Tool3_Grades_Repeat,
+      child_sheet_name = "Tool3_Grades_Repeat"
+    ) |> mutate(Row_count_from_tab = "data", Row_count_column_name = "Tool3_Grades"),
+    
+    compare_row_counts(
+      supposed_count_df = select(clean_data.tool0$data, supposed_row_count = Total_Classes, KEY),
+      child_df = clean_data.tool0$Tool3_Class_Attendance,
+      child_sheet_name = "Tool3_Class_Attendance"
+    ) |> mutate(Row_count_from_tab = "data", Row_count_column_name = "Total_Classes"),
+    
+    compare_row_counts(
+      supposed_count_df = select(clean_data.tool0$data |> filter(Tool3_T3_Confirm_Visit_Date_Attendance == 1), supposed_row_count = Total_Classes, KEY),
+      child_df = clean_data.tool0$Tool3_T3_N_Classes_Repeat,
+      child_sheet_name = "Tool3_T3_N_Classes_Repeat"
+    ) |> mutate(Row_count_from_tab = "data", Row_count_column_name = "Total_Classes"),
+    
+    compare_row_counts(
+      supposed_count_df = select(clean_data.tool0$data, supposed_row_count = Tool3_N_Classes_Headcount, KEY),
+      child_df = clean_data.tool0$Tool3_Headcount,
+      child_sheet_name = "Tool3_Headcount"
+    ) |> mutate(Row_count_from_tab = "data", Row_count_column_name = "Tool3_N_Classes_Headcount"),
+    
+    compare_row_counts(
+      supposed_count_df = select(clean_data.tool0$data |> mutate(Tool1_Timetable_value_count = case_when(
+        is.na(Tool1_Timetable) | str_trim(Tool1_Timetable) == "" ~ 0,
+        TRUE ~ (str_count(Tool1_Timetable," ")+1))
+      ), supposed_row_count = Tool1_Timetable_value_count, KEY),
+      child_df = clean_data.tool0$Tool1_Timetable_Year,
+      child_sheet_name = "Tool1_Timetable_Year"
+    ) |> mutate(Row_count_from_tab = "data", Row_count_column_name = "Tool1_Timetable"),
+    
+    
+    compare_row_counts(
+      supposed_count_df = select(clean_data.tool0$Tool1_Timetable_Year |> mutate(Tool1_How_Many_Timetable1_value_count = case_when(
+        is.na(Tool1_How_Many_Timetable1) | str_trim(Tool1_How_Many_Timetable1) == "" ~ 0,
+        TRUE ~ (str_count(Tool1_How_Many_Timetable1," ")+1))
+      ), supposed_row_count = Tool1_How_Many_Timetable1_value_count, KEY),
+      child_df = clean_data.tool0$Tool1_Timetable1_Repeat,
+      child_sheet_name = "Tool1_Timetable1_Repeat"
+    ) |> mutate(Row_count_from_tab = "Tool1_Timetable_Year", Row_count_column_name = "Tool1_How_Many_Timetable1"),
+    
+    
+    compare_row_counts(
+      supposed_count_df = select(clean_data.tool0$Tool1_Timetable_Year |> mutate(Tool1_How_Many_Timetable2_value_count = case_when(
+        is.na(Tool1_How_Many_Timetable2) | str_trim(Tool1_How_Many_Timetable2) == "" ~ 0,
+        TRUE ~ (str_count(Tool1_How_Many_Timetable2," ")+1))
+      ), supposed_row_count = Tool1_How_Many_Timetable2_value_count, KEY),
+      child_df = clean_data.tool0$Tool1_Timetable2_Repeat,
+      child_sheet_name = "Tool1_Timetable2_Repeat"
+    ) |> mutate(Row_count_from_tab = "Tool1_Timetable_Year", Row_count_column_name = "Tool1_How_Many_Timetable2"),
+    
+    
+    compare_row_counts(
+      supposed_count_df = select(clean_data.tool0$Tool1_Timetable_Year |> mutate(Tool1_How_Many_Timetable3_value_count = case_when(
+        is.na(Tool1_How_Many_Timetable3) | str_trim(Tool1_How_Many_Timetable3) == "" ~ 0,
+        TRUE ~ (str_count(Tool1_How_Many_Timetable3," ")+1))
+      ), supposed_row_count = Tool1_How_Many_Timetable3_value_count, KEY),
+      child_df = clean_data.tool0$Tool1_Timetable3_Repeat,
+      child_sheet_name = "Tool1_Timetable3_Repeat"
+    ) |> mutate(Row_count_from_tab = "Tool1_Timetable_Year", Row_count_column_name = "Tool1_How_Many_Timetable3")
+    
+    
+    # compare_row_counts(
+    #   supposed_count_df = select(clean_data.tool0$Tool1_Timetable_Year |> mutate(Tool1_How_Many_Timetable4_value_count = case_when(
+    #     is.na(Tool1_How_Many_Timetable4) | str_trim(Tool1_How_Many_Timetable4) == "" ~ 0,
+    #     TRUE ~ (str_count(Tool1_How_Many_Timetable4," ")+1))
+    #   ), supposed_row_count = Tool1_How_Many_Timetable4_value_count, KEY),
+    #   child_df = clean_data.tool0$Tool1_Timetable4_Repeat,
+    #   child_sheet_name = "Tool1_Timetable4_Repeat"
+    # ) |> mutate(Row_count_from_tab = "Tool1_Timetable_Year", Row_count_column_name = "Tool1_How_Many_Timetable4"),
+    
+  ) |> 
+    mutate(tool = "Tool Data Entry", Sample_Type = ""),
   # Tool 1
   rbind(
     # 1
