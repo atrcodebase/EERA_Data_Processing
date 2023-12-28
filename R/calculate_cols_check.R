@@ -254,7 +254,7 @@ clean_data.tool8$data <- clean_data.tool8$data |>
     , by = "KEY")
 
 # compare the calculated values before and after logs replaced ----------------
-calculate_issues <- rbind(
+calculate_issues <- plyr::rbind.fill(
   # Tool 0 
   clean_data.tool0$data |>
     filter(Tool2_Total_Teachers_Staff_Male != Tool2_Total_Teachers_Staff_Male.re_calc) |>
