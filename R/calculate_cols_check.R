@@ -1,8 +1,126 @@
 Coalesce = function(var) ifelse(is.na(var), 0, var)
 
 # create the necessary columns --------------------------------------------
-# Tool 1
+# Tool 0
+clean_data.tool0$data <- clean_data.tool0$data |>
+  mutate(
+    Tool2_Total_Teachers_Staff_Male.re_calc = case_when(
+      Coalesce(Tool2_Teachers_Staff_Present_Male) == 6666 & Coalesce(Tool2_Teachers_Staff_Absent_Male) == 6666 ~ 0,
+      Coalesce(Tool2_Teachers_Staff_Present_Male) == 6666 & Coalesce(Tool2_Teachers_Staff_Absent_Male) != 6666 ~ Coalesce(Tool2_Teachers_Staff_Absent_Male),
+      Coalesce(Tool2_Teachers_Staff_Present_Male) != 6666 & Coalesce(Tool2_Teachers_Staff_Absent_Male) == 6666 ~ Coalesce(Tool2_Teachers_Staff_Present_Male),
+      TRUE ~ Coalesce(Tool2_Teachers_Staff_Present_Male) + Coalesce(Tool2_Teachers_Staff_Absent_Male)
+    ),
+    Tool2_Total_Teachers_Staff_Female.re_calc = case_when(
+      Coalesce(Tool2_Teachers_Staff_Present_Female) == 6666 & Coalesce(Tool2_Teachers_Staff_Absent_Female) == 6666 ~ 0,
+      Coalesce(Tool2_Teachers_Staff_Present_Female) == 6666 & Coalesce(Tool2_Teachers_Staff_Absent_Female) != 6666 ~ Coalesce(Tool2_Teachers_Staff_Absent_Female),
+      Coalesce(Tool2_Teachers_Staff_Present_Female) != 6666 & Coalesce(Tool2_Teachers_Staff_Absent_Female) == 6666 ~ Coalesce(Tool2_Teachers_Staff_Present_Female),
+      TRUE ~ Coalesce(Tool2_Teachers_Staff_Present_Female) + Coalesce(Tool2_Teachers_Staff_Absent_Female)
+    ),
+    Tool2_Total_Teachers_Staff_Gender_Not_Identifiable.re_calc = case_when(
+      Coalesce(Tool2_Teachers_Staff_Present_Gender_Not_Identifiable) == 6666 & Coalesce(Tool2_Teachers_Staff_Absent_Gender_Not_Identifiable) == 6666 ~ 0,
+      Coalesce(Tool2_Teachers_Staff_Present_Gender_Not_Identifiable) == 6666 & Coalesce(Tool2_Teachers_Staff_Absent_Gender_Not_Identifiable) != 6666 ~ Coalesce(Tool2_Teachers_Staff_Absent_Gender_Not_Identifiable),
+      Coalesce(Tool2_Teachers_Staff_Present_Gender_Not_Identifiable) != 6666 & Coalesce(Tool2_Teachers_Staff_Absent_Gender_Not_Identifiable) == 6666 ~ Coalesce(Tool2_Teachers_Staff_Present_Gender_Not_Identifiable),
+      TRUE ~ Coalesce(Tool2_Teachers_Staff_Present_Gender_Not_Identifiable) + Coalesce(Tool2_Teachers_Staff_Absent_Gender_Not_Identifiable),
+    ),
 
+    Tool8_FDE_Overall_Total_Present_Students_Male_Female.re_calc = case_when(
+      Coalesce(Tool8_FDE_Overall_Present_Students_Male) == 6666 & Coalesce(Tool8_FDE_Overall_Present_Students_Female) == 6666 ~ 0,
+      Coalesce(Tool8_FDE_Overall_Present_Students_Male) == 6666 & Coalesce(Tool8_FDE_Overall_Present_Students_Female) != 6666 ~ Coalesce(Tool8_FDE_Overall_Present_Students_Female),
+      Coalesce(Tool8_FDE_Overall_Present_Students_Male) != 6666 & Coalesce(Tool8_FDE_Overall_Present_Students_Female) == 6666 ~ Coalesce(Tool8_FDE_Overall_Present_Students_Male),
+      TRUE ~ Coalesce(Tool8_FDE_Overall_Present_Students_Male) +  Coalesce(Tool8_FDE_Overall_Present_Students_Female)
+    ), 
+    Tool8_FDE_Overall_Total_Absent_Students_Male_Female.re_calc = case_when(
+      Coalesce(Tool8_FDE_Overall_Absent_Students_Male) == 6666 & Coalesce(Tool8_FDE_Overall_Absent_Students_Female) == 6666 ~ 0,
+      Coalesce(Tool8_FDE_Overall_Absent_Students_Male) == 6666 & Coalesce(Tool8_FDE_Overall_Absent_Students_Female) != 6666 ~ Coalesce(Tool8_FDE_Overall_Absent_Students_Female),
+      Coalesce(Tool8_FDE_Overall_Absent_Students_Male) != 6666 & Coalesce(Tool8_FDE_Overall_Absent_Students_Female) == 6666 ~ Coalesce(Tool8_FDE_Overall_Absent_Students_Male),
+      TRUE ~ Coalesce(Tool8_FDE_Overall_Absent_Students_Male) + Coalesce(Tool8_FDE_Overall_Absent_Students_Female)
+    ) 
+  )
+
+
+clean_data.tool0$data <- clean_data.tool0$data |>
+  left_join(
+    clean_data.tool0$Tool3_Class_Attendance |>
+      group_by(KEY = PARENT_KEY) |>
+      summarise(
+        Tool3_Total_Regularly_Present_Students_Attendance_Male_sum = sum(Tool3_Total_Regularly_Present_Students_Attendance_Male, na.rm = T),
+        Tool3_Total_Regularly_Present_Students_Attendance_Female_sum = sum(Tool3_Total_Regularly_Present_Students_Attendance_Female, na.rm = T),
+        Tool3_Total_Regularly_Present_Students_Attendance_Gender_Not_Identified_sum = sum(Tool3_Total_Regularly_Present_Students_Attendance_Gender_Not_Identified, na.rm = T),
+        Tool3_Total_Permanently_Absent_Students_Attendance_Male_sum = sum(Tool3_Total_Permanently_Absent_Students_Attendance_Male, na.rm = T),
+        Tool3_Total_Permanently_Absent_Students_Attendance_Female_sum = sum(Tool3_Total_Permanently_Absent_Students_Attendance_Female, na.rm = T),
+        Tool3_Total_Permanently_Absent_Students_Attendance_Gender_Not_Identified_sum = sum(Tool3_Total_Permanently_Absent_Students_Attendance_Gender_Not_Identified, na.rm = T),
+        Tool3_Total_Enrolled_Students_Attendance_Male_sum = sum(Tool3_Total_Enrolled_Students_Attendance_Male, na.rm = T),
+        Tool3_Total_Enrolled_Students_Attendance_Female_sum = sum(Tool3_Total_Enrolled_Students_Attendance_Female, na.rm = T),
+        Tool3_Total_Enrolled_Students_Attendance_Gender_Not_Identified_sum = sum(Tool3_Total_Enrolled_Students_Attendance_Gender_Not_Identified, na.rm = T)
+      ) |>
+      mutate(
+        Tool3_Total_Regularly_Present_for_Matching.re_calc = rowSums(across(c(Tool3_Total_Regularly_Present_Students_Attendance_Male_sum, 
+                                                                            Tool3_Total_Regularly_Present_Students_Attendance_Female_sum, 
+                                                                            Tool3_Total_Regularly_Present_Students_Attendance_Gender_Not_Identified_sum)), na.rm = T),
+        Tool3_Total_Permanently_Absent_Students_for_Matching.re_calc = rowSums(across(c(Tool3_Total_Permanently_Absent_Students_Attendance_Male_sum, 
+                                                                                      Tool3_Total_Permanently_Absent_Students_Attendance_Female_sum, 
+                                                                                      Tool3_Total_Permanently_Absent_Students_Attendance_Gender_Not_Identified_sum)), na.rm = T),
+        Tool3_Total_Enrolled_Students_for_Matching.re_calc = rowSums(across(c(Tool3_Total_Enrolled_Students_Attendance_Male_sum, 
+                                                                            Tool3_Total_Enrolled_Students_Attendance_Female_sum, 
+                                                                            Tool3_Total_Enrolled_Students_Attendance_Gender_Not_Identified_sum)), na.rm = T)
+      ), by = "KEY")
+
+
+clean_data.tool0$data <- clean_data.tool0$data |>
+  left_join(
+    clean_data.tool0$Tool3_T3_N_Classes_Repeat |>
+      mutate(
+        Tool3_T3_N_Students_Class_Male_Regular_Attendance = case_when(
+          Tool3_T3_N_Students_Class_Male_Regular_Attendance == 6666 ~ NA_real_,
+          TRUE ~ Tool3_T3_N_Students_Class_Male_Regular_Attendance
+        ),
+        Tool3_T3_N_Students_Class_Female_Regular_Attendance = case_when(
+          Tool3_T3_N_Students_Class_Female_Regular_Attendance == 6666 ~ NA_real_,
+          TRUE ~ Tool3_T3_N_Students_Class_Female_Regular_Attendance
+        ),
+        Tool3_T3_N_Students_Class_Gender_Not_Identified_Regular_Attendance = case_when(
+          Tool3_T3_N_Students_Class_Gender_Not_Identified_Regular_Attendance == 6666 ~ NA_real_,
+          TRUE ~ Tool3_T3_N_Students_Class_Gender_Not_Identified_Regular_Attendance
+        ),
+        Tool3_T3_N_Students_Class_Male_Permanently_Absent = case_when(
+          Tool3_T3_N_Students_Class_Male_Permanently_Absent == 6666 ~ NA_real_,
+          TRUE ~ Tool3_T3_N_Students_Class_Male_Permanently_Absent
+        ),
+        Tool3_T3_N_Students_Class_Female_Permanently_Absent = case_when(
+          Tool3_T3_N_Students_Class_Female_Permanently_Absent == 6666 ~ NA_real_,
+          TRUE ~ Tool3_T3_N_Students_Class_Female_Permanently_Absent
+        ),
+        Tool3_T3_N_Students_Class_Gender_Not_Identified_Permanently_Absent = case_when(
+          Tool3_T3_N_Students_Class_Gender_Not_Identified_Permanently_Absent == 6666 ~ NA_real_,
+          TRUE ~ Tool3_T3_N_Students_Class_Gender_Not_Identified_Permanently_Absent
+        ),
+        Tool3_T3_N_Students_Enrolled_Class_Male = case_when(
+          Tool3_T3_N_Students_Enrolled_Class_Male == 6666 ~ NA_real_,
+          TRUE ~ Tool3_T3_N_Students_Enrolled_Class_Male
+        ),
+        Tool3_T3_N_Students_Enrolled_Class_Female = case_when(
+          Tool3_T3_N_Students_Enrolled_Class_Female == 6666 ~ NA_real_,
+          TRUE ~ Tool3_T3_N_Students_Enrolled_Class_Female
+        ),
+        Tool3_T3_N_Students_Enrolled_Class_Gender_Not_Identified = case_when(
+          Tool3_T3_N_Students_Enrolled_Class_Gender_Not_Identified == 6666 ~ NA_real_,
+          TRUE ~ Tool3_T3_N_Students_Enrolled_Class_Gender_Not_Identified
+        )
+      ) |>
+      group_by(KEY = PARENT_KEY) |>
+      summarise(
+        Tool3_T3_Total_N_of_Students_Regular_Attendance_Male.re_calc = sum(Tool3_T3_N_Students_Class_Male_Regular_Attendance, na.rm = T),
+        Tool3_T3_Total_N_of_Students_Regular_Attendance_Female.re_calc = sum(Tool3_T3_N_Students_Class_Female_Regular_Attendance, na.rm = T), 
+        Tool3_T3_Total_N_of_Students_Regular_Attendance_Gender_Not_Identified.re_calc = sum(Tool3_T3_N_Students_Class_Gender_Not_Identified_Regular_Attendance, na.rm = T),
+        Tool3_T3_Total_N_of_Students_Permanently_Absent_Male.re_calc = sum(Tool3_T3_N_Students_Class_Male_Permanently_Absent, na.rm = T),
+        Tool3_T3_Total_N_of_Students_Permanently_Absent_Female.re_calc = sum(Tool3_T3_N_Students_Class_Female_Permanently_Absent, na.rm = T),
+        Tool3_T3_Total_N_of_Students_Permanently_Absent_Gender_Not_Identified.re_calc = sum(Tool3_T3_N_Students_Class_Gender_Not_Identified_Permanently_Absent, na.rm = T),
+        Tool3_T3_Total_N_of_Students_Enrolled_Male.re_calc = sum(Tool3_T3_N_Students_Enrolled_Class_Male, na.rm = T),
+        Tool3_T3_Total_N_of_Students_Enrolled_Female.re_calc = sum(Tool3_T3_N_Students_Enrolled_Class_Female, na.rm = T),
+        Tool3_T3_Total_N_of_Students_Enrolled_Gender_Not_Identified.re_calc = sum(Tool3_T3_N_Students_Enrolled_Class_Gender_Not_Identified, na.rm = T)
+      ), by = "KEY")
+
+# Tool 1
 clean_data.tool1$data <- clean_data.tool1$data |> 
   mutate(
     School_indx.re_calc = case_when(
@@ -137,7 +255,197 @@ clean_data.tool8$data <- clean_data.tool8$data |>
 
 # compare the calculated values before and after logs replaced ----------------
 calculate_issues <- rbind(
-  # Tool 1
+  # Tool 0 
+  clean_data.tool0$data |>
+    filter(Tool2_Total_Teachers_Staff_Male != Tool2_Total_Teachers_Staff_Male.re_calc) |>
+    mutate(
+      issue = "The changes in the dataset has affected this value, it should be recalculated.",
+      question ="Tool2_Total_Teachers_Staff_Male",
+      tool = "Tool Data Entry",
+      sheet = "data"
+    ) |>
+    select(any_of(meta_cols), question, old_value = Tool2_Total_Teachers_Staff_Male,
+           new_value = Tool2_Total_Teachers_Staff_Male.re_calc, issue, tool, sheet, KEY),
+  
+  clean_data.tool0$data |>
+    filter(Tool2_Total_Teachers_Staff_Female != Tool2_Total_Teachers_Staff_Female.re_calc) |>
+    mutate(
+      issue = "The changes in the dataset has affected this value, it should be recalculated.",
+      question ="Tool2_Total_Teachers_Staff_Female",
+      tool = "Tool Data Entry",
+      sheet = "data"
+    ) |>
+    select(any_of(meta_cols), question, old_value = Tool2_Total_Teachers_Staff_Female,
+           new_value = Tool2_Total_Teachers_Staff_Female.re_calc, issue, tool, sheet, KEY),
+  
+  clean_data.tool0$data |>
+    filter(Tool2_Total_Teachers_Staff_Gender_Not_Identifiable != Tool2_Total_Teachers_Staff_Gender_Not_Identifiable.re_calc) |>
+    mutate(
+      issue = "The changes in the dataset has affected this value, it should be recalculated.",
+      question ="Tool2_Total_Teachers_Staff_Gender_Not_Identifiable",
+      tool = "Tool Data Entry",
+      sheet = "data"
+    ) |>
+    select(any_of(meta_cols), question, old_value = Tool2_Total_Teachers_Staff_Gender_Not_Identifiable,
+           new_value = Tool2_Total_Teachers_Staff_Gender_Not_Identifiable.re_calc, issue, tool, sheet, KEY),
+  
+  clean_data.tool0$data |>
+    filter(Tool8_FDE_Overall_Total_Present_Students_Male_Female != Tool8_FDE_Overall_Total_Present_Students_Male_Female.re_calc) |>
+    mutate(
+      issue = "The changes in the dataset has affected this value, it should be recalculated.",
+      question ="Tool8_FDE_Overall_Total_Present_Students_Male_Female",
+      tool = "Tool Data Entry",
+      sheet = "data"
+    ) |>
+    select(any_of(meta_cols), question, old_value = Tool8_FDE_Overall_Total_Present_Students_Male_Female,
+           new_value = Tool8_FDE_Overall_Total_Present_Students_Male_Female.re_calc, issue, tool, sheet, KEY),
+  
+  clean_data.tool0$data |>
+    filter(Tool8_FDE_Overall_Total_Absent_Students_Male_Female != Tool8_FDE_Overall_Total_Absent_Students_Male_Female.re_calc) |>
+    mutate(
+      issue = "The changes in the dataset has affected this value, it should be recalculated.",
+      question ="Tool8_FDE_Overall_Total_Absent_Students_Male_Female",
+      tool = "Tool Data Entry",
+      sheet = "data"
+    ) |>
+    select(any_of(meta_cols), question, old_value = Tool8_FDE_Overall_Total_Absent_Students_Male_Female,
+           new_value = Tool8_FDE_Overall_Total_Absent_Students_Male_Female.re_calc, issue, tool, sheet, KEY),
+  
+  clean_data.tool0$data |>
+    filter(Tool3_Total_Regularly_Present_for_Matching != Tool3_Total_Regularly_Present_for_Matching.re_calc) |>
+    mutate(
+      issue = "The changes in the dataset has affected this value, it should be recalculated.",
+      question ="Tool3_Total_Regularly_Present_for_Matching",
+      tool = "Tool Data Entry",
+      sheet = "data"
+    ) |>
+    select(any_of(meta_cols), question, old_value = Tool3_Total_Regularly_Present_for_Matching,
+           new_value = Tool3_Total_Regularly_Present_for_Matching.re_calc, issue, tool, sheet, KEY),
+  
+  clean_data.tool0$data |>
+    filter(Tool3_Total_Permanently_Absent_Students_for_Matching != Tool3_Total_Permanently_Absent_Students_for_Matching.re_calc) |>
+    mutate(
+      issue = "The changes in the dataset has affected this value, it should be recalculated.",
+      question ="Tool3_Total_Permanently_Absent_Students_for_Matching",
+      tool = "Tool Data Entry",
+      sheet = "data"
+    ) |>
+    select(any_of(meta_cols), question, old_value = Tool3_Total_Permanently_Absent_Students_for_Matching,
+           new_value = Tool3_Total_Permanently_Absent_Students_for_Matching.re_calc, issue, tool, sheet, KEY),
+  
+  clean_data.tool0$data |>
+    filter(Tool3_Total_Enrolled_Students_for_Matching != Tool3_Total_Enrolled_Students_for_Matching.re_calc) |>
+    mutate(
+      issue = "The changes in the dataset has affected this value, it should be recalculated.",
+      question ="Tool3_Total_Enrolled_Students_for_Matching",
+      tool = "Tool Data Entry",
+      sheet = "data"
+    ) |>
+    select(any_of(meta_cols), question, old_value = Tool3_Total_Enrolled_Students_for_Matching,
+           new_value = Tool3_Total_Enrolled_Students_for_Matching.re_calc, issue, tool, sheet, KEY),
+  
+  clean_data.tool0$data |>
+    filter(Tool3_T3_Total_N_of_Students_Regular_Attendance_Male != Tool3_T3_Total_N_of_Students_Regular_Attendance_Male.re_calc) |>
+    mutate(
+      issue = "The changes in the dataset has affected this value, it should be recalculated.",
+      question ="Tool3_T3_Total_N_of_Students_Regular_Attendance_Male",
+      tool = "Tool Data Entry",
+      sheet = "data"
+    ) |>
+    select(#any_of(meta_cols),
+           question, old_value = Tool3_T3_Total_N_of_Students_Regular_Attendance_Male,
+           new_value = Tool3_T3_Total_N_of_Students_Regular_Attendance_Male.re_calc, #issue, 
+           tool, sheet, KEY),
+  
+  clean_data.tool0$data |>
+    filter(Tool3_T3_Total_N_of_Students_Regular_Attendance_Female != Tool3_T3_Total_N_of_Students_Regular_Attendance_Female.re_calc) |>
+    mutate(
+      issue = "The changes in the dataset has affected this value, it should be recalculated.",
+      question ="Tool3_T3_Total_N_of_Students_Regular_Attendance_Female",
+      tool = "Tool Data Entry",
+      sheet = "data"
+    ) |>
+    select(any_of(meta_cols), question, old_value = Tool3_T3_Total_N_of_Students_Regular_Attendance_Female,
+           new_value = Tool3_T3_Total_N_of_Students_Regular_Attendance_Female.re_calc, issue, tool, sheet, KEY),
+  
+  clean_data.tool0$data |>
+    filter(Tool3_T3_Total_N_of_Students_Regular_Attendance_Gender_Not_Identified != Tool3_T3_Total_N_of_Students_Regular_Attendance_Gender_Not_Identified.re_calc) |>
+    mutate(
+      issue = "The changes in the dataset has affected this value, it should be recalculated.",
+      question ="Tool3_T3_Total_N_of_Students_Regular_Attendance_Gender_Not_Identified",
+      tool = "Tool Data Entry",
+      sheet = "data"
+    ) |>
+    select(any_of(meta_cols), question, old_value = Tool3_T3_Total_N_of_Students_Regular_Attendance_Gender_Not_Identified,
+           new_value = Tool3_T3_Total_N_of_Students_Regular_Attendance_Gender_Not_Identified.re_calc, issue, tool, sheet, KEY),
+  
+  clean_data.tool0$data |>
+    filter(Tool3_T3_Total_N_of_Students_Permanently_Absent_Male != Tool3_T3_Total_N_of_Students_Permanently_Absent_Male.re_calc) |>
+    mutate(
+      issue = "The changes in the dataset has affected this value, it should be recalculated.",
+      question ="Tool3_T3_Total_N_of_Students_Permanently_Absent_Male",
+      tool = "Tool Data Entry",
+      sheet = "data"
+    ) |>
+    select(any_of(meta_cols), question, old_value = Tool3_T3_Total_N_of_Students_Permanently_Absent_Male,
+           new_value = Tool3_T3_Total_N_of_Students_Permanently_Absent_Male.re_calc, issue, tool, sheet, KEY),
+  
+  clean_data.tool0$data |>
+    filter(Tool3_T3_Total_N_of_Students_Permanently_Absent_Female != Tool3_T3_Total_N_of_Students_Permanently_Absent_Female.re_calc) |>
+    mutate(
+      issue = "The changes in the dataset has affected this value, it should be recalculated.",
+      question ="Tool3_T3_Total_N_of_Students_Permanently_Absent_Female",
+      tool = "Tool Data Entry",
+      sheet = "data"
+    ) |>
+    select(any_of(meta_cols), question, old_value = Tool3_T3_Total_N_of_Students_Permanently_Absent_Female,
+           new_value = Tool3_T3_Total_N_of_Students_Permanently_Absent_Female.re_calc, issue, tool, sheet, KEY),
+  
+  clean_data.tool0$data |>
+    filter(Tool3_T3_Total_N_of_Students_Permanently_Absent_Gender_Not_Identified != Tool3_T3_Total_N_of_Students_Permanently_Absent_Gender_Not_Identified.re_calc) |>
+    mutate(
+      issue = "The changes in the dataset has affected this value, it should be recalculated.",
+      question ="Tool3_T3_Total_N_of_Students_Permanently_Absent_Gender_Not_Identified",
+      tool = "Tool Data Entry",
+      sheet = "data"
+    ) |>
+    select(any_of(meta_cols), question, old_value = Tool3_T3_Total_N_of_Students_Permanently_Absent_Gender_Not_Identified,
+           new_value = Tool3_T3_Total_N_of_Students_Permanently_Absent_Gender_Not_Identified.re_calc, issue, tool, sheet, KEY),
+  
+  clean_data.tool0$data |>
+    filter(Tool3_T3_Total_N_of_Students_Enrolled_Male != Tool3_T3_Total_N_of_Students_Enrolled_Male.re_calc) |>
+    mutate(
+      issue = "The changes in the dataset has affected this value, it should be recalculated.",
+      question ="Tool3_T3_Total_N_of_Students_Enrolled_Male",
+      tool = "Tool Data Entry",
+      sheet = "data"
+    ) |>
+    select(any_of(meta_cols), question, old_value = Tool3_T3_Total_N_of_Students_Enrolled_Male,
+           new_value = Tool3_T3_Total_N_of_Students_Enrolled_Male.re_calc, issue, tool, sheet, KEY),
+  
+  clean_data.tool0$data |>
+    filter(Tool3_T3_Total_N_of_Students_Enrolled_Female != Tool3_T3_Total_N_of_Students_Enrolled_Female.re_calc) |>
+    mutate(
+      issue = "The changes in the dataset has affected this value, it should be recalculated.",
+      question ="Tool3_T3_Total_N_of_Students_Enrolled_Female",
+      tool = "Tool Data Entry",
+      sheet = "data"
+    ) |>
+    select(any_of(meta_cols), question, old_value = Tool3_T3_Total_N_of_Students_Enrolled_Female,
+           new_value = Tool3_T3_Total_N_of_Students_Enrolled_Female.re_calc, issue, tool, sheet, KEY),
+  
+  clean_data.tool0$data |>
+    filter(Tool3_T3_Total_N_of_Students_Enrolled_Gender_Not_Identified != Tool3_T3_Total_N_of_Students_Enrolled_Gender_Not_Identified.re_calc) |>
+    mutate(
+      issue = "The changes in the dataset has affected this value, it should be recalculated.",
+      question ="Tool3_T3_Total_N_of_Students_Enrolled_Gender_Not_Identified",
+      tool = "Tool Data Entry",
+      sheet = "data"
+    ) |>
+    select(any_of(meta_cols), question, old_value = Tool3_T3_Total_N_of_Students_Enrolled_Gender_Not_Identified,
+           new_value = Tool3_T3_Total_N_of_Students_Enrolled_Gender_Not_Identified.re_calc, issue, tool, sheet, KEY),
+  
+  # Tool 1 
   clean_data.tool1$data |> 
     filter(School_indx != School_indx.re_calc) |> 
     mutate(
