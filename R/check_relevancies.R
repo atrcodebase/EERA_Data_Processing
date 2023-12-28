@@ -200,14 +200,14 @@ relevancy_issues <- plyr::rbind.fill(
   ) |> 
     mutate(tool = "Tool 5 - WASH", Sample_type = "Public School"),
   
-  # Tool 6
+  # Tool 6 # Key=str_split_fixed(KEY, "/", 2)[,1]
   rbind(
     check_relevancy_rules(clean_data.tool6_joined$data, relevancy_file.tool6, sheet_name="data"),
     check_relevancy_rules(clean_data.tool6_joined$Subjects_Added, relevancy_file.tool6, sheet_name="Subjects_Added"),
     check_relevancy_rules(clean_data.tool6_joined$Relevant_photos, relevancy_file.tool6, sheet_name="Relevant_photos")
   ) |>
-    mutate(tool = "Tool 6 - Parent", Key=str_split_fixed(KEY, "/", 2)[,1]) |> 
-    left_join(select(clean_data.tool6_joined$data, KEY, Sample_type = Sample_Type), by = c("Key"="KEY")) %>% 
+    mutate(tool = "Tool 6 - Parent", Sample_type = "Public School") |> 
+    # left_join(select(clean_data.tool6_joined$data, KEY, Sample_type = Sample_Type), by = c("Key"="KEY")) %>% 
     select(everything(), tool, Sample_type),
   
   # Tool 7
@@ -217,8 +217,8 @@ relevancy_issues <- plyr::rbind.fill(
     check_relevancy_rules(clean_data.tool7_joined$Subjects_Added, relevancy_file.tool7, sheet_name="Subjects_Added"),
     check_relevancy_rules(clean_data.tool7_joined$Relevant_photos, relevancy_file.tool7, sheet_name="Relevant_photos")
   ) |> 
-    mutate(tool = "Tool 7 - Shura", Key=str_split_fixed(KEY, "/", 2)[,1]) |> 
-    left_join(select(clean_data.tool7_joined$data, KEY, Sample_type = Sample_Type), by = c("Key"="KEY")) %>% 
+    mutate(tool = "Tool 7 - Shura", Sample_type = "Public School") |> 
+    # left_join(select(clean_data.tool7_joined$data, KEY, Sample_type = Sample_Type), by = c("Key"="KEY")) %>% 
     select(everything(), tool, Sample_type),
   
   # Tool 8 
@@ -244,10 +244,12 @@ relevancy_issues <- plyr::rbind.fill(
     check_relevancy_rules(clean_data.tool9_joined$Relevant_photos, relevancy_file.tool9, sheet_name="Relevant_photos")) %>% 
     mutate(tool = "Tool 9 - IP", Sample_type = "CBE")
 )
-relevancy_issues <- relevancy_issues %>% 
-  mutate(Key=str_split_fixed(KEY, "/", 2)[,1]) %>% 
-  relocate(Key, .after = KEY)
-  
+if(nrow(relevancy_issues) !=0){
+  relevancy_issues <- relevancy_issues %>% 
+    mutate(Key=str_split_fixed(KEY, "/", 2)[,1]) %>% 
+    relocate(Key, .after = KEY)
+}
+
 # removing extra elements from the environment
 rm(list = c("check_relevancy_rules",
             "join_dfs",
