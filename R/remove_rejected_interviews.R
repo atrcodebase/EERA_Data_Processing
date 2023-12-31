@@ -1,4 +1,17 @@
 # removing deleted and pilot interviews -----------------------------------
+# Tool 0 - Data Entry
+clean_data.tool0$data <- clean_data.tool0$data %>% filter(!KEY %in% deleted_keys_ps)
+clean_data.tool0$Tool3_Grades_Repeat <- clean_data.tool0$Tool3_Grades_Repeat %>% filter(!KEY %in% deleted_keys_ps)
+clean_data.tool0$Tool3_Class_Attendance <- clean_data.tool0$Tool3_Class_Attendance %>% filter(!KEY %in% deleted_keys_ps)
+clean_data.tool0$Tool3_T3_N_Classes_Repeat <- clean_data.tool0$Tool3_T3_N_Classes_Repeat %>% filter(!KEY %in% deleted_keys_ps)
+clean_data.tool0$Tool3_Headcount <- clean_data.tool0$Tool3_Headcount %>% filter(!KEY %in% deleted_keys_ps)
+clean_data.tool0$Tool1_Timetable_Year <- clean_data.tool0$Tool1_Timetable_Year %>% filter(!KEY %in% deleted_keys_ps)
+clean_data.tool0$Tool1_Timetable1_Repeat <- clean_data.tool0$Tool1_Timetable1_Repeat %>% filter(!KEY %in% deleted_keys_ps)
+clean_data.tool0$Tool1_Timetable2_Repeat <- clean_data.tool0$Tool1_Timetable2_Repeat %>% filter(!KEY %in% deleted_keys_ps)
+clean_data.tool0$Tool1_Timetable3_Repeat <- clean_data.tool0$Tool1_Timetable3_Repeat %>% filter(!KEY %in% deleted_keys_ps)
+clean_data.tool0$Tool1_Timetable4_Repeat <- clean_data.tool0$Tool1_Timetable4_Repeat %>% filter(!KEY %in% deleted_keys_ps)
+
+
 # Tool 1 - Headmaster
 clean_data.tool1$data <- clean_data.tool1$data %>% filter(KEY %in% approved_keys_ps & !KEY %in% deleted_keys_ps)
 clean_data.tool1$Support_Respondents <- clean_data.tool1$Support_Respondents %>% filter(PARENT_KEY %in% clean_data.tool1$data$KEY & !KEY %in% deleted_keys_ps)
