@@ -1,6 +1,54 @@
 ## Append calculated vars label
 meta_cols2 <- c("Site_Visit_ID", "EMIS_School_ID_CBE_KEY", "School_CBE_Name", "Region", "Province" , "District" , "Area_Type", "Sample_Type")
 
+# Tool 0 
+clean_data.tool0_for_client$Tool3_Grades_Repeat <- clean_data.tool0_for_client$Tool3_Grades_Repeat |>
+  select(-Tool3_Grades_Field_Label) |>
+  left_join(
+    kobo_tool.tool0$choices |>
+      filter(list_name == "grades") |>
+      mutate(value = as.integer(value)) |>
+      select(value, Tool3_Grades_Field_Label = "label"), by = c("Tool3_Grades_Field_Value" = "value")) |>
+  select(any_of(meta_cols2), Tool3_Grades_Field_Value, Tool3_Grades_Field_Label, everything())
+
+# Comment out if data set has any label except English
+# clean_data.tool0_for_client$Tool1_Timetable1_Repeat <- clean_data.tool0_for_client$Tool1_Timetable1_Repeat |>
+#   select(-Tool1_Timetable1_Field_Label) |>
+#   left_join(
+#     kobo_tool.tool0$choices |>
+#       filter(list_name == "grades") |>
+#       mutate(value = as.integer(value)) |>
+#       select(value, Tool1_Timetable1_Field_Label = "label"), by = c("Tool1_Timetable1_Field_Value" = "value")) |>
+#   select(any_of(meta_cols2), Tool1_Timetable1_Field_Value, Tool1_Timetable1_Field_Label, everything())
+# 
+# clean_data.tool0_for_client$Tool1_Timetable2_Repeat <- clean_data.tool0_for_client$Tool1_Timetable2_Repeat |>
+#   select(-Tool1_Timetable2_Field_Label) |>
+#   left_join(
+#     kobo_tool.tool0$choices |>
+#       filter(list_name == "grades") |>
+#       mutate(value = as.integer(value)) |>
+#       select(value, Tool1_Timetable2_Field_Value = "label"), by = c("Tool1_Timetable2_Field_Value" = "value")) |>
+#   select(any_of(meta_cols2), Tool1_Timetable2_Field_Value, Tool1_Timetable2_Field_Value, everything())
+# 
+# clean_data.tool0_for_client$Tool1_Timetable3_Repeat <- clean_data.tool0_for_client$Tool1_Timetable3_Repeat |>
+#   select(-Tool1_Timetable3_Field_Label) |>
+#   left_join(
+#     kobo_tool.tool0$choices |>
+#       filter(list_name == "grades") |>
+#       mutate(value = as.integer(value)) |>
+#       select(value, Tool1_Timetable3_Field_Label = "label"), by = c("Tool1_Timetable3_Field_Value" = "value")) |>
+#   select(any_of(meta_cols2), Tool1_Timetable3_Field_Value, Tool1_Timetable3_Field_Label, everything())
+# 
+# clean_data.tool0_for_client$Tool1_Timetable4_Repeat <- clean_data.tool0_for_client$Tool1_Timetable4_Repeat |>
+#   select(-Tool1_Timetable4_Field_Label) |>
+#   left_join(
+#     kobo_tool.tool0$choices |>
+#       filter(list_name == "grades") |>
+#       mutate(value = as.integer(value)) |>
+#       select(value, Tool1_Timetable4_Field_Label = "label"), by = c("Tool1_Timetable4_Field_Value" = "value")) |>
+#   select(any_of(meta_cols2), Tool1_Timetable4_Field_Value, Tool1_Timetable4_Field_Label, everything())
+
+
 # Tool 1
 clean_data.tool1_for_client$School_Operationality_Other_... <- clean_data.tool1_for_client$School_Operationality_Other_... |>
   select(-Grade_name) |>
