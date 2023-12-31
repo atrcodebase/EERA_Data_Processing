@@ -135,7 +135,7 @@ missing_not_interviewed_site <-
     
     # Tool 7
     sample_file.ps %>%
-      filter(!Site_Visit_Id %in% (clean_data.tool6$data %>% filter(Sample_Type == "Public School") %>% pull(Site_Visit_ID) %>% unlist() %>% unname())) %>% 
+      filter(!Site_Visit_Id %in% (clean_data.tool7$data %>% filter(Sample_Type == "Public School") %>% pull(Site_Visit_ID) %>% unlist() %>% unname())) %>% 
       select(any_of(cols_from_sample_ps)) %>% 
       mutate(issue="The Site Visit ID is Sampled but no interview is collected in Tool 7 - Public School",
              Question = "Site_Visit_Id",
@@ -153,7 +153,7 @@ missing_not_interviewed_site <-
     
     # Tool 7 - BCE
     sample_file.cbe %>%
-      filter(!Site_Visit_Id %in% (clean_data.tool6$data %>% filter(Sample_Type == "CBE") %>% pull(Site_Visit_ID) %>% unlist() %>% unname())) %>% 
+      filter(!Site_Visit_Id %in% (clean_data.tool7$data %>% filter(Sample_Type == "CBE") %>% pull(Site_Visit_ID) %>% unlist() %>% unname())) %>% 
       select(any_of(cols_from_sample.cbe)) %>% 
       mutate(issue="The Site Visit ID is Sampled but no interview is collected in Tool 7 - CBE",
              Question = "Site_Visit_Id",
