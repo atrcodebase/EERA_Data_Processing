@@ -121,16 +121,31 @@ clean_data.tool0$data <- clean_data.tool0$data |>
       ), by = "KEY")
 
 # Tool 1
+# clean_data.tool1$data <- clean_data.tool1$data |> 
+#   mutate(
+#     School_indx.re_calc = case_when(
+#       School_Type_SV == "Primary (1-6); Secondary (7-9); Higher Secondary (10-12)" ~ "1 2 3 4 5 6 7 8 9 10 11 12",
+#       School_Type_SV == "Primary (1-6); Secondary (7-9)" ~ "1 2 3 4 5 6 7 8 9",
+#       School_Type_SV == "Primary (1-6); Higher Secondary (10-12)" ~ "1 2 3 4 5 6 10 11 12",
+#       School_Type_SV == "Secondary (7-9); Higher Secondary (10-12)" ~ "7 8 9 10 11 12",
+#       School_Type_SV == "Primary (1-6)" ~ "1 2 3 4 5 6",
+#       School_Type_SV == "Secondary (7-9)" ~ "7 8 9",
+#       School_Type_SV == "Higher Secondary (10-12)" ~ "10 11 12",
+#       TRUE ~ NA_character_
+#     ),
+#     School_rep.re_calc = ifelse(!is.na(School_indx.re_calc),as.integer(str_count(School_indx.re_calc," ")+1),School_rep)
+#   )
+
 clean_data.tool1$data <- clean_data.tool1$data |> 
   mutate(
     School_indx.re_calc = case_when(
-      School_Type_SV == "Primary (1-6); Secondary (7-9); Higher Secondary (10-12)" ~ "1 2 3 4 5 6 7 8 9 10 11 12",
-      School_Type_SV == "Primary (1-6); Secondary (7-9)" ~ "1 2 3 4 5 6 7 8 9",
-      School_Type_SV == "Primary (1-6); Higher Secondary (10-12)" ~ "1 2 3 4 5 6 10 11 12",
-      School_Type_SV == "Secondary (7-9); Higher Secondary (10-12)" ~ "7 8 9 10 11 12",
-      School_Type_SV == "Primary (1-6)" ~ "1 2 3 4 5 6",
-      School_Type_SV == "Secondary (7-9)" ~ "7 8 9",
-      School_Type_SV == "Higher Secondary (10-12)" ~ "10 11 12",
+      School_Type_SV == "1 2 3" ~ "1 2 3 4 5 6 7 8 9 10 11 12",
+      School_Type_SV == "1 2" ~ "1 2 3 4 5 6 7 8 9",
+      School_Type_SV == "1 3" ~ "1 2 3 4 5 6 10 11 12",
+      School_Type_SV == "2 3" ~ "7 8 9 10 11 12",
+      School_Type_SV == "1" ~ "1 2 3 4 5 6",
+      School_Type_SV == "2" ~ "7 8 9",
+      School_Type_SV == "3" ~ "10 11 12",
       TRUE ~ NA_character_
     ),
     School_rep.re_calc = ifelse(!is.na(School_indx.re_calc),as.integer(str_count(School_indx.re_calc," ")+1),School_rep)
