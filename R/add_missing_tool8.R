@@ -165,3 +165,52 @@ raw_data.tool8$V_list_of_all_members <- bind_rows(
 )
 
 
+## Appending values for sheet Weekly Class Schedule
+weekly_class_schedule_missing <- readxl::read_excel(path = "./input/raw_data_tool8_missing/Tool 1 Headmaster - Weekly Schedule Photos.xlsx", guess_max=5000000, na=c("N/A", "-", " "))
+
+# Fix the link
+url_image <- "https://artftpm.surveycto.com/view/submission-attachment/"
+url_param <- "?uuid=uuid%"
+
+weekly_class_schedule_missing <- weekly_class_schedule_missing |>
+  mutate(
+    KEY_tojoin = str_sub(PARENT_KEY, 1, 41),
+    F2_image = F2,
+    F2 = paste0(url_image, F2_image, url_param, KEY_tojoin)
+  ) |>
+  select(-KEY_tojoin, -F2_image)
+
+raw_data.tool1$Weekly_Class_Schedule <- bind_rows(
+  raw_data.tool1$Weekly_Class_Schedule,
+  weekly_class_schedule_missing
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
