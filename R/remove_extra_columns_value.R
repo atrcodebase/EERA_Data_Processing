@@ -274,7 +274,7 @@ extra_cols.tool3 <- c(
   
   # repeat counter and SET-OFF 
   "Support_Respondents_count",	"SET-OF-Support_Respondents", "Count_Support_Respondents",	"SET-OF-Enrollement_Attendance_Summary", "Count_Enrollement_Attendance_Summary",	"Count_Grade_Details",
-  "Grade_Details_count",	"SET-OF-Grade_Details	","Todays_Attendance_Detail_count",	"SET-OF-Todays_Attendance_Detail",	"Count_Todays_Attendance_Detail",
+  "Grade_Details_count",	"SET-OF-Grade_Details", "Todays_Attendance_Detail_count",	"SET-OF-Todays_Attendance_Detail",	"Count_Todays_Attendance_Detail",
   "LastWeek_Attendance_Detail_count",	"SET-OF-LastWeek_Attendance_Detail",	"Count_LastWeek_Attendance_Detail", "Student_Headcount_count",	"SET-OF-Student_Headcount",	"SET-OF-Relevant_photos",
   
   # Surveyor Comments
@@ -416,7 +416,7 @@ clean_data.tool1_for_client_ulabeled$Support_Respondents <- clean_data.tool1_ula
   left_join(clean_data.tool1_for_client_ulabeled$data |> select(KEY, EMIS_School_ID_CBE_KEY, School_CBE_Name), by = c("PARENT_KEY" = "KEY")) |> 
   select(Site_Visit_ID, EMIS_School_ID_CBE_KEY, School_CBE_Name, everything())
 
-clean_data.tool1_for_client_ulabeled$School_Operationality <- clean_data.tool1_ulabeled$School_Operationality %>% select(-any_of(c(extra_cols.tool1, qa_cols, "starttime"))) |>
+clean_data.tool1_for_client_ulabeled$School_Operationality <- clean_data.tool1_ulabeled$School_Operationality %>% select(-any_of(c(extra_cols.tool1, qa_cols, "starttime", "School_CBE_Gender_Based_On_The_Sample"))) |>
   left_join(clean_data.tool1_for_client_ulabeled$data |> select(KEY, EMIS_School_ID_CBE_KEY, School_CBE_Name), by = c("PARENT_KEY" = "KEY")) |> 
   select(Site_Visit_ID, EMIS_School_ID_CBE_KEY, School_CBE_Name, everything())
 
