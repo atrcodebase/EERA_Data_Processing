@@ -39,6 +39,7 @@ extra_cols.tool1 <- c(
   "Other_Shifts_Detail_count",	"SET-OF-Other_Shifts_Detail", "Headmasters_count",	"SET-OF-Headmasters", "Curriculum_Changes_count",	"SET-OF-Curriculum_Changes", 
   "SET-OF-Weekly_Class_Schedule",	"Count_Weekly_Class_Schedule_Photo",	"Grades_Curriculum_count", "SET-OF-Grades_Curriculum",
   "Subjects_Detail_count", "SET-OF-Subjects_Detail", "Education_Quality_count",	"SET-OF-Education_Quality", "SET-OF-Relevant_photos",
+  "School_indx", "School_rep",
   
   # FDE Cols
   "FDE_Dari_Hours", "FDE_Mathematics_Hours", "FDE_Drawing_Hours", "FDE_Life_Skills_Hours", "FDE_Calligraphy_Hours", "FDE_English_Hours", "FDE_Pashto_Hours", "FDE_Social_Studies_Hours", "FDE_Arabic_Hours",
@@ -352,6 +353,18 @@ extra_cols.tool0 <- c(
   "Tool1_Timetable3_Repeat_count",	"SET-OF-Tool1_Timetable3_Repeat", "Tool1_Timetable4_Repeat_count",	"SET-OF-Tool1_Timetable4_Repeat",
 
   # Labels
+  
+  # Re-coded
+  "Tool2_Total_Teachers_Staff_Male.re_calc",	"Tool2_Total_Teachers_Staff_Female.re_calc",	"Tool2_Total_Teachers_Staff_Gender_Not_Identifiable.re_calc",
+  "Tool8_FDE_Overall_Total_Present_Students_Male_Female.re_calc",	"Tool8_FDE_Overall_Total_Absent_Students_Male_Female.re_calc",	"Tool3_Total_Regularly_Present_Students_Attendance_Male_sum",
+  "Tool3_Total_Regularly_Present_Students_Attendance_Female_sum",	"Tool3_Total_Regularly_Present_Students_Attendance_Gender_Not_Identified_sum",	"Tool3_Total_Permanently_Absent_Students_Attendance_Male_sum",
+  "Tool3_Total_Permanently_Absent_Students_Attendance_Female_sum",	"Tool3_Total_Permanently_Absent_Students_Attendance_Gender_Not_Identified_sum",	"Tool3_Total_Enrolled_Students_Attendance_Male_sum",
+  "Tool3_Total_Enrolled_Students_Attendance_Female_sum",	"Tool3_Total_Enrolled_Students_Attendance_Gender_Not_Identified_sum",	"Tool3_Total_Regularly_Present_for_Matching.re_calc",
+  "Tool3_Total_Permanently_Absent_Students_for_Matching.re_calc",	"Tool3_Total_Enrolled_Students_for_Matching.re_calc",	"Tool3_T3_Total_N_of_Students_Regular_Attendance_Male.re_calc",
+  "Tool3_T3_Total_N_of_Students_Regular_Attendance_Female.re_calc",	"Tool3_T3_Total_N_of_Students_Regular_Attendance_Gender_Not_Identified.re_calc",	"Tool3_T3_Total_N_of_Students_Permanently_Absent_Male.re_calc",
+  "Tool3_T3_Total_N_of_Students_Permanently_Absent_Female.re_calc",	"Tool3_T3_Total_N_of_Students_Permanently_Absent_Gender_Not_Identified.re_calc",	"Tool3_T3_Total_N_of_Students_Enrolled_Male.re_calc",
+  "Tool3_T3_Total_N_of_Students_Enrolled_Female.re_calc",	"Tool3_T3_Total_N_of_Students_Enrolled_Gender_Not_Identified.re_calc",
+  
   
   # Surveyor Comments
   "Surveyor_Comments",	"Surveyor_Comments_Translation" # Confirm with Shahim
