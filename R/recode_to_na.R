@@ -64,8 +64,135 @@ clean_data.tool0_for_client$data <- clean_data.tool0_for_client$data |>
       TRUE ~ Tool2_Teachers_Staff_Absent_Gender_Not_Identifiable
     ),
     
+    Tool3_Enrolled_Students_Not_Matching_Integer = as.character(Tool3_Enrolled_Students_Not_Matching_Integer),
+    Tool3_Enrolled_Students_Not_Matching_Integer = case_when(
+      Tool3_Enrolled_Students_Not_Matching_Integer == "6666" ~ "Not available",
+      TRUE ~ Tool3_Enrolled_Students_Not_Matching_Integer
+    ),
+    
+    Tool3_Regularly_Present_Students_Not_Matching_Integer = as.character(Tool3_Regularly_Present_Students_Not_Matching_Integer),
+    Tool3_Regularly_Present_Students_Not_Matching_Integer = case_when(
+      Tool3_Regularly_Present_Students_Not_Matching_Integer == "6666" ~ "Not available",
+      TRUE ~ Tool3_Regularly_Present_Students_Not_Matching_Integer
+    ), 
+    
+    Tool3_Permanently_Absent_Students_Not_Matching_Integer = as.character(Tool3_Permanently_Absent_Students_Not_Matching_Integer),
+    Tool3_Permanently_Absent_Students_Not_Matching_Integer = case_when(
+      Tool3_Permanently_Absent_Students_Not_Matching_Integer == "6666" ~ "Not available",
+      TRUE ~ Tool3_Permanently_Absent_Students_Not_Matching_Integer
+    ),
+    
+    Tool3_T3_Enrolled_Students_Not_Matching_Integer = as.character(Tool3_T3_Enrolled_Students_Not_Matching_Integer),
+    Tool3_T3_Enrolled_Students_Not_Matching_Integer = case_when(
+      Tool3_T3_Enrolled_Students_Not_Matching_Integer == "6666" ~ "Not available",
+      TRUE ~ Tool3_T3_Enrolled_Students_Not_Matching_Integer
+    ),
+    
+    Tool3_T3_Regularly_Present_Students_Not_Matching_Integer = as.character(Tool3_T3_Regularly_Present_Students_Not_Matching_Integer),
+    Tool3_T3_Regularly_Present_Students_Not_Matching_Integer = case_when(
+      Tool3_T3_Regularly_Present_Students_Not_Matching_Integer == "6666" ~ "Not available",
+      TRUE ~ Tool3_T3_Regularly_Present_Students_Not_Matching_Integer
+    ),
+    
+    Tool3_T3_Permanently_Absent_Students_Not_Matching_Integer = as.character(Tool3_T3_Permanently_Absent_Students_Not_Matching_Integer),
+    Tool3_T3_Permanently_Absent_Students_Not_Matching_Integer = case_when(
+      Tool3_T3_Permanently_Absent_Students_Not_Matching_Integer == "6666" ~ "Not available",
+      TRUE ~ Tool3_T3_Permanently_Absent_Students_Not_Matching_Integer
+    ),
+    
+    Tool8_FDE_Overall_Present_Students_Male = as.character(Tool8_FDE_Overall_Present_Students_Male),
+    Tool8_FDE_Overall_Present_Students_Male = case_when(
+      Tool8_FDE_Overall_Present_Students_Male == "6666" ~ "Not available",
+      TRUE ~ Tool8_FDE_Overall_Present_Students_Male
+    ),
+    
+    Tool8_FDE_Overall_Present_Students_Female = as.character(Tool8_FDE_Overall_Present_Students_Female),
+    Tool8_FDE_Overall_Present_Students_Female = case_when(
+      Tool8_FDE_Overall_Present_Students_Female == "6666" ~ "Not available",
+      TRUE ~ Tool8_FDE_Overall_Present_Students_Female
+    ),
+    
+    Tool8_FDE_Overall_Absent_Students_Male = as.character(Tool8_FDE_Overall_Absent_Students_Male),
+    Tool8_FDE_Overall_Absent_Students_Male = case_when(
+      Tool8_FDE_Overall_Absent_Students_Male == "6666" ~ "Not available",
+      TRUE ~ Tool8_FDE_Overall_Absent_Students_Male
+    ),
+    
+    Tool8_FDE_Overall_Absent_Students_Female = as.character(Tool8_FDE_Overall_Absent_Students_Female),
+    Tool8_FDE_Overall_Absent_Students_Female = case_when(
+      Tool8_FDE_Overall_Absent_Students_Female == "6666" ~ "Not available",
+      TRUE ~ Tool8_FDE_Overall_Absent_Students_Female
+    ),
+    
+    Tool8_Total_Present_Variance = as.character(Tool8_Total_Present_Variance),
+    Tool8_Total_Present_Variance = case_when(
+      Tool8_Total_Present_Variance == "6666" ~ "Not available",
+      TRUE ~ Tool8_Total_Present_Variance
+    ),
+    
+    Tool8_Total_Present_Variance = as.character(Tool8_Total_Present_Variance),
+    Tool8_Total_Present_Variance = case_when(
+      Tool8_Total_Present_Variance == "6666" ~ "Not available",
+      TRUE ~ Tool8_Total_Present_Variance
+    )
   )
 
+clean_data.tool0_for_client$Tool3_T3_N_Classes_Repeat <- clean_data.tool0_for_client$Tool3_T3_N_Classes_Repeat |>
+  mutate(
+    Tool3_T3_N_Students_Class_Male_Regular_Attendance = as.character(Tool3_T3_N_Students_Class_Male_Regular_Attendance),
+    Tool3_T3_N_Students_Class_Male_Regular_Attendance = case_when(
+      Tool3_T3_N_Students_Class_Male_Regular_Attendance == "6666" ~ "Not available",
+      TRUE ~ Tool3_T3_N_Students_Class_Male_Regular_Attendance
+    ),
+    
+    Tool3_T3_N_Students_Class_Female_Regular_Attendance = as.character(Tool3_T3_N_Students_Class_Female_Regular_Attendance),
+    Tool3_T3_N_Students_Class_Female_Regular_Attendance = case_when(
+      Tool3_T3_N_Students_Class_Female_Regular_Attendance == "6666" ~ "Not available",
+      TRUE ~ Tool3_T3_N_Students_Class_Female_Regular_Attendance
+    ),
+    
+    Tool3_T3_N_Students_Class_Gender_Not_Identified_Regular_Attendance = as.character(Tool3_T3_N_Students_Class_Gender_Not_Identified_Regular_Attendance),
+    Tool3_T3_N_Students_Class_Gender_Not_Identified_Regular_Attendance = case_when(
+      Tool3_T3_N_Students_Class_Gender_Not_Identified_Regular_Attendance == "6666" ~ "Not available",
+      TRUE ~ Tool3_T3_N_Students_Class_Gender_Not_Identified_Regular_Attendance
+    ),
+    
+    Tool3_T3_N_Students_Class_Male_Permanently_Absent = as.character(Tool3_T3_N_Students_Class_Male_Permanently_Absent),
+    Tool3_T3_N_Students_Class_Male_Permanently_Absent = case_when(
+      Tool3_T3_N_Students_Class_Male_Permanently_Absent == "6666" ~ "Not available",
+      TRUE ~ Tool3_T3_N_Students_Class_Male_Permanently_Absent
+    ),
+    
+    Tool3_T3_N_Students_Class_Female_Permanently_Absent = as.character(Tool3_T3_N_Students_Class_Female_Permanently_Absent),
+    Tool3_T3_N_Students_Class_Female_Permanently_Absent = case_when(
+      Tool3_T3_N_Students_Class_Female_Permanently_Absent == "6666" ~ "Not available",
+      TRUE ~ Tool3_T3_N_Students_Class_Female_Permanently_Absent
+    ),
+    
+    Tool3_T3_N_Students_Class_Gender_Not_Identified_Permanently_Absent = as.character(Tool3_T3_N_Students_Class_Gender_Not_Identified_Permanently_Absent),
+    Tool3_T3_N_Students_Class_Gender_Not_Identified_Permanently_Absent = case_when(
+      Tool3_T3_N_Students_Class_Gender_Not_Identified_Permanently_Absent == "6666" ~ "Not available",
+      TRUE ~ Tool3_T3_N_Students_Class_Gender_Not_Identified_Permanently_Absent
+    ),
+    
+    Tool3_T3_N_Students_Enrolled_Class_Male = as.character(Tool3_T3_N_Students_Enrolled_Class_Male),
+    Tool3_T3_N_Students_Enrolled_Class_Male = case_when(
+      Tool3_T3_N_Students_Enrolled_Class_Male == "6666" ~ "Not available",
+      TRUE ~ Tool3_T3_N_Students_Enrolled_Class_Male
+    ),
+    
+    Tool3_T3_N_Students_Enrolled_Class_Female = as.character(Tool3_T3_N_Students_Enrolled_Class_Female),
+    Tool3_T3_N_Students_Enrolled_Class_Female = case_when(
+      Tool3_T3_N_Students_Enrolled_Class_Female == "6666" ~ "Not available",
+      TRUE ~ Tool3_T3_N_Students_Enrolled_Class_Female
+    ),
+    
+    Tool3_T3_N_Students_Enrolled_Class_Gender_Not_Identified = as.character(Tool3_T3_N_Students_Enrolled_Class_Gender_Not_Identified),
+    Tool3_T3_N_Students_Enrolled_Class_Gender_Not_Identified = case_when(
+      Tool3_T3_N_Students_Enrolled_Class_Gender_Not_Identified == "6666" ~ "Not available",
+      TRUE ~ Tool3_T3_N_Students_Enrolled_Class_Gender_Not_Identified
+    )
+  )
 
 clean_data.tool0_for_client$Tool3_Grades_Repeat <- clean_data.tool0_for_client$Tool3_Grades_Repeat |>
   mutate(
@@ -180,7 +307,20 @@ clean_data.tool0_for_client$Tool3_Headcount <- clean_data.tool0_for_client$Tool3
     Tool3_Headcount_Female = case_when(
       Tool3_Headcount_Female == "9999" ~ "Not applicable",
       TRUE ~ Tool3_Headcount_Female
+    ),
+    
+    Tool3_Total_Present_Variance = as.character(Tool3_Total_Present_Variance),
+    Tool3_Total_Present_Variance = case_when(
+      Tool3_Total_Present_Variance == "6666" ~ "Not available",
+      TRUE ~ Tool3_Total_Present_Variance
+    ),
+    
+    Tool3_Total_Absent_Variance = as.character(Tool3_Total_Absent_Variance),
+    Tool3_Total_Absent_Variance = case_when(
+      Tool3_Total_Absent_Variance == "6666" ~ "Not available",
+      TRUE ~ Tool3_Total_Absent_Variance
     )
+    
   )
 
 
