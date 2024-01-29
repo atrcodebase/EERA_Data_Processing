@@ -169,7 +169,7 @@ clean_data.tool1$data <- clean_data.tool1$data |>
     ),
     School_rep.re_calc = ifelse(!is.na(School_indx),as.integer(str_count(School_indx," ")+1),School_rep),
     
-    Count_Shifts.re_calc = ifelse(!is.na(Count_Shifts),as.integer(str_count(Count_Shifts," ")+1),0)
+    Count_Shifts.re_calc = ifelse(!is.na(C14A1),as.integer(str_count(C14A1," ")+1),0)
   )
 
 clean_data.tool1$data <- clean_data.tool1$data |>
