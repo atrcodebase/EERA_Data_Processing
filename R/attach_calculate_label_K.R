@@ -13,14 +13,6 @@ clean_data.tool0_for_client$Tool3_Grades_Repeat <- clean_data.tool0_for_client$T
 
 col_names_indx <- names(clean_data.tool0_for_client$data)[1:47]
 
-clean_data.tool0_for_client$data <- clean_data.tool0_for_client$data |>
-  select(-Tool3_Grade_DET2_Label) |>
-  left_join(
-    kobo_tool.tool0$choices |>
-      filter(list_name == "grades_1_6") |>
-      select(value, Tool3_Grade_DET2_Label = label), by = c("Tool3_Grade_DET2"="value")) |>
-  select(all_of(col_names_indx), everything())
-
 # Comment out if data set has any label except English
 # clean_data.tool0_for_client$Tool1_Timetable1_Repeat <- clean_data.tool0_for_client$Tool1_Timetable1_Repeat |>
 #   select(-Tool1_Timetable1_Field_Label) |>
@@ -60,14 +52,14 @@ clean_data.tool0_for_client$data <- clean_data.tool0_for_client$data |>
 
 
 # Tool 1
-# clean_data.tool1_for_client$School_Operationality_Other_... <- clean_data.tool1_for_client$School_Operationality_Other_... |>
-#   select(-Grade_name) |>
-#   left_join(
-#     kobo_tool.tool1$choices |>
-#       filter(list_name == "grades") |>
-#       mutate(value = as.integer(value)) |>
-#       select(value, Grade_name = "label:English"), by = c("Grade_Value" = "value")) |>
-#   select(any_of(meta_cols2), Grade_Value, Grade_name, everything())
+clean_data.tool1_for_client$Shifts_Detail <- clean_data.tool1_for_client$Shifts_Detail |>
+  select(-Shift_name) |>
+  left_join(
+    kobo_tool.tool1$choices |>
+      filter(list_name == "shifts") |>
+      mutate(value = as.integer(value)) |>
+      select(value, Shift_name = "label"), by = c("Shift_indx" = "value")) |>
+  select(any_of(meta_cols2), Shift_indx, Shift_name, everything())
 # 
 # 
 # clean_data.tool1_for_client$Other_Shifts_Detail <- clean_data.tool1_for_client$Other_Shifts_Detail |>
