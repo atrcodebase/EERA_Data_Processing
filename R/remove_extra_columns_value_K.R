@@ -28,6 +28,7 @@ extra_cols.tool1 <- c(
   
   # Captions
   "B19_Caption", "B20_Caption", "F2_Caption", "J24_Caption", "L2_Caption", "Please_Add_Any_Relevant_Photo_caption",
+  "A32_Caption",
   
   # Notes and Re-coded
   "interview_to_be_conducted_with_English", "interview_to_be_conducted_with_Dari", "interview_to_be_conducted_with_Pashto", "Surveyor_Comments",
@@ -39,7 +40,9 @@ extra_cols.tool1 <- c(
   "Other_Shifts_Detail_count",	"SET-OF-Other_Shifts_Detail", "Headmasters_count",	"SET-OF-Headmasters", "Curriculum_Changes_count",	"SET-OF-Curriculum_Changes", 
   "SET-OF-Weekly_Class_Schedule",	"Count_Weekly_Class_Schedule_Photo",	"Grades_Curriculum_count", "SET-OF-Grades_Curriculum",
   "Subjects_Detail_count", "SET-OF-Subjects_Detail", "Education_Quality_count",	"SET-OF-Education_Quality", "SET-OF-Relevant_photos",
-  "School_indx", "School_rep",
+  "School_indx", "School_rep", "Count_Support_Respondents",	"Type_Of_School_Sample_Value", "Count_School_Operationality",
+  "Count_Shifts",	"Count_Shifts_Detail",  "Count_Headmasters",
+  
   
   # FDE Cols
   "FDE_Dari_Hours", "FDE_Mathematics_Hours", "FDE_Drawing_Hours", "FDE_Life_Skills_Hours", "FDE_Calligraphy_Hours", "FDE_English_Hours", "FDE_Pashto_Hours", "FDE_Social_Studies_Hours", "FDE_Arabic_Hours",
@@ -115,7 +118,7 @@ extra_cols.tool5 <- c(
   "Province_DariPashto", "District_DariPashto", "Village_DariPashto", "Date_And_Time", "School_CBE_Name_DariPashto",	"Type_Of_School_CBE_Based_On_The_Sample",
   "Sector", "Line_Ministry_Name", "Line_Ministry_Project_Id", "Line_Ministry_SubProject_Id",
   "Line_Ministry_Sub_Project_Name_And_Description", "Type_Of_Implementing_Partner", "Type_Of_Site_Visit", "Type_Of_Visit", "If_not_a_first_Site_Visit_state_Original_Site_Visit_ID",
-  "Reporting_Period", "tpma_location_id",  "Province_Climate", "Survey_Language", "Survey_Language_Other", "IP_Name", "Interviewee_Respondent_Type", "Interviewee_Respondent_Type_Other", "Village",
+  "Reporting_Period", "tpma_location_id",  "Province_Climate", "Survey_Language", "Survey_Language_Other", "IP_Name", "Village", # , "Interviewee_Respondent_Type", "Interviewee_Respondent_Type_Other",
   "instanceID", "formdef_version",
   
   # PII 
@@ -148,7 +151,7 @@ extra_cols.tool4 <- c(
   "Sector", "Line_Ministry_Name", "Line_Ministry_Project_Id", "Line_Ministry_SubProject_Id",
   "Line_Ministry_Sub_Project_Name_And_Description", "Type_Of_Implementing_Partner", "Type_Of_Site_Visit", "Type_Of_Visit", "If_not_a_first_Site_Visit_state_Original_Site_Visit_ID",
   "Reporting_Period", "tpma_location_id",  "Province_Climate", "Survey_Language", "Survey_Language_Other", "IP_Name", "Interviewee_Respondent_Type", "Village",
-  "instanceID", "formdef_version",
+  "instanceID", "formdef_version", "D9_Field_Label", "F12_Field_Label",
   
   # PII 
   "Respondent_Full_Name", "Respondent1_Phone_Number", "Respondent2_Phone_Number",
@@ -182,7 +185,10 @@ extra_cols.tool3 <- c(
   "Reporting_Period", "tpma_location_id", "Class1_N_Sample", "Class2_N_Sample", "Class3_N_Sample", "Class4_N_Sample", "Class5_N_Sample", "Class6_N_Sample", "Class7_N_Sample", "Class8_N_Sample", "Class9_N_Sample",
   "Class10_N_Sample", "Class11_N_Sample", "Class12_N_Sample", "School_Status_Sample", "School_Status_EMIS",  "Province_Climate", "Survey_Language", "Survey_Language_Other", "IP_Name",
   "Classes", # To be confirmed
-  "Interviewee_Respondent_Type", 'Interviewee_Respondent_Type_Other', "Village", "instanceID", "formdef_version",
+  "Village", "instanceID", "formdef_version", # "Interviewee_Respondent_Type", 'Interviewee_Respondent_Type_Other',
+  "N_Classes_Grade",
+  "Grade_Class_1",	"Grade_Class_2",	"Grade_Class_3",	"Grade_Class_4",	"Grade_Class_5",	"Grade_Class_6",
+  "Grade_Class_7",	"Grade_Class_8",	"Grade_Class_9",	"Grade_Class_10",	"join_indx2", "Response_Code", "E3A2", "E5_Female",
   
   # PII 
   "B3", "B4A1", "B4A2", "B10A1", "B10A4",
@@ -203,6 +209,7 @@ extra_cols.tool3 <- c(
   "Support_Respondents_count",	"SET-OF-Support_Respondents", "Count_Support_Respondents",	"SET-OF-Enrollement_Attendance_Summary", "Count_Enrollement_Attendance_Summary",	"Count_Grade_Details",
   "Grade_Details_count",	"SET-OF-Grade_Details", "Todays_Attendance_Detail_count",	"SET-OF-Todays_Attendance_Detail",	"Count_Todays_Attendance_Detail",
   "LastWeek_Attendance_Detail_count",	"SET-OF-LastWeek_Attendance_Detail",	"Count_LastWeek_Attendance_Detail", "Student_Headcount_count",	"SET-OF-Student_Headcount",	"SET-OF-Relevant_photos",
+  "Type_Of_School_Sample_Value", 
   
   # Surveyor Comments
   "Surveyor_Comments",	"Surveyor_Comments_Translation",
@@ -221,7 +228,10 @@ extra_cols.tool2 <- c(
   "Sector", "Line_Ministry_Name", "Line_Ministry_Project_Id", "Line_Ministry_SubProject_Id",
   "Line_Ministry_Sub_Project_Name_And_Description", "Type_Of_Implementing_Partner", "Type_Of_Site_Visit", "Type_Of_Visit", "If_not_a_first_Site_Visit_state_Original_Site_Visit_ID",
   "Reporting_Period", "tpma_location_id", "Province_Climate", "Survey_Language", "Survey_Language_Other", "IP_Name", "Interviewee_Respondent_Type", "Interviewee_Respondent_Type_Other",
-  "Village", "instanceID", "formdef_version",
+  "Village", "instanceID", "formdef_version", "N_Classes_Grade",
+  "Grade_Class_1",	"Grade_Class_2",	"Grade_Class_3",	"Grade_Class_4",	"Grade_Class_5",	"Grade_Class_6",
+  "Grade_Class_7",	"Grade_Class_8",	"Grade_Class_9",	"Grade_Class_10",	"join_indx2",  "Response_Code", "E3A2",  "E5_Female",
+  "H6_Field_Label", "i6_Field_Label", "J6_Field_Label",
   
   # PII 
   "C4_Respondent_name", "C6_Respondent_phone_number1", "C6_Respondent_phone_number2", "D5", "Respondent1_Phone_Number", "Respondent2_Phone_Number", "D10", "D11",
@@ -242,6 +252,7 @@ extra_cols.tool2 <- c(
   # repeat counter and SET-OFF 
   "Support_Respondents_count",	"SET-OF-Support_Respondents", "SET-OF-Attendance_Sheet_Photos",	"Count_Attendance_Sheet_Photos", "Public_Stationary_Kit_Group_count",	"SET-OF-Public_Stationary_Kit_Group",
   "Teachers_Pack_Group_count",	"SET-OF-Teachers_Pack_Group", "Students_Pack_Group_count",	"SET-OF-Students_Pack_Group",	"SET-OF-Relevant_photos",
+  "Count_Support_Respondents",
   
   # FDE
   "FDE_Present_Teachers_Male", "FDE_Absent_Teachers_Male", "FDE_Total_Teachers_Male", "FDE_Present_Teachers_Female", "FDE_Absent_Teachers_Female", "FDE_Total_Teachers_Female",
@@ -261,6 +272,7 @@ extra_cols.tool0 <- c(
   "Sector", "Line_Ministry_Name", "Line_Ministry_Project_Id", "Line_Ministry_SubProject_Id", "Province_Climate",
   "Line_Ministry_Sub_Project_Name_And_Description", "Type_Of_Implementing_Partner", "Type_Of_Site_Visit", "Type_Of_Visit", "If_not_a_first_Site_Visit_state_Original_Site_Visit_ID",
   "Reporting_Period", "tpma_location_id", "Survey_Language", "Survey_Language_Other", "IP_Name", "Sample_info_correct", "Village", "instanceID", "formdef_version",
+  "Tool3_Grade_DET2_Label",
   
   # PII 
   "Data_Entry_Clerk_Name",
