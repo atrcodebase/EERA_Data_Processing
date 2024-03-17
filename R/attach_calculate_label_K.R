@@ -60,6 +60,16 @@ clean_data.tool1_for_client$Shifts_Detail <- clean_data.tool1_for_client$Shifts_
       mutate(value = as.integer(value)) |>
       select(value, Shift_name = "label"), by = c("Shift_indx" = "value")) |>
   select(any_of(meta_cols2), Shift_indx, Shift_name, everything())
+
+clean_data.tool1_for_client$data <- clean_data.tool1_for_client$data |>
+  mutate(
+    School_Type_Final = case_when(
+      School_Type_Final == 1 ~ "Primary",
+      School_Type_Final == 2 ~ "Secondary",
+      School_Type_Final == 3 ~ "Higher Secondary"
+    )
+  )
+  
 # 
 # 
 # clean_data.tool1_for_client$Other_Shifts_Detail <- clean_data.tool1_for_client$Other_Shifts_Detail |>
